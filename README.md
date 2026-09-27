@@ -83,11 +83,22 @@ La verticale et la date sont optionnelles. Les fichiers préfixés `_` sont igno
 
 Le scoring v0 est une grille de lecture, pas une vérité : il doit être backtesté sur les ~50 derniers lancements avant d'avoir voix au chapitre. Le meilleur point d'entrée est souvent avant le token (farming de points) — le champ `points_farming` du gabarit est là pour ça.
 
+## Backtest (couche 4 uniquement)
+
+**Cadrage honnête : la couche 2 n'est pas reconstructible (pas d'historique de plaintes à J-90), donc ce backtest valide uniquement la grille d'audit couche 4, pas la détection de problèmes.**
+
+1. `python backtest/constituer_echantillon.py` — tokens listés entre septembre 2025 et juin 2026 sur nos verticales, via l'API CoinGecko gratuite (throttle intégré, comptez 30-60 min ; le script reprend où il s'était arrêté si ça casse). Proxys assumés, étiquetés dans le CSV : date de TGE = première cotation CoinGecko ; FDV initiale approchée ; instruments (parts de fonds, LST, wrappés) écartés par marqueurs. Limite de l'offre gratuite : historique plafonné à 365 j, donc la fenêtre effective démarre au plus tôt ~12 mois en arrière (affichée au lancement). Sortie : `backtest/echantillon.csv` (cible ≥ 50 tokens).
+2. `python backtest/mesurer_performance.py` — performance à J+30 / J+90 / J+180, absolue et relative à BTC sur la même fenêtre. Sortie : `backtest/performances.csv`.
+3. Notation rétroactive **à la main**, par sessions de 10 tokens via Claude.ai : grille, garde-fous anti-rétrospective et prompt dans [backtest/notation_retroactive.md](backtest/notation_retroactive.md) ; résultats cumulés dans `backtest/notation.csv`.
+4. Exploitation : corrélation notation × performance relative BTC (J+90 en tête) pour recalibrer les poids de `audit/scoring.py`.
+
+Clé CoinGecko optionnelle : `COINGECKO_API_KEY` (offre démo) si le sans-clé rate-limite trop.
+
 ## Garde-fous
 
 Résoudre un problème ne suffit pas : beaucoup de projets utiles vont à zéro. Le modèle intègre la distribution (écosystème, backers), les tokenomics et les catalyseurs, pas seulement le product-market fit. Et on n'achète pas au sommet de l'euphorie : le thermomètre dimensionne le risque, la carte des problèmes désigne les cibles, l'audit tranche.
 
 ## Feuille de route
 
-- **Semaine 2+** : levées VC (RootData), calendrier des TGE, backtest du scoring sur les 50 derniers lancements, backtest du croisement (l'heuristique v0 n'est pas validée).
+- **Semaine 2+** : levées VC (RootData), calendrier des TGE, exploitation du backtest couche 4 (corrélation notation × performances → recalibrer `audit/scoring.py`), backtest du croisement (l'heuristique v0 n'est pas validée).
 - Les seuils du thermomètre sont des heuristiques v0, à recalibrer sur données historiques.
