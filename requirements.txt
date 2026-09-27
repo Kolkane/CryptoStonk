@@ -1,0 +1,5 @@
+requests
+pyyaml
+anthropic
+# Optionnel — Google Trends (fragile, casse souvent) :
+# pytrends

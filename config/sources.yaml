@@ -1,0 +1,32 @@
+# Couche 2 — sources surveillées.
+
+# Vos 30 comptes X de référence, par verticale.
+# Les entrées ci-dessous sont des EXEMPLES à remplacer par votre liste.
+# La collecte X est manuelle en v0 : coller les plaintes repérées dans
+# problemes/inbox/AAAA-MM-JJ.md (format : voir README).
+comptes_x:
+  general: [cobie, CryptoHayes, Rewkang]
+  perps: []
+  options: []
+  rwa: []
+  bridges: []
+  lsd_restaking: []
+
+# Forums de gouvernance (Discourse) — collectés automatiquement
+# par problemes/collecte_forums.py via leur API JSON publique.
+forums:
+  - nom: Aave
+    url: https://governance.aave.com
+    verticale: lending
+  - nom: Uniswap
+    url: https://gov.uniswap.org
+    verticale: dex
+  - nom: Arbitrum
+    url: https://forum.arbitrum.foundation
+    verticale: infra
+  - nom: Lido
+    url: https://research.lido.fi
+    verticale: lsd_restaking
+  - nom: Optimism
+    url: https://gov.optimism.io
+    verticale: infra

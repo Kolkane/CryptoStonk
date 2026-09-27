@@ -1,0 +1,30 @@
+# Copier vers <slug>.yaml puis remplir. Champs inconnus : laisser vides.
+nom:
+verticale:            # perps | options | rwa | bridges | lending | dex | lsd_restaking | rendement | infra | autre
+probleme_adresse:     # titre du problème dans problemes/carte_problemes.md
+produit_live: non     # oui | testnet | non
+
+traction:
+  tvl_usd:
+  volume_30j_usd:
+  revenus_30j_usd:
+  utilisateurs_actifs:
+
+tokenomics:
+  token_lance: non
+  float_lancement_pct:
+  unlocks_12m_pct:    # % du supply débloqué dans les 12 mois
+  fdv_usd:
+  capture_valeur:     # frais reversés, burn, droits… ou « rien »
+
+distribution:
+  backers: []
+  ecosysteme:         # chaîne/écosystème porteur, relais
+
+comparables:          # 2-3 projets même verticale, traction voisine
+  - nom:
+    fdv_usd:
+
+catalyseurs: []       # TGE, listing, unlock, lancement produit — datés si possible
+points_farming: non   # entrée pré-token possible ?
+notes:

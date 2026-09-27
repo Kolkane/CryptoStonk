@@ -1,0 +1,10 @@
+# Correspondance catégories DefiLlama -> nos verticales.
+# Tout ce qui ne matche pas tombe dans « autre » (affiché mais non prioritaire).
+perps: [Derivatives, Perps, Perps Aggregator]
+options: [Options, Options Vault]
+rwa: [RWA, RWA Lending]
+bridges: [Bridge, Cross Chain]
+lsd_restaking: [Liquid Staking, Restaking, Liquid Restaking]
+lending: [Lending, CDP]
+dex: [Dexes, DEX Aggregator]
+rendement: [Yield, Yield Aggregator, Basis Trading]
