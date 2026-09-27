@@ -9,6 +9,7 @@ Sortie : data/veille/nouveaux_AAAA-MM-JJ.csv + résumé console.
 
 import argparse
 import csv
+import re
 import sys
 import time
 from datetime import date
@@ -60,6 +61,7 @@ def main():
             "liste_le": date.fromtimestamp(liste_le).isoformat(),
             "site": p.get("url") or "",
             "twitter": p.get("twitter") or "",
+            "description": re.sub(r"\s+", " ", p.get("description") or "").strip()[:300],
         })
 
     suivies = sorted((l for l in lignes if l["verticale"] != "autre"), key=lambda l: -l["tvl_usd"])
@@ -70,7 +72,8 @@ def main():
     dossier.mkdir(parents=True, exist_ok=True)
     fichier = dossier / f"nouveaux_{date.today().isoformat()}.csv"
     with fichier.open("w", encoding="utf-8-sig", newline="") as sortie:
-        colonnes = ["nom", "verticale", "categorie", "chaines", "tvl_usd", "token", "liste_le", "site", "twitter"]
+        colonnes = ["nom", "verticale", "categorie", "chaines", "tvl_usd", "token", "liste_le",
+                    "site", "twitter", "description"]
         redacteur = csv.DictWriter(sortie, fieldnames=colonnes, delimiter=";")
         redacteur.writeheader()
         redacteur.writerows(lignes)

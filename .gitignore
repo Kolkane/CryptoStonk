@@ -4,3 +4,5 @@ __pycache__/
 data/*
 !data/.gitkeep
 problemes/prompt_clustering.txt
+veille/prompt_croisement.txt
+veille/correspondances_affinees.csv

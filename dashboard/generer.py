@@ -182,7 +182,8 @@ def section_problemes():
 
     lignes = []
     for c in clusters:
-        pct = max(2, round(c["poids"] / poids_max * 100))
+        # plafond 92 % : garde la valeur au bout de la barre, sans retour à la ligne
+        pct = max(2, round(c["poids"] / poids_max * 92))
         lignes.append(f"""<div class='ligne-probleme'>
   <div class='titre-probleme'>{echapper(c['titre'])}
     <span class='meta'>({echapper(c['verticale'])} — fréquence {c['frequence']} × intensité {c['intensite']})</span></div>
@@ -194,6 +195,44 @@ def section_problemes():
   {note_entete}
   {''.join(lignes)}
   <p class='note'>Détail et citations : problemes/carte_problemes.md</p>
+</section>"""
+
+
+def section_candidats():
+    fichier = RACINE / "veille" / "correspondances.csv"
+    if not fichier.exists():
+        return ("<section class='carte'><h2>Candidats — protocoles × problèmes</h2>"
+                "<p class='vide'>Aucun croisement — <code>python veille/croisement.py</code> "
+                "(nécessite une carte des problèmes).</p></section>")
+    with fichier.open(encoding="utf-8-sig", newline="") as entree:
+        lignes = [l for l in csv.DictReader(entree, delimiter=";")
+                  if l.get("force") in ("fort", "moyen")]
+    if not lignes:
+        return ("<section class='carte'><h2>Candidats — protocoles × problèmes</h2>"
+                "<p class='vide'>Aucune correspondance forte ou moyenne pour l'instant.</p></section>")
+
+    rang_force = {"fort": 0, "moyen": 1}
+    lignes.sort(key=lambda l: (rang_force[l["force"]], l.get("pre_tge") != "oui",
+                               -int(l.get("poids_probleme") or 0)))
+    rangs = []
+    for l in lignes[:15]:
+        force = "<strong>fort</strong>" if l["force"] == "fort" else "moyen"
+        rangs.append(f"<tr><td>{echapper(l['protocole'])}</td><td>{echapper(l['verticale'])}</td>"
+                     f"<td>{echapper(l['probleme_adresse'])}</td>"
+                     f"<td class='num'>{echapper(l.get('poids_probleme', ''))}</td>"
+                     f"<td>{force}</td><td>{echapper(l.get('pre_tge', ''))}</td>"
+                     f"<td class='num'>{echapper(compact_usd(l.get('tvl_usd') or 0))}</td></tr>")
+    reste = f"<p class='note'>{len(lignes)} correspondances fortes/moyennes au total dans " \
+            f"veille/correspondances.csv</p>" if len(lignes) > 15 else ""
+    return f"""<section class='carte'>
+  <h2>Candidats — protocoles × problèmes</h2>
+  <table>
+    <thead><tr><th>Protocole</th><th>Verticale</th><th>Problème adressé</th><th>Poids</th>
+    <th>Force</th><th>Pré-TGE</th><th>TVL</th></tr></thead>
+    <tbody>{''.join(rangs)}</tbody>
+  </table>
+  {reste}
+  <p class='note'>Matching v0 — heuristique non backtestée. Affinage hebdo : veille/correspondances_affinees.csv.</p>
 </section>"""
 
 
@@ -223,7 +262,7 @@ def section_veille():
 
 
 def main():
-    corps = section_cycle() + section_problemes() + section_veille()
+    corps = section_cycle() + section_problemes() + section_candidats() + section_veille()
     page = f"""<!doctype html>
 <html lang="fr">
 <head>

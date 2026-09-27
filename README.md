@@ -12,7 +12,7 @@ Sur chaque cycle, les plus grosses performances viennent de projets qui résolve
 |---|---|---|
 | 1. Thermomètre de cycle | Niveau d'euphorie du marché (rang App Store de Coinbase, funding, stablecoins, Google Trends) → dimensionner le risque | `cycle/` |
 | 2. Détection de problèmes | Plaintes récurrentes par verticale, collecte forums automatique + captures X manuelles, clustering hebdo via Claude.ai (API en option) → carte vivante des problèmes | `problemes/` |
-| 3. Mapping des solutions | Veille des nouveaux protocoles (DefiLlama en v0), croisée avec la carte des problèmes | `veille/` |
+| 3. Mapping des solutions | Veille des nouveaux protocoles (DefiLlama en v0), croisée avec la carte des problèmes (croisement local v0 + affinage hebdo Claude.ai) | `veille/` |
 | 4. Audit et timing | Checklist structurée + scoring par candidat : produit, traction, tokenomics, valorisation, distribution, catalyseurs | `audit/` |
 
 Les sorties générées (JSON, CSV, dashboard) vont dans `data/`, hors dépôt. L'inbox des plaintes et la carte des problèmes sont versionnées : c'est la mémoire de travail commune.
@@ -35,18 +35,22 @@ Aucune clé API n'est requise en v0 : le clustering se fait à la main via Claud
 ```
 python cycle/thermometre.py          # où en est le cycle
 python veille/nouveaux_projets.py    # quoi de neuf sur DefiLlama
+python veille/croisement.py          # candidats : nouveaux protocoles × carte des problèmes
 python problemes/collecte_forums.py  # sujets récents des forums de gouvernance
 #  → coller vos captures X/Discord du jour dans problemes/inbox/AAAA-MM-JJ.md
 python dashboard/generer.py          # data/dashboard.html
 ```
 
-**Hebdo — clustering manuel via Claude.ai**
+**Hebdo — clustering et affinage manuels via Claude.ai**
 
 ```
 python problemes/clustering.py --export-prompt --jours 7
 #  → coller problemes/prompt_clustering.txt dans Claude.ai
 #  → coller la réponse telle quelle dans problemes/carte_problemes.md
-python dashboard/generer.py          # met à jour la section problèmes
+python veille/croisement.py --export-prompt
+#  → coller veille/prompt_croisement.txt dans Claude.ai
+#  → coller la réponse dans veille/correspondances_affinees.csv
+python dashboard/generer.py          # met à jour problèmes et candidats
 ```
 
 ## Couche 2 : alimenter l'inbox
@@ -66,6 +70,12 @@ La verticale et la date sont optionnelles. Les fichiers préfixés `_` sont igno
 
 **Mode API (optionnel)** — `python problemes/clustering.py` fait la même analyse via l'API et écrit la carte tout seul ; premier essai sans rien écrire avec `--dry-run` (3 plaintes, carte en console). Nécessite des identifiants (voir Installation).
 
+## Couche 3 : croiser veille et problèmes
+
+`python veille/croisement.py` croise le dernier CSV de veille avec `problemes/carte_problemes.md` — en local, sans LLM : même verticale + mots-clés communs (minuscules, stopwords FR/EN). Force du match : **fort** (verticale + ≥ 2 mots-clés), **moyen** (+ 1), **faible** (verticale seule). Sortie versionnée : `veille/correspondances.csv`, colonne `methode` = « v0 heuristique non backtestée » — une présélection à trier, pas un verdict. Le dashboard en tire la section « Candidats » (matchs forts et moyens, pré-TGE d'abord).
+
+**Affinage hebdo (Claude.ai)** — `python veille/croisement.py --export-prompt` génère `veille/prompt_croisement.txt` (hors dépôt) : Claude.ai confirme/infirme chaque correspondance forte ou moyenne, réponse à coller dans `veille/correspondances_affinees.csv` (hors dépôt).
+
 ## Couche 4 : auditer un candidat
 
 1. Copier `audit/candidats/_gabarit.yaml` → `audit/candidats/<slug>.yaml` et le remplir (checklist détaillée : [audit/gabarit_audit.md](audit/gabarit_audit.md)).
@@ -79,5 +89,5 @@ Résoudre un problème ne suffit pas : beaucoup de projets utiles vont à zéro.
 
 ## Feuille de route
 
-- **Semaine 2+** : levées VC (RootData), calendrier des TGE, croisement automatique carte des problèmes × nouveaux projets, backtest du scoring sur les 50 derniers lancements.
+- **Semaine 2+** : levées VC (RootData), calendrier des TGE, backtest du scoring sur les 50 derniers lancements, backtest du croisement (l'heuristique v0 n'est pas validée).
 - Les seuils du thermomètre sont des heuristiques v0, à recalibrer sur données historiques.
