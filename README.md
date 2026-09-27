@@ -11,7 +11,7 @@ Sur chaque cycle, les plus grosses performances viennent de projets qui résolve
 | Couche | Rôle | Où |
 |---|---|---|
 | 1. Thermomètre de cycle | Niveau d'euphorie du marché (rang App Store de Coinbase, funding, stablecoins, Google Trends) → dimensionner le risque | `cycle/` |
-| 2. Détection de problèmes | Plaintes récurrentes par verticale, collecte forums automatique + captures X manuelles, clustering IA quotidien → carte vivante des problèmes | `problemes/` |
+| 2. Détection de problèmes | Plaintes récurrentes par verticale, collecte forums automatique + captures X manuelles, clustering hebdo via Claude.ai (API en option) → carte vivante des problèmes | `problemes/` |
 | 3. Mapping des solutions | Veille des nouveaux protocoles (DefiLlama en v0), croisée avec la carte des problèmes | `veille/` |
 | 4. Audit et timing | Checklist structurée + scoring par candidat : produit, traction, tokenomics, valorisation, distribution, catalyseurs | `audit/` |
 
@@ -26,20 +26,27 @@ pip install -r requirements.txt
 # Optionnel (Google Trends, lib fragile) : pip install pytrends
 ```
 
-Le clustering (couche 2) appelle l'API Claude (modèle `claude-haiku-4-5-20251001`). Identifiants, au choix :
+Aucune clé API n'est requise en v0 : le clustering se fait à la main via Claude.ai (voir la routine hebdo). Le mode API du clustering est optionnel (modèle `claude-haiku-4-5-20251001`) ; pour l'utiliser : `setx ANTHROPIC_API_KEY "sk-ant-…"` puis rouvrir le terminal, ou un profil `ant auth login`.
 
-- `setx ANTHROPIC_API_KEY "sk-ant-…"` puis rouvrir le terminal ;
-- ou un profil `ant auth login`, détecté automatiquement par le SDK.
+## Routine
 
-## Routine quotidienne (~15 min + lecture)
+**Quotidien (~10 min + lecture)**
 
 ```
 python cycle/thermometre.py          # où en est le cycle
 python veille/nouveaux_projets.py    # quoi de neuf sur DefiLlama
 python problemes/collecte_forums.py  # sujets récents des forums de gouvernance
 #  → coller vos captures X/Discord du jour dans problemes/inbox/AAAA-MM-JJ.md
-python problemes/clustering.py       # régénère la carte des problèmes
 python dashboard/generer.py          # data/dashboard.html
+```
+
+**Hebdo — clustering manuel via Claude.ai**
+
+```
+python problemes/clustering.py --export-prompt --jours 7
+#  → coller problemes/prompt_clustering.txt dans Claude.ai
+#  → coller la réponse telle quelle dans problemes/carte_problemes.md
+python dashboard/generer.py          # met à jour la section problèmes
 ```
 
 ## Couche 2 : alimenter l'inbox
@@ -55,7 +62,9 @@ Texte de la plainte, verbatim de préférence.
 
 La verticale et la date sont optionnelles. Les fichiers préfixés `_` sont ignorés (modèles). La liste des 30 comptes X de référence vit dans `config/sources.yaml` — les entrées fournies sont des exemples à remplacer par la vôtre. Pas de scraping X automatisé en v0 : API payante et CGU restrictives, la collecte reste semi-manuelle.
 
-Premier essai sans rien écrire : `python problemes/clustering.py --dry-run` (3 plaintes, carte affichée en console).
+**Clustering hebdo (v0, manuel)** — `python problemes/clustering.py --export-prompt --jours 7` génère `problemes/prompt_clustering.txt` (règles d'analyse + format attendu + plaintes numérotées) : le coller dans Claude.ai, puis coller la réponse telle quelle dans `problemes/carte_problemes.md` — le dashboard lit ce fichier directement. Le fichier prompt est régénéré à chaque export (hors dépôt).
+
+**Mode API (optionnel)** — `python problemes/clustering.py` fait la même analyse via l'API et écrit la carte tout seul ; premier essai sans rien écrire avec `--dry-run` (3 plaintes, carte en console). Nécessite des identifiants (voir Installation).
 
 ## Couche 4 : auditer un candidat
 

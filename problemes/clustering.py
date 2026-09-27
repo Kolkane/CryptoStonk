@@ -1,14 +1,18 @@
-"""Clustering IA des plaintes — couche 2 (carte vivante des problèmes).
+"""Clustering des plaintes — couche 2 (carte vivante des problèmes).
 
-Regroupe les plaintes de l'inbox (captures manuelles .md + collecte forums .jsonl)
-en problèmes non résolus, pondérés par fréquence × intensité, via l'API Claude.
+Deux modes :
+  --export-prompt (v0, hebdo)  : concatène l'inbox et génère
+      problemes/prompt_clustering.txt, à coller dans Claude.ai ; la réponse se
+      colle telle quelle dans problemes/carte_problemes.md. Aucune clé requise.
+  mode API (optionnel)         : appelle l'API Claude (claude-haiku-4-5-20251001)
+      et écrit carte_problemes.md + data/problemes/carte_AAAA-MM-JJ.json.
+      --dry-run : 3 plaintes, carte en console, rien n'est écrit.
+      Reprise avec backoff sur 429/5xx uniquement ; arrêt propre sinon, jamais
+      de reformulation automatique. Identifiants : ANTHROPIC_API_KEY ou profil
+      « ant auth login » (détecté par le SDK).
 
-Usage  : python problemes/clustering.py [--jours 14] [--dry-run]
-         --dry-run : 3 plaintes seulement, carte affichée en console, rien n'est écrit.
-Écrit  : data/problemes/carte_AAAA-MM-JJ.json + problemes/carte_problemes.md
-Erreurs : reprise avec backoff sur 429/5xx uniquement ; arrêt propre sinon,
-jamais de reformulation automatique de la requête.
-Identifiants : ANTHROPIC_API_KEY, ou profil « ant auth login » (détecté par le SDK).
+Usage  : python problemes/clustering.py --export-prompt [--jours 7]
+         python problemes/clustering.py [--jours 14] [--dry-run]
 """
 
 import argparse
@@ -20,8 +24,6 @@ import time
 from datetime import date, timedelta
 from pathlib import Path
 
-import anthropic
-
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
     sys.stdout.reconfigure(encoding="utf-8")
 
@@ -29,12 +31,14 @@ RACINE = Path(__file__).resolve().parents[1]
 MODELE = "claude-haiku-4-5-20251001"  # snapshot épinglé ; alias : claude-haiku-4-5
 TENTATIVES = 4
 
-INSTRUCTIONS = """Tu analyses des plaintes d'utilisateurs de protocoles crypto (perps, options, RWA, bridges, lending, DEX…).
+REGLES_ANALYSE = """Tu analyses des plaintes d'utilisateurs de protocoles crypto (perps, options, RWA, bridges, lending, DEX…).
 Regroupe-les en problèmes NON RÉSOLUS distincts. Un bon cluster désigne un manque concret
 qu'un nouveau protocole pourrait combler, pas une humeur de marché ni un incident ponctuel.
 Ignore le spam, le shilling et les demandes de support individuelles.
+Intensité : 5 = douleur bloquante exprimée avec véhémence, 1 = gêne mineure.
+Fréquence = nombre de plaintes concernées ; poids = fréquence × intensité."""
 
-Réponds UNIQUEMENT avec un objet JSON, sans texte autour, au format :
+FORMAT_JSON = """Réponds UNIQUEMENT avec un objet JSON, sans texte autour, au format :
 {"clusters": [{
   "titre": "nom court du problème",
   "verticale": "perps|options|rwa|bridges|lending|dex|lsd_restaking|rendement|infra|autre",
@@ -42,8 +46,7 @@ Réponds UNIQUEMENT avec un objet JSON, sans texte autour, au format :
   "intensite": 1-5,
   "exemples": [numéros des plaintes concernées],
   "solutions_connues": "protocoles qui s'y attaquent déjà, ou « aucune connue »"
-}]}
-intensite : 5 = douleur bloquante exprimée avec véhémence, 1 = gêne mineure."""
+}]}"""
 
 
 def lire_md(fichier):
@@ -96,10 +99,46 @@ def charger_inbox(jours):
         elements += lire_md(fichier) if fichier.suffix == ".md" else lire_jsonl(fichier)
     # date vide = non datée, on garde ; les plaintes trop vieilles sortent de la fenêtre
     elements = [e for e in elements if e["texte"] and (not e["date"] or e["date"] >= seuil)]
-    return elements[-150:]  # borne le coût d'appel
+    return elements[-150:]  # borne la taille du prompt
 
 
-def appeler_avec_reprise(client, **parametres):
+def numeroter(elements):
+    return "\n\n".join(
+        f"[{i}] ({e['source']}, {e['verticale'] or '?'}, {e['date'] or '?'}) {e['texte'][:600]}"
+        for i, e in enumerate(elements, 1))
+
+
+def exporter_prompt(elements, jours):
+    """Prompt autoporteur pour Claude.ai : règles + format carte_problemes.md + plaintes."""
+    aujourdhui = date.today().isoformat()
+    prompt = f"""{REGLES_ANALYSE}
+
+Réponds UNIQUEMENT avec le document Markdown ci-dessous, sans rien autour — il sera
+collé tel quel dans problemes/carte_problemes.md. Problèmes groupés par verticale
+(perps|options|rwa|bridges|lending|dex|lsd_restaking|rendement|infra|autre) et triés
+par poids décroissant. Respecte exactement la ligne « ### … — poids … » :
+
+# Carte des problèmes non résolus
+
+_Générée le {aujourdhui} — fenêtre {jours} j — {len(elements)} plaintes — <nombre> problèmes. Poids = fréquence × intensité._
+
+## <verticale>
+
+### <titre court du problème> — poids <p> (fréquence <f> × intensité <i>)
+<2-3 phrases : le manque, qui en souffre, pourquoi les leaders ne le règlent pas>
+*Solutions connues : <protocoles qui s'y attaquent déjà, ou « aucune connue »>*
+*Plaintes : n° <numéros concernés> (export du {aujourdhui})*
+
+Plaintes à analyser :
+
+{numeroter(elements)}
+"""
+    fichier = RACINE / "problemes" / "prompt_clustering.txt"
+    fichier.write_text(prompt, encoding="utf-8")
+    return fichier
+
+
+def appeler_avec_reprise(client, anthropic, **parametres):
     """Reprise avec backoff sur 429/5xx uniquement ; toute autre erreur remonte telle quelle."""
     derniere = None
     for tentative in range(TENTATIVES):
@@ -166,34 +205,18 @@ def ecrire_carte(clusters, elements, jours):
     return fichier_json, fichier_md
 
 
-def main():
-    analyseur = argparse.ArgumentParser(description=__doc__)
-    analyseur.add_argument("--jours", type=int, default=14, help="fenêtre d'analyse (défaut 14)")
-    analyseur.add_argument("--dry-run", action="store_true",
-                           help="3 plaintes, carte en console, rien n'est écrit")
-    options = analyseur.parse_args()
-
-    elements = charger_inbox(options.jours)
-    if not elements:
-        print("Inbox vide sur la fenêtre : lancez collecte_forums.py ou collez des captures "
-              "dans problemes/inbox/AAAA-MM-JJ.md")
-        return
-    if options.dry_run:
-        elements = elements[-3:]
-
-    corpus = "\n\n".join(
-        f"[{i}] ({e['source']}, {e['verticale'] or '?'}, {e['date'] or '?'}) {e['texte'][:600]}"
-        for i, e in enumerate(elements, 1))
+def mode_api(elements, options):
+    import anthropic
 
     try:
         client = anthropic.Anthropic(max_retries=0)  # la reprise est gérée ici, pas par le SDK
         reponse = appeler_avec_reprise(
-            client,
+            client, anthropic,
             model=MODELE,
             max_tokens=16000,
-            system=INSTRUCTIONS,
+            system=f"{REGLES_ANALYSE}\n\n{FORMAT_JSON}",
             messages=[{"role": "user", "content":
-                       f"Plaintes des {options.jours} derniers jours :\n\n{corpus}"}],
+                       f"Plaintes des {options.jours} derniers jours :\n\n{numeroter(elements)}"}],
         )
     except anthropic.AuthenticationError:
         print("Identifiants absents ou invalides : setx ANTHROPIC_API_KEY \"sk-ant-…\" "
@@ -204,7 +227,8 @@ def main():
         if "authentication method" not in str(erreur):
             raise
         print("Aucun identifiant trouvé : setx ANTHROPIC_API_KEY \"sk-ant-…\" "
-              "(puis rouvrir le terminal), ou « ant auth login ».")
+              "(puis rouvrir le terminal), ou « ant auth login ». "
+              "Sans clé, utilisez --export-prompt (clustering manuel via Claude.ai).")
         sys.exit(1)
     except anthropic.APIConnectionError:
         print("Pas de réseau vers l'API Claude.")
@@ -261,6 +285,33 @@ def main():
     for c in clusters[:8]:
         print(f"  [{c['verticale']:<13}] poids {c['poids']:>3}  {c['titre']}")
     print(f"Écrit : {fichier_md.relative_to(RACINE)} et {fichier_json.relative_to(RACINE)}")
+
+
+def main():
+    analyseur = argparse.ArgumentParser(description=__doc__)
+    analyseur.add_argument("--jours", type=int, default=14, help="fenêtre d'analyse (défaut 14)")
+    analyseur.add_argument("--export-prompt", action="store_true",
+                           help="génère problemes/prompt_clustering.txt pour Claude.ai (aucun appel API)")
+    analyseur.add_argument("--dry-run", action="store_true",
+                           help="mode API : 3 plaintes, carte en console, rien n'est écrit")
+    options = analyseur.parse_args()
+
+    elements = charger_inbox(options.jours)
+    if not elements:
+        print("Inbox vide sur la fenêtre : lancez collecte_forums.py ou collez des captures "
+              "dans problemes/inbox/AAAA-MM-JJ.md")
+        return
+
+    if options.export_prompt:
+        fichier = exporter_prompt(elements, options.jours)
+        print(f"{len(elements)} plaintes exportées -> {fichier.relative_to(RACINE)}")
+        print("À coller dans Claude.ai ; la réponse se colle telle quelle dans "
+              "problemes/carte_problemes.md, puis relancez dashboard/generer.py")
+        return
+
+    if options.dry_run:
+        elements = elements[-3:]
+    mode_api(elements, options)
 
 
 if __name__ == "__main__":

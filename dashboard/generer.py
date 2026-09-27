@@ -10,6 +10,7 @@ Sortie : data/dashboard.html
 import csv
 import html
 import json
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -148,28 +149,49 @@ def section_cycle():
 
 
 def section_problemes():
-    fichier = dernier_fichier("problemes", "carte_*.json")
-    if not fichier:
+    # source unique : problemes/carte_problemes.md, alimentée par le clustering
+    # hebdo manuel (Claude.ai) comme par le mode API
+    fichier = RACINE / "problemes" / "carte_problemes.md"
+    if not fichier.exists():
         return ("<section class='carte'><h2>Problèmes non résolus</h2>"
-                "<p class='vide'>Aucune carte — alimentez l'inbox puis lancez "
-                "<code>python problemes/clustering.py</code>.</p></section>")
-    carte = json.loads(fichier.read_text(encoding="utf-8"))
-    clusters = carte.get("clusters", [])[:10]
+                "<p class='vide'>Aucune carte — <code>python problemes/clustering.py --export-prompt</code>, "
+                "prompt dans Claude.ai, réponse dans problemes/carte_problemes.md.</p></section>")
+    texte = fichier.read_text(encoding="utf-8")
+    entete = re.search(r"^_(Générée le .+?)_$", texte, re.MULTILINE)
+
+    clusters, verticale = [], "?"
+    for ligne in texte.splitlines():
+        if ligne.startswith("### "):
+            c = re.match(r"###\s+(.+?)\s+[—-]\s+poids\s+(\d+)\s*\(fréquence\s+(\d+)\s*[×x]\s*intensité\s+(\d+)\)",
+                         ligne)
+            if c:
+                clusters.append({"titre": c.group(1), "poids": int(c.group(2)),
+                                 "frequence": int(c.group(3)), "intensite": int(c.group(4)),
+                                 "verticale": verticale})
+        elif ligne.startswith("## "):
+            verticale = ligne[3:].strip()
+
     if not clusters:
         return ("<section class='carte'><h2>Problèmes non résolus</h2>"
-                "<p class='vide'>Carte vide sur la fenêtre.</p></section>")
-    poids_max = max(c.get("poids", 0) for c in clusters) or 1
+                "<p class='vide'>Carte présente mais aucun problème lisible — vérifier le format "
+                "« ### titre — poids … » dans problemes/carte_problemes.md.</p></section>")
+
+    clusters.sort(key=lambda c: -c["poids"])
+    clusters = clusters[:10]
+    poids_max = max(c["poids"] for c in clusters) or 1
 
     lignes = []
     for c in clusters:
-        pct = max(2, round(c.get("poids", 0) / poids_max * 100))
+        pct = max(2, round(c["poids"] / poids_max * 100))
         lignes.append(f"""<div class='ligne-probleme'>
-  <div class='titre-probleme'>{echapper(c.get('titre'))}
-    <span class='meta'>({echapper(c.get('verticale'))} — fréquence {c.get('frequence', 0)} × intensité {c.get('intensite', 0)})</span></div>
-  <div class='piste'><span class='barre' style='width:{pct}%'></span><span class='val'>{c.get('poids', 0)}</span></div>
+  <div class='titre-probleme'>{echapper(c['titre'])}
+    <span class='meta'>({echapper(c['verticale'])} — fréquence {c['frequence']} × intensité {c['intensite']})</span></div>
+  <div class='piste'><span class='barre' style='width:{pct}%'></span><span class='val'>{c['poids']}</span></div>
 </div>""")
+    note_entete = f"<p class='note'>{echapper(entete.group(1))}</p>" if entete else ""
     return f"""<section class='carte'>
-  <h2>Problèmes non résolus — poids (fréquence × intensité), carte du {echapper(carte.get('date', ''))}</h2>
+  <h2>Problèmes non résolus — poids (fréquence × intensité)</h2>
+  {note_entete}
   {''.join(lignes)}
   <p class='note'>Détail et citations : problemes/carte_problemes.md</p>
 </section>"""
