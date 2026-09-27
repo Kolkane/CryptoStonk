@@ -26,7 +26,7 @@ pip install -r requirements.txt
 # Optionnel (Google Trends, lib fragile) : pip install pytrends
 ```
 
-Le clustering (couche 2) appelle l'API Claude (modèle `claude-opus-5`). Identifiants, au choix :
+Le clustering (couche 2) appelle l'API Claude (modèle `claude-haiku-4-5-20251001`). Identifiants, au choix :
 
 - `setx ANTHROPIC_API_KEY "sk-ant-…"` puis rouvrir le terminal ;
 - ou un profil `ant auth login`, détecté automatiquement par le SDK.
@@ -54,6 +54,8 @@ Texte de la plainte, verbatim de préférence.
 ```
 
 La verticale et la date sont optionnelles. Les fichiers préfixés `_` sont ignorés (modèles). La liste des 30 comptes X de référence vit dans `config/sources.yaml` — les entrées fournies sont des exemples à remplacer par la vôtre. Pas de scraping X automatisé en v0 : API payante et CGU restrictives, la collecte reste semi-manuelle.
+
+Premier essai sans rien écrire : `python problemes/clustering.py --dry-run` (3 plaintes, carte affichée en console).
 
 ## Couche 4 : auditer un candidat
 

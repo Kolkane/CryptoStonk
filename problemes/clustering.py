@@ -3,15 +3,20 @@
 Regroupe les plaintes de l'inbox (captures manuelles .md + collecte forums .jsonl)
 en problèmes non résolus, pondérés par fréquence × intensité, via l'API Claude.
 
-Usage  : python problemes/clustering.py [--jours 14]
+Usage  : python problemes/clustering.py [--jours 14] [--dry-run]
+         --dry-run : 3 plaintes seulement, carte affichée en console, rien n'est écrit.
 Écrit  : data/problemes/carte_AAAA-MM-JJ.json + problemes/carte_problemes.md
+Erreurs : reprise avec backoff sur 429/5xx uniquement ; arrêt propre sinon,
+jamais de reformulation automatique de la requête.
 Identifiants : ANTHROPIC_API_KEY, ou profil « ant auth login » (détecté par le SDK).
 """
 
 import argparse
 import json
+import random
 import re
 import sys
+import time
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -21,7 +26,8 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 RACINE = Path(__file__).resolve().parents[1]
-MODELE = "claude-opus-5"
+MODELE = "claude-haiku-4-5-20251001"  # snapshot épinglé ; alias : claude-haiku-4-5
+TENTATIVES = 4
 
 INSTRUCTIONS = """Tu analyses des plaintes d'utilisateurs de protocoles crypto (perps, options, RWA, bridges, lending, DEX…).
 Regroupe-les en problèmes NON RÉSOLUS distincts. Un bon cluster désigne un manque concret
@@ -93,6 +99,26 @@ def charger_inbox(jours):
     return elements[-150:]  # borne le coût d'appel
 
 
+def appeler_avec_reprise(client, **parametres):
+    """Reprise avec backoff sur 429/5xx uniquement ; toute autre erreur remonte telle quelle."""
+    derniere = None
+    for tentative in range(TENTATIVES):
+        try:
+            return client.messages.create(**parametres)
+        except anthropic.RateLimitError as erreur:
+            derniere = erreur
+        except anthropic.APIStatusError as erreur:
+            if erreur.status_code < 500:  # 4xx hors 429 : réessayer ne changera rien
+                raise
+            derniere = erreur  # 500/529 : surcharge, on retente
+        if tentative < TENTATIVES - 1:
+            attente = min(2 ** tentative * 2 + random.uniform(0, 1), 30)
+            print(f"  API saturée ({type(derniere).__name__}), nouvel essai dans "
+                  f"{attente:.0f} s ({tentative + 2}/{TENTATIVES})")
+            time.sleep(attente)
+    raise derniere
+
+
 def extraire_json(texte):
     debut, fin = texte.find("{"), texte.rfind("}")
     if debut == -1 or fin <= debut:
@@ -100,18 +126,10 @@ def extraire_json(texte):
     return json.loads(texte[debut:fin + 1])
 
 
-def ecrire_carte(clusters, elements, jours):
+def construire_md(clusters, nb_plaintes, jours, note_detail):
     aujourdhui = date.today().isoformat()
-    dossier = RACINE / "data" / "problemes"
-    dossier.mkdir(parents=True, exist_ok=True)
-    fichier_json = dossier / f"carte_{aujourdhui}.json"
-    fichier_json.write_text(json.dumps(
-        {"date": aujourdhui, "fenetre_jours": jours, "clusters": clusters,
-         "plaintes": [{**e, "texte": e["texte"][:300]} for e in elements]},
-        ensure_ascii=False, indent=2), encoding="utf-8")
-
     lignes = ["# Carte des problèmes non résolus", "",
-              f"_Générée le {aujourdhui} — fenêtre {jours} j — {len(elements)} plaintes — "
+              f"_Générée le {aujourdhui} — fenêtre {jours} j — {nb_plaintes} plaintes — "
               f"{len(clusters)} problèmes. Poids = fréquence × intensité._", ""]
     verticales = []
     for c in clusters:
@@ -126,16 +144,33 @@ def ecrire_carte(clusters, elements, jours):
             lignes.append(c["description"])
             lignes.append(f"*Solutions connues : {c['solutions_connues']}*")
             refs = ", ".join(f"n° {n}" for n in c["exemples"][:8])
-            lignes.append(f"*Plaintes : {refs} (détail dans data/problemes/carte_{aujourdhui}.json)*")
+            lignes.append(f"*Plaintes : {refs} ({note_detail})*")
             lignes.append("")
+    return "\n".join(lignes)
+
+
+def ecrire_carte(clusters, elements, jours):
+    aujourdhui = date.today().isoformat()
+    dossier = RACINE / "data" / "problemes"
+    dossier.mkdir(parents=True, exist_ok=True)
+    fichier_json = dossier / f"carte_{aujourdhui}.json"
+    fichier_json.write_text(json.dumps(
+        {"date": aujourdhui, "fenetre_jours": jours, "clusters": clusters,
+         "plaintes": [{**e, "texte": e["texte"][:300]} for e in elements]},
+        ensure_ascii=False, indent=2), encoding="utf-8")
     fichier_md = RACINE / "problemes" / "carte_problemes.md"
-    fichier_md.write_text("\n".join(lignes), encoding="utf-8")
+    fichier_md.write_text(
+        construire_md(clusters, len(elements), jours,
+                      f"détail dans data/problemes/carte_{aujourdhui}.json"),
+        encoding="utf-8")
     return fichier_json, fichier_md
 
 
 def main():
     analyseur = argparse.ArgumentParser(description=__doc__)
     analyseur.add_argument("--jours", type=int, default=14, help="fenêtre d'analyse (défaut 14)")
+    analyseur.add_argument("--dry-run", action="store_true",
+                           help="3 plaintes, carte en console, rien n'est écrit")
     options = analyseur.parse_args()
 
     elements = charger_inbox(options.jours)
@@ -143,18 +178,19 @@ def main():
         print("Inbox vide sur la fenêtre : lancez collecte_forums.py ou collez des captures "
               "dans problemes/inbox/AAAA-MM-JJ.md")
         return
+    if options.dry_run:
+        elements = elements[-3:]
 
     corpus = "\n\n".join(
         f"[{i}] ({e['source']}, {e['verticale'] or '?'}, {e['date'] or '?'}) {e['texte'][:600]}"
         for i, e in enumerate(elements, 1))
 
     try:
-        client = anthropic.Anthropic()
-        reponse = client.beta.messages.create(
+        client = anthropic.Anthropic(max_retries=0)  # la reprise est gérée ici, pas par le SDK
+        reponse = appeler_avec_reprise(
+            client,
             model=MODELE,
             max_tokens=16000,
-            betas=["server-side-fallback-2026-07-01"],
-            extra_body={"fallbacks": "default"},  # repli automatique en cas de refus du classifieur
             system=INSTRUCTIONS,
             messages=[{"role": "user", "content":
                        f"Plaintes des {options.jours} derniers jours :\n\n{corpus}"}],
@@ -163,24 +199,32 @@ def main():
         print("Identifiants absents ou invalides : setx ANTHROPIC_API_KEY \"sk-ant-…\" "
               "(puis rouvrir le terminal), ou « ant auth login ».")
         sys.exit(1)
-    except anthropic.RateLimitError:
-        print("Limite de débit atteinte, réessayez dans une minute.")
+    except TypeError as erreur:
+        # SDK sans identifiants : « Could not resolve authentication method »
+        if "authentication method" not in str(erreur):
+            raise
+        print("Aucun identifiant trouvé : setx ANTHROPIC_API_KEY \"sk-ant-…\" "
+              "(puis rouvrir le terminal), ou « ant auth login ».")
         sys.exit(1)
     except anthropic.APIConnectionError:
         print("Pas de réseau vers l'API Claude.")
         sys.exit(1)
     except anthropic.AnthropicError as erreur:
-        print(f"Erreur API : {erreur}")
+        print(f"Erreur API, pas de reprise possible : {erreur}")
         sys.exit(1)
 
     if reponse.stop_reason == "refusal":
-        print("L'API a refusé la requête (stop_reason=refusal) — réessayez ou réduisez le corpus.")
+        print("Requête refusée par l'API (stop_reason=refusal) — pas de reformulation "
+              "automatique, à examiner à la main.")
         sys.exit(1)
 
     texte = "".join(bloc.text for bloc in reponse.content if bloc.type == "text")
     try:
         brut = extraire_json(texte)
     except (ValueError, json.JSONDecodeError):
+        if options.dry_run:
+            print("Réponse non parsable (dry-run, rien n'est écrit) :\n" + texte)
+            sys.exit(1)
         secours = RACINE / "data" / "problemes" / "reponse_brute.txt"
         secours.parent.mkdir(parents=True, exist_ok=True)
         secours.write_text(texte, encoding="utf-8")
@@ -203,9 +247,15 @@ def main():
         })
     clusters.sort(key=lambda c: -c["poids"])
 
+    entree, sortie = reponse.usage.input_tokens, reponse.usage.output_tokens
+    if options.dry_run:
+        print("— dry-run : rien n'est écrit —\n")
+        print(construire_md(clusters, len(elements), options.jours, "dry-run"))
+        print(f"\n[dry-run] {len(elements)} plaintes -> {len(clusters)} problèmes "
+              f"({entree} tokens entrée / {sortie} sortie, modèle {MODELE})")
+        return
+
     fichier_json, fichier_md = ecrire_carte(clusters, elements, options.jours)
-    entree = reponse.usage.input_tokens
-    sortie = reponse.usage.output_tokens
     print(f"{len(elements)} plaintes -> {len(clusters)} problèmes "
           f"({entree} tokens entrée / {sortie} sortie, modèle {MODELE})")
     for c in clusters[:8]:
