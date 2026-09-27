@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **124** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **81**.
+- Tokens ciblés : **117** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **78**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données |
 |---|---|---|---|---|
-| J+30 | 123 | 0 | 0 | 1 |
-| J+90 | 120 | 0 | 0 | 4 |
-| J+180 | 82 | 37 | 3 | 2 |
+| J+30 | 116 | 0 | 0 | 1 |
+| J+90 | 113 | 0 | 0 | 4 |
+| J+180 | 79 | 33 | 3 | 2 |
 
 Tokens incomplets et diagnostic :
 
@@ -23,15 +23,11 @@ Tokens incomplets et diagnostic :
 | O | dex | 2026-06-17 | 2026-09-27 | J+180 : pas encore écoulée |
 | CAP | lending | 2026-06-26 | 2026-09-27 | J+180 : pas encore écoulée |
 | RE | rwa | 2026-06-18 | 2026-09-27 | J+180 : pas encore écoulée |
-| SPCXX | rwa | 2026-06-12 | 2026-09-27 | J+180 : pas encore écoulée |
 | B | dex | 2026-05-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | ASSET | rwa | 2026-04-30 | 2026-09-27 | J+180 : pas encore écoulée |
 | ZEST | lending | 2026-05-19 | 2026-09-27 | J+180 : pas encore écoulée |
-| PREOPAI | rwa | 2026-05-27 | 2026-09-27 | J+180 : pas encore écoulée |
 | SLX | rendement | 2026-05-25 | 2026-09-27 | J+180 : pas encore écoulée |
-| SNDKX | rwa | 2026-04-15 | 2026-09-27 | J+180 : pas encore écoulée |
 | SODA | dex | 2025-12-01 | 2026-09-27 | J+180 : trou de données |
-| PRESPCX | rwa | 2026-05-04 | 2026-09-27 | J+180 : pas encore écoulée |
 | SHARE | rwa | 2026-05-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | KAIO | rwa | 2026-05-06 | 2026-09-27 | J+180 : pas encore écoulée |
 | RSPCX | rwa | 2026-06-12 | 2026-09-27 | J+180 : pas encore écoulée |
@@ -76,21 +72,21 @@ Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 889 868 $ |
-| Piku Finance | PIKU | rendement | 18 853 504 $ |
+| Sierra Protocol | SIERRA | rendement | 44 888 317 $ |
+| Piku Finance | PIKU | rendement | 18 852 823 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
-| Ledgity Yield | LDY | rendement | 2 471 183 $ |
-| Omnipair | OMFG | lending | 691 608 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 623 769 $ |
-| DIEM Relay | DIEM | lsd_restaking | 528 359 $ |
-| Everything | EV | lending | 366 940 $ |
-| Pepu Bridge | PEPU | bridges | 301 681 $ |
-| Ripe Protocol | RIPE | lending | 165 643 $ |
+| Ledgity Yield | LDY | rendement | 2 470 439 $ |
+| Omnipair | OMFG | lending | 692 544 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 621 238 $ |
+| DIEM Relay | DIEM | lsd_restaking | 525 012 $ |
+| Everything | EV | lending | 366 978 $ |
+| Pepu Bridge | PEPU | bridges | 302 623 $ |
+| Ripe Protocol | RIPE | lending | 164 824 $ |
 | Alvara | ALVA | rendement | 14 083 $ |
-| Juris Protocol | JURIS | lending | 6 857 $ |
+| Juris Protocol | JURIS | lending | 6 785 $ |
 | PrimeFi | PRFI | lending | 3 762 $ |
 | Defimarketplus | DMTP | rendement | 1 388 $ |
-| Edel | EDEL | lending | 879 $ |
+| Edel | EDEL | lending | 877 $ |
 
 Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE ; rapprochement par symbole/nom approximatif ; DefiLlama a son propre biais de survie (plus faible : les fiches mortes restent) ; /emissions (vraies dates de TGE) est passée en offre payante.
 
@@ -98,19 +94,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 120 | -99.8 % | -43.3 % | +2702.1 % | 26 % |
-| Avec morts imputés -100 % | 120 | -99.8 % | -43.3 % | +2702.1 % | 26 % |
+| Survivants (mesuré) | 113 | -99.8 % | -45.3 % | +2702.1 % | 24 % |
+| Avec morts imputés -100 % | 113 | -99.8 % | -45.3 % | +2702.1 % | 24 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -17.0 %, 31 % positifs (123 mesurés).
-Complément J+180 : médiane -55.0 %, 24 % positifs (82 mesurés) ; avec 4 mort(s) imputé(s) : médiane -59.1 %, 23 % positifs (86).
+Complément J+30 : médiane -21.9 %, 29 % positifs (116 mesurés).
+Complément J+180 : médiane -57.8 %, 22 % positifs (79 mesurés) ; avec 4 mort(s) imputé(s) : médiane -64.4 %, 20 % positifs (83).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (120 sur 124).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (113 sur 117).
 - Garder les 7 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.

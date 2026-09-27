@@ -1,0 +1,33 @@
+Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Règle absolue
+(anti-rétrospective) : note l'état du projet AU MOMENT du TGE, uniquement à partir de
+sources d'époque (annonces X du projet, articles de listing, docs versionnées, TVL
+DefiLlama à la date, levées annoncées avant TGE). NE CHERCHE JAMAIS le prix, la
+performance, le market cap ni le destin ultérieur du token ; si tu tombes dessus,
+ignore-les. Un fait d'époque incertain -> confiance=basse, et dis pourquoi dans sources.
+
+Grille (état au TGE) :
+- produit_live : oui | testnet | non — produit utilisable en mainnet avant le token ?
+- traction_tge : forte | moyenne | faible | nulle — TVL/volume/utilisateurs AVANT le
+  TGE ; farming de points sans usage réel = faible.
+- float_initial_pct : nombre — % du supply en circulation au listing.
+- fees_vers_token : oui | partiel | non — capture de valeur (frais, burn, droits)
+  active ou annoncée de façon engageante au TGE.
+- backers : tier1 | tier2 | aucun — investisseurs annoncés avant TGE (tier1 = fonds
+  majeurs, exchange, écosystème puissant).
+- confiance : haute | basse — basse si les sources d'époque manquent ou se contredisent.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+
+Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+infinex-2 | INX | Infinex | TGE 2026-01-30 | perps (decentralized-perpetuals)
+o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
+izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)
+ranger | RNGR | Ranger | TGE 2026-01-10 | perps (decentralized-perpetuals)
+kaio | KAIO | KAIO | TGE 2026-05-06 | rwa (real-world-assets-rwa)
+seasons | SEAS | Seasons | TGE 2026-05-26 | rendement (yield-farming)
+k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
+degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
+pluto-3 | PLUTO | Pluto | TGE 2025-10-25 | perps (decentralized-perpetuals)
+hodlerrewards | REWARD | HodlerRewards | TGE 2026-02-21 | rendement (yield-farming)

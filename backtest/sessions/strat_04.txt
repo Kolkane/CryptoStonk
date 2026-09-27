@@ -1,0 +1,33 @@
+Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Règle absolue
+(anti-rétrospective) : note l'état du projet AU MOMENT du TGE, uniquement à partir de
+sources d'époque (annonces X du projet, articles de listing, docs versionnées, TVL
+DefiLlama à la date, levées annoncées avant TGE). NE CHERCHE JAMAIS le prix, la
+performance, le market cap ni le destin ultérieur du token ; si tu tombes dessus,
+ignore-les. Un fait d'époque incertain -> confiance=basse, et dis pourquoi dans sources.
+
+Grille (état au TGE) :
+- produit_live : oui | testnet | non — produit utilisable en mainnet avant le token ?
+- traction_tge : forte | moyenne | faible | nulle — TVL/volume/utilisateurs AVANT le
+  TGE ; farming de points sans usage réel = faible.
+- float_initial_pct : nombre — % du supply en circulation au listing.
+- fees_vers_token : oui | partiel | non — capture de valeur (frais, burn, droits)
+  active ou annoncée de façon engageante au TGE.
+- backers : tier1 | tier2 | aucun — investisseurs annoncés avant TGE (tier1 = fonds
+  majeurs, exchange, écosystème puissant).
+- confiance : haute | basse — basse si les sources d'époque manquent ou se contredisent.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+
+Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+kaskad | KSKD | Kaskad | TGE 2026-06-08 | lending (lending-borrowing)
+vertek | XRS | Xauras | TGE 2026-01-01 | lending (lending-borrowing)
+ramses | RAM | Ramses | TGE 2025-11-15 | dex (decentralized-exchange)
+zest-protocol | ZEST | Zest Protocol | TGE 2026-05-19 | lending (lending-borrowing)
+emerald-security-token | EMRL.D | Emerald Security Token | TGE 2026-04-04 | rwa (real-world-assets-rwa)
+sharex-2 | SHARE | ShareX | TGE 2026-05-08 | rwa (real-world-assets-rwa)
+bynomo | BYNOMO | Bynomo | TGE 2026-03-26 | options (decentralized-options)
+unitas | UP | Unitas | TGE 2026-03-14 | rendement (yield-farming)
+verified-emeralds | VEREM | Verified Emeralds | TGE 2026-01-22 | rwa (real-world-assets-rwa)
+izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)

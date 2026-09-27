@@ -24,43 +24,38 @@ Plus une colonne `confiance` (haute / basse) : basse dès que les sources d'épo
 sont introuvables ou contradictoires — mieux vaut une case honnêtement incertaine
 qu'un chiffre inventé.
 
-## Sortie attendue : `backtest/notation.csv`
+## Protocole de session — prompts générés, jamais copiés à la main
 
-Une ligne par token, point-virgule :
+Les prompts de session sont générés par `python backtest/preparer_sessions.py`
+(`backtest/sessions/session_NN.txt`, lots de 10 en ordre aléatoire à graine fixe).
+**Ne collez pas des lignes d'`echantillon.csv` dans Claude.ai** : ce fichier contient
+la FDV, et les sessions générées ne contiennent aucune donnée de marché — uniquement
+id_coingecko, ticker, nom, date de TGE et catégorie. Les performances restent dans
+`performances.csv` et n'entrent jamais dans une session.
+
+Variante premier passage : `--stratifie` sélectionne 40 tokens (10 meilleurs J+90
+vs BTC, 10 pires — morts imputés compris —, 20 au sort), remélangés, en 4 sessions
+`strat_NN.txt`. **La stratification interdit toute lecture en taux de réussite
+absolu : elle mesure uniquement la capacité de la grille à discriminer.**
+
+Déroulé :
+
+1. Coller le contenu de `backtest/sessions/<session>.txt` dans Claude.ai.
+2. Relire la réponse : tout fait d'époque douteux → `confiance=basse` ; corriger à la
+   main ce que vous savez de première main.
+3. Coller le CSV validé dans `backtest/notes/<même nom>.csv` (en-tête compris) :
 
 ```
-ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
 ```
 
-## Protocole de session Claude.ai — 10 tokens par session
+L'`id_coingecko` est indispensable : deux tokens de l'échantillon partagent un même
+ticker, la jointure avec les performances se fait par id.
 
-1. Copier le prompt ci-dessous, puis 10 lignes de `echantillon.csv` à la suite.
-2. Relire la réponse : tout fait d'époque douteux → `confiance=basse` ; corriger à la main
-   ce que vous savez de première main.
-3. Coller les lignes validées à la suite de `backtest/notation.csv`.
+## Exploitation (au fil des sessions rendues)
 
-Prompt à coller :
-
-```
-Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Pour chaque token
-ci-dessous, remplis la grille telle qu'elle était AU MOMENT DU LISTING, jamais avec
-l'information d'aujourd'hui. Cherche des sources d'époque (annonces, articles de
-listing, docs, TVL DefiLlama à la date). Si un fait d'époque reste incertain,
-écris confiance=basse et explique en deux mots dans sources.
-
-Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
-ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
-
-Valeurs permises : produit_live oui|testnet|non ; traction_tge forte|moyenne|faible|nulle ;
-fees_vers_token oui|partiel|non ; backers tier1|tier2|aucun ; confiance haute|basse.
-
-Tokens à noter (ticker;nom;id_coingecko;verticale;categorie_cg;date_tge;…) :
-<coller ici 10 lignes de backtest/echantillon.csv>
-```
-
-## Exploitation (une fois notation.csv rempli)
-
-Croiser `notation.csv` × `performances.csv` — la performance relative à BTC à J+90
-en tête. Question posée à chaque critère : sépare-t-il réellement les gagnants des
-perdants de l'échantillon ? C'est ce résultat, et lui seul, qui recalibrera les
-poids de `audit/scoring.py` (aujourd'hui posés à la main, non validés).
+`python backtest/analyser_notation.py` joint `backtest/notes/*.csv` aux performances :
+par critère puis sur un score composite v0, perf médiane J+90 relative à BTC des
+tokens favorablement vs défavorablement notés. Question posée à chaque critère :
+sépare-t-il réellement les gagnants des perdants ? C'est ce résultat, et lui seul,
+qui recalibrera les poids de `audit/scoring.py` (posés à la main, non validés).

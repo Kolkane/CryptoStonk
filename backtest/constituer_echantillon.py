@@ -42,7 +42,8 @@ PAUSE = 13  # mesuré : sous ~5 appels/min le sans-clé ne déclenche plus de 42
 HISTO_MAX_JOURS = 365  # plafond d'historique de l'offre gratuite (days=max : payant)
 # parts de fonds, LST, wrappés… : des instruments, pas des TGE de protocoles
 MARQUEURS_INSTRUMENTS = ("staked", "restaked", "wrapped", "bridged", "t-bill", "tbill",
-                         "treasury", "fund", "overnight", "tokenized", "index")
+                         "treasury", "fund", "overnight", "tokenized", "index",
+                         "xstock", "pre-ipo")
 ETIQUETTE = "v0 : TGE = première cotation CoinGecko ; FDV initiale approchée"
 COLONNES = ["ticker", "nom", "id_coingecko", "verticale", "categorie_cg", "date_tge",
             "fdv_initiale_approx_usd", "fdv_actuelle_usd", "methode"]

@@ -1,0 +1,33 @@
+Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Règle absolue
+(anti-rétrospective) : note l'état du projet AU MOMENT du TGE, uniquement à partir de
+sources d'époque (annonces X du projet, articles de listing, docs versionnées, TVL
+DefiLlama à la date, levées annoncées avant TGE). NE CHERCHE JAMAIS le prix, la
+performance, le market cap ni le destin ultérieur du token ; si tu tombes dessus,
+ignore-les. Un fait d'époque incertain -> confiance=basse, et dis pourquoi dans sources.
+
+Grille (état au TGE) :
+- produit_live : oui | testnet | non — produit utilisable en mainnet avant le token ?
+- traction_tge : forte | moyenne | faible | nulle — TVL/volume/utilisateurs AVANT le
+  TGE ; farming de points sans usage réel = faible.
+- float_initial_pct : nombre — % du supply en circulation au listing.
+- fees_vers_token : oui | partiel | non — capture de valeur (frais, burn, droits)
+  active ou annoncée de façon engageante au TGE.
+- backers : tier1 | tier2 | aucun — investisseurs annoncés avant TGE (tier1 = fonds
+  majeurs, exchange, écosystème puissant).
+- confiance : haute | basse — basse si les sources d'époque manquent ou se contredisent.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+
+Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+hybr | HYBR | HYBR | TGE 2026-06-22 | dex (decentralized-exchange)
+sharex-2 | SHARE | ShareX | TGE 2026-05-08 | rwa (real-world-assets-rwa)
+permission-less-lending | MAGPIE | Magpie | TGE 2026-06-03 | lending (lending-borrowing)
+humidifi | WET | HumidiFi | TGE 2025-12-09 | dex (decentralized-exchange)
+cap-4 | CAP | Cap | TGE 2026-06-26 | lending (lending-borrowing)
+mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
+apriori | APR | Capricorn | TGE 2025-10-23 | lsd_restaking (liquid-staking)
+turtle-4 | TURTLE | Turtle | TGE 2025-10-22 | rendement (yield-farming)
+obsidian-2 | OBS | Obsidian | TGE 2025-10-19 | dex (decentralized-exchange)
+cygnus-2 | CGN | Cygnus | TGE 2025-10-23 | lsd_restaking (restaking)

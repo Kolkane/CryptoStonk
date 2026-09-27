@@ -1,0 +1,33 @@
+Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Règle absolue
+(anti-rétrospective) : note l'état du projet AU MOMENT du TGE, uniquement à partir de
+sources d'époque (annonces X du projet, articles de listing, docs versionnées, TVL
+DefiLlama à la date, levées annoncées avant TGE). NE CHERCHE JAMAIS le prix, la
+performance, le market cap ni le destin ultérieur du token ; si tu tombes dessus,
+ignore-les. Un fait d'époque incertain -> confiance=basse, et dis pourquoi dans sources.
+
+Grille (état au TGE) :
+- produit_live : oui | testnet | non — produit utilisable en mainnet avant le token ?
+- traction_tge : forte | moyenne | faible | nulle — TVL/volume/utilisateurs AVANT le
+  TGE ; farming de points sans usage réel = faible.
+- float_initial_pct : nombre — % du supply en circulation au listing.
+- fees_vers_token : oui | partiel | non — capture de valeur (frais, burn, droits)
+  active ou annoncée de façon engageante au TGE.
+- backers : tier1 | tier2 | aucun — investisseurs annoncés avant TGE (tier1 = fonds
+  majeurs, exchange, écosystème puissant).
+- confiance : haute | basse — basse si les sources d'époque manquent ou se contredisent.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+
+Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)
+zkclob | Z | zkCLOB | TGE 2025-11-12 | dex (decentralized-exchange)
+solstice | SLX | Solstice | TGE 2026-05-25 | rendement (yield-farming)
+spacex-reality-protocol | RSPCX | SpaceX (Reality Protocol) | TGE 2026-06-12 | rwa (real-world-assets-rwa)
+nest-blackopal-liquidstone-ii-vault | NOPAL | Nest BlackOpal LiquidStone II Vault | TGE 2025-12-23 | rwa (real-world-assets-rwa)
+zygoswap | ZSWAP | ZygoSwap | TGE 2025-12-31 | dex (decentralized-exchange)
+momentum-3 | MMT | Momentum | TGE 2025-11-04 | dex (decentralized-exchange)
+autocompounding-voting-kat | AVKAT | Autocompounding Voting KAT | TGE 2026-03-28 | lsd_restaking (liquid-staking)
+lighter | LIT | Lighter | TGE 2025-12-30 | perps (decentralized-perpetuals)
+orbit-4 | ORBIT | Orbit | TGE 2026-05-02 | dex (decentralized-exchange)

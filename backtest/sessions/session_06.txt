@@ -1,0 +1,33 @@
+Tu notes des tokens crypto À LA DATE DE LEUR TGE, pour un backtest. Règle absolue
+(anti-rétrospective) : note l'état du projet AU MOMENT du TGE, uniquement à partir de
+sources d'époque (annonces X du projet, articles de listing, docs versionnées, TVL
+DefiLlama à la date, levées annoncées avant TGE). NE CHERCHE JAMAIS le prix, la
+performance, le market cap ni le destin ultérieur du token ; si tu tombes dessus,
+ignore-les. Un fait d'époque incertain -> confiance=basse, et dis pourquoi dans sources.
+
+Grille (état au TGE) :
+- produit_live : oui | testnet | non — produit utilisable en mainnet avant le token ?
+- traction_tge : forte | moyenne | faible | nulle — TVL/volume/utilisateurs AVANT le
+  TGE ; farming de points sans usage réel = faible.
+- float_initial_pct : nombre — % du supply en circulation au listing.
+- fees_vers_token : oui | partiel | non — capture de valeur (frais, burn, droits)
+  active ou annoncée de façon engageante au TGE.
+- backers : tier1 | tier2 | aucun — investisseurs annoncés avant TGE (tier1 = fonds
+  majeurs, exchange, écosystème puissant).
+- confiance : haute | basse — basse si les sources d'époque manquent ou se contredisent.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;backers;confiance;sources
+
+Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+owlto-finance | OWL | Owlto Finance | TGE 2026-01-15 | bridges (cross-chain-communication)
+vault-2 | V | Vault | TGE 2025-11-25 | lsd_restaking (liquid-staking)
+meteora | MET | Meteora | TGE 2025-10-23 | dex (decentralized-exchange)
+katana-network-token | KAT | Katana | TGE 2026-03-18 | rendement (yield-farming)
+yei-finance | CLO | Yei Finance | TGE 2025-10-14 | bridges (cross-chain-communication)
+confidential-layer | CLONE | Confidential Layer | TGE 2025-12-10 | bridges (bridge-governance-tokens)
+kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
+sigmadotmoney | SIGMA | SigmaDotMoney | TGE 2025-10-21 | perps (decentralized-perpetuals)
+emerald-security-token | EMRL.D | Emerald Security Token | TGE 2026-04-04 | rwa (real-world-assets-rwa)
+goldfish-gold | GGBR | Goldfish Gold | TGE 2026-02-27 | rwa (real-world-assets-rwa)
