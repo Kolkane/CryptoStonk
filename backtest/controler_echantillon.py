@@ -42,7 +42,8 @@ MARQUEURS_INSTRUMENTS = ("staked", "restaked", "wrapped", "bridged", "t-bill", "
                          "treasury", "fund", "overnight", "tokenized", "index")
 
 RAISONS = {"ok": "ok", "future": "pas encore écoulée",
-           "arretee": "série arrêtée", "trou": "trou de données"}
+           "arretee": "série arrêtée", "trou": "trou de données",
+           "non_mesurable": "non mesurable (TGE réel avant l'historique CG)"}
 
 
 def lire_csv(chemin):
@@ -53,6 +54,8 @@ def lire_csv(chemin):
 def raison_fenetre(ligne, n, aujourd_hui):
     if ligne.get(f"rel_btc_j{n}_pct"):
         return "ok"
+    if (ligne.get("statut") or "") == "non_mesurable":
+        return "non_mesurable"
     cible = date.fromisoformat(ligne["date_tge"]) + timedelta(days=n)
     if cible.isoformat() > aujourd_hui:
         return "future"
@@ -220,12 +223,13 @@ def main():
         f"{min(l['date_tge'] for l in echantillon)} à {max(l['date_tge'] for l in echantillon)}, "
         f"fenêtre effective {options.debut} -> {options.fin}).",
         f"- Données complètes J+30/J+90/J+180 : **{complets}**.", "",
-        "| Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données |",
-        "|---|---|---|---|---|",
+        "| Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |",
+        "|---|---|---|---|---|---|",
     ]
     for n in FENETRES:
         c = compte[n]
-        lignes.append(f"| J+{n} | {c['ok']} | {c['future']} | {c['arretee']} | {c['trou']} |")
+        lignes.append(f"| J+{n} | {c['ok']} | {c['future']} | {c['arretee']} | {c['trou']} "
+                      f"| {c['non_mesurable']} |")
     lignes += ["", "Tokens incomplets et diagnostic :", "",
                "| Ticker | Verticale | TGE | Dernière cotation | Diagnostic |", "|---|---|---|---|---|"]
     for l, details in diagnostics:

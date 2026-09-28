@@ -64,7 +64,7 @@ def classer(note, critere):
         try:
             return 1 if float(brut) >= SEUIL_FLOAT else -1
         except ValueError:
-            return 0
+            return 0  # vide ou non numérique = inconnu, hors contraste — jamais traité comme 0 %
     valeur = str(note.get(critere) or "").strip().lower()
     favorables, defavorables = CRITERES[critere]
     return 1 if valeur in favorables else -1 if valeur in defavorables else 0
