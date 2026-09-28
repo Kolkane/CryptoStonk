@@ -41,9 +41,11 @@ ENTETES = {"User-Agent": "CryptoStonk/0.1 (outil interne)"}
 PAUSE = 13  # mesuré : sous ~5 appels/min le sans-clé ne déclenche plus de 429
 HISTO_MAX_JOURS = 365  # plafond d'historique de l'offre gratuite (days=max : payant)
 # parts de fonds, LST, wrappés… : des instruments, pas des TGE de protocoles
+# "spacex" (2026-09-28) : actions SpaceX pre-IPO tokenisées (Reality Protocol et clones,
+# famille xStocks/pre-IPO) — le nom du sous-jacent est le marqueur le plus stable.
 MARQUEURS_INSTRUMENTS = ("staked", "restaked", "wrapped", "bridged", "t-bill", "tbill",
                          "treasury", "fund", "overnight", "tokenized", "index",
-                         "xstock", "pre-ipo", " lst", "-lst", "securities")
+                         "xstock", "pre-ipo", " lst", "-lst", "securities", "spacex")
 ETIQUETTE = "v0 : TGE = première cotation CoinGecko ; FDV initiale approchée"
 COLONNES = ["ticker", "nom", "id_coingecko", "verticale", "categorie_cg", "date_tge",
             "fdv_initiale_approx_usd", "fdv_actuelle_usd", "methode"]
