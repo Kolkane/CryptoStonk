@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **110** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Tokens ciblés : **109** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
 - Données complètes J+30/J+90/J+180 : **69**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 105 | 0 | 0 | 1 | 4 |
-| J+90 | 102 | 0 | 0 | 4 | 4 |
-| J+180 | 70 | 29 | 3 | 4 | 4 |
+| J+30 | 105 | 0 | 0 | 0 | 4 |
+| J+90 | 101 | 0 | 0 | 4 | 4 |
+| J+180 | 70 | 29 | 2 | 4 | 4 |
 
 Tokens incomplets et diagnostic :
 
@@ -54,7 +54,6 @@ Tokens incomplets et diagnostic :
 | PUMPPERPS | perps | 2026-03-30 | 2026-09-23 | J+90 : trou de données |
 | CRACKROCK | perps | 2026-04-29 | 2026-09-22 | J+90 : trou de données; J+180 : pas encore écoulée |
 | TROVE | perps | 2026-01-20 | 2026-06-03 | J+90 : trou de données; J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
-| SAID | rwa | 2026-01-27 | 2026-07-05 | J+30 : trou de données; J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
 | DAKS | rwa | 2026-04-15 | 2026-09-23 | J+180 : pas encore écoulée |
 | OOOO | bridges | 2025-12-30 | 2026-06-10 | J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
 | SPOL | lsd_restaking | 2026-04-25 | 2026-09-27 | J+180 : pas encore écoulée |
@@ -65,7 +64,7 @@ Tokens incomplets et diagnostic :
 
 CoinGecko déliste ou cesse de suivre les tokens morts : ils ne peuvent pas entrer dans l'échantillon (le pré-filtre parcourt les pièces encore cotées). L'échantillon sur-représente donc structurellement les survivants, et les moyennes brutes mentent.
 
-- Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **7** — IZKY, OOOO, RNGR, SAID, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
+- Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **6** — IZKY, OOOO, RNGR, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
 
 - Univers estimé (DefiLlama /protocols) : **36** lancements de token sur la fenêtre, nos verticales — après exclusion de 46 fiches dont le token préexiste à la fenêtre (nouveaux produits de protocoles établis, pas des TGE), de 2 instruments, et dédoublonnage par symbole.
 - Retrouvés dans l'échantillon : **9** (couverture 25 %). Absents : **27**, dont **16** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
@@ -96,19 +95,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 102 | -99.8 % | -49.0 % | +2702.1 % | 22 % |
-| Avec morts imputés -100 % | 102 | -99.8 % | -49.0 % | +2702.1 % | 22 % |
+| Survivants (mesuré) | 101 | -99.8 % | -51.2 % | +2702.1 % | 21 % |
+| Avec morts imputés -100 % | 101 | -99.8 % | -51.2 % | +2702.1 % | 21 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
 Complément J+30 : médiane -31.0 %, 28 % positifs (105 mesurés).
-Complément J+180 : médiane -59.1 %, 19 % positifs (70 mesurés) ; avec 4 mort(s) imputé(s) : médiane -64.5 %, 18 % positifs (74).
+Complément J+180 : médiane -59.1 %, 19 % positifs (70 mesurés) ; avec 3 mort(s) imputé(s) : médiane -64.4 %, 18 % positifs (73).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (102 sur 110).
-- Garder les 7 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
+- Noter en priorité les tokens avec J+90 disponible ou imputé (101 sur 109).
+- Garder les 6 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.
