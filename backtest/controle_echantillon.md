@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **116** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **74**.
+- Tokens ciblés : **113** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **71**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 112 | 0 | 0 | 1 | 3 |
-| J+90 | 109 | 0 | 0 | 4 | 3 |
-| J+180 | 75 | 31 | 3 | 4 | 3 |
+| J+30 | 108 | 0 | 0 | 1 | 4 |
+| J+90 | 105 | 0 | 0 | 4 | 4 |
+| J+180 | 72 | 30 | 3 | 4 | 4 |
 
 Tokens incomplets et diagnostic :
 
@@ -35,6 +35,7 @@ Tokens incomplets et diagnostic :
 | SPCX | rwa | 2026-06-12 | 2026-09-27 | J+180 : pas encore écoulée |
 | LV | perps | 2025-12-18 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | NEST | dex | 2026-04-13 | 2026-09-27 | J+180 : pas encore écoulée |
+| RAM | dex | 2023-03-30 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | KSKD | lending | 2026-06-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | MEZO | lending | 2026-04-01 | 2026-09-27 | J+180 : trou de données |
 | PEN | dex | 2023-03-13 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
@@ -54,7 +55,6 @@ Tokens incomplets et diagnostic :
 | PUMPPERPS | perps | 2026-03-30 | 2026-09-23 | J+90 : trou de données |
 | CRACKROCK | perps | 2026-04-29 | 2026-09-22 | J+90 : trou de données; J+180 : pas encore écoulée |
 | TROVE | perps | 2026-01-20 | 2026-06-03 | J+90 : trou de données; J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
-| EMRL.D | rwa | 2026-04-04 | 2026-07-29 | J+180 : pas encore écoulée — **mort probable, fenêtres post-mortem imputées -100 %** |
 | SAID | rwa | 2026-01-27 | 2026-07-05 | J+30 : trou de données; J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
 | DAKS | rwa | 2026-04-15 | 2026-09-23 | J+180 : pas encore écoulée |
 | OOOO | bridges | 2025-12-30 | 2026-06-10 | J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
@@ -66,7 +66,7 @@ Tokens incomplets et diagnostic :
 
 CoinGecko déliste ou cesse de suivre les tokens morts : ils ne peuvent pas entrer dans l'échantillon (le pré-filtre parcourt les pièces encore cotées). L'échantillon sur-représente donc structurellement les survivants, et les moyennes brutes mentent.
 
-- Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **8** — EMRL.D, IZKY, OOOO, RNGR, SAID, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
+- Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **7** — IZKY, OOOO, RNGR, SAID, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
 
 - Univers estimé (DefiLlama /protocols) : **36** lancements de token sur la fenêtre, nos verticales — après exclusion de 46 fiches dont le token préexiste à la fenêtre (nouveaux produits de protocoles établis, pas des TGE), de 2 instruments, et dédoublonnage par symbole.
 - Retrouvés dans l'échantillon : **9** (couverture 25 %). Absents : **27**, dont **16** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
@@ -75,15 +75,15 @@ Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 889 475 $ |
-| Piku Finance | PIKU | rendement | 19 142 650 $ |
+| Sierra Protocol | SIERRA | rendement | 44 898 413 $ |
+| Piku Finance | PIKU | rendement | 19 192 593 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
 | Ledgity Yield | LDY | rendement | 2 470 263 $ |
 | Omnipair | OMFG | lending | 658 809 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 607 807 $ |
-| DIEM Relay | DIEM | lsd_restaking | 512 849 $ |
-| Everything | EV | lending | 368 437 $ |
-| Pepu Bridge | PEPU | bridges | 301 620 $ |
+| DIEM Relay | DIEM | lsd_restaking | 605 702 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 580 862 $ |
+| Everything | EV | lending | 368 172 $ |
+| Pepu Bridge | PEPU | bridges | 301 173 $ |
 | Ripe Protocol | RIPE | lending | 164 338 $ |
 | Alvara | ALVA | rendement | 13 482 $ |
 | Juris Protocol | JURIS | lending | 6 545 $ |
@@ -97,19 +97,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 109 | -99.8 % | -45.6 % | +2702.1 % | 22 % |
-| Avec morts imputés -100 % | 109 | -99.8 % | -45.6 % | +2702.1 % | 22 % |
+| Survivants (mesuré) | 105 | -99.8 % | -45.6 % | +2702.1 % | 22 % |
+| Avec morts imputés -100 % | 105 | -99.8 % | -45.6 % | +2702.1 % | 22 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -29.8 %, 28 % positifs (112 mesurés).
-Complément J+180 : médiane -60.5 %, 19 % positifs (75 mesurés) ; avec 5 mort(s) imputé(s) : médiane -65.0 %, 18 % positifs (80).
+Complément J+30 : médiane -29.8 %, 28 % positifs (108 mesurés).
+Complément J+180 : médiane -56.8 %, 19 % positifs (72 mesurés) ; avec 4 mort(s) imputé(s) : médiane -62.5 %, 18 % positifs (76).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (109 sur 116).
-- Garder les 8 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
+- Noter en priorité les tokens avec J+90 disponible ou imputé (105 sur 113).
+- Garder les 7 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.

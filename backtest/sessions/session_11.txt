@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-trove | TROVE | Trove | TGE 2026-01-20 | perps (decentralized-perpetuals)
-zest-protocol | ZEST | Zest Protocol | TGE 2026-05-19 | lending (lending-borrowing)
-smilee | SMILEE | Smilee | TGE 2025-12-01 | lsd_restaking (liquid-staking)
-verified-emeralds | VEREM | Verified Emeralds | TGE 2026-01-22 | rwa (real-world-assets-rwa)
-re | RE | RE | TGE 2026-06-18 | rwa (real-world-assets-rwa)
-meme-liquid | LIQUID | Meme Liquid | TGE 2026-02-08 | perps (decentralized-perpetuals)
-hyperlend | HPL | HyperLend | TGE 2026-03-03 | lending (lending-borrowing)
-kaskad | KSKD | Kaskad | TGE 2026-06-08 | lending (lending-borrowing)
-echelon-token | ELON | Echelon Token | TGE 2026-02-02 | lending (lending-borrowing)
 steak-3 | STEAK | Steak | TGE 2026-06-15 | lsd_restaking (liquid-staking)
+nuva-nvprime | NVPRIME | NUVA nvPRIME | TGE 2026-05-15 | rwa (real-world-assets-rwa)
+re | RE | RE | TGE 2026-06-18 | rwa (real-world-assets-rwa)
+hash-hunter | HNTR | Hash Hunter | TGE 2025-10-22 | bridges (cross-chain-communication)
+cygnus-2 | CGN | Cygnus | TGE 2025-10-23 | lsd_restaking (restaking)
+vault-2 | V | Vault | TGE 2025-11-25 | lsd_restaking (liquid-staking)
+r2protocol | R2 | R2 Protocol | TGE 2026-03-30 | rendement (yield-farming)
+paystream | PAYS | Paystream | TGE 2025-10-30 | lending (lending-borrowing)
+kinetiq | KNTQ | Kinetiq | TGE 2025-11-27 | lsd_restaking (liquid-staking)
+flying-tulip | FT | Flying Tulip | TGE 2026-02-23 | perps (decentralized-perpetuals)

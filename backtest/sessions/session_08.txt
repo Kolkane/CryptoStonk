@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-roll-2 | ROLL | ROLL | TGE 2026-01-16 | dex (decentralized-exchange)
 folks | FOLKS | FOLKS | TGE 2025-11-06 | lending (lending-borrowing)
-cypher-3 | CYPH | Cypher | TGE 2025-12-19 | dex (decentralized-exchange)
-oooo | OOOO | oooo | TGE 2025-12-30 | bridges (cross-chain-communication)
+topaz | TOPAZ | Topaz | TGE 2026-06-15 | dex (decentralized-exchange)
+spol | SPOL | sPOL | TGE 2026-04-25 | lsd_restaking (liquid-staking)
 zama | ZAMA | Zama | TGE 2026-02-02 | bridges (cross-chain-communication)
 genius-3 | GENIUS | Genius | TGE 2026-04-13 | perps (decentralized-perpetuals)
-paystream | PAYS | Paystream | TGE 2025-10-30 | lending (lending-borrowing)
+pumpbank | PBANK | PUMPBANK | TGE 2026-01-01 | lending (lending-borrowing)
 perk | PERK | PERK | TGE 2026-03-30 | perps (decentralized-perpetuals)
 unitas | UP | Unitas | TGE 2026-03-14 | rendement (yield-farming)
-vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)
+mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
+orbit-4 | ORBIT | Orbit | TGE 2026-05-02 | dex (decentralized-exchange)

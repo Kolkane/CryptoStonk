@@ -38,10 +38,8 @@ KAIO;kaio;rwa;2026-05-06;coingecko;2026-09-27;-78.3;-72.5;-89.0;-85.9;;;partiel
 RSPCX;spacex-reality-protocol;rwa;2026-06-12;coingecko;2026-09-27;-14.2;-14.5;-7.8;-25.2;;;partiel
 COLLECT;collect-on-fanable;rwa;2025-12-29;coingecko;2026-09-27;105.1;102.1;-1.9;29.8;-0.7;45.3;ok
 CLO;yei-finance;bridges;2025-10-14;coingecko;2026-09-27;51.3;71.6;441.4;586.7;-34.6;3.3;ok
-VEREM;verified-emeralds;rwa;2026-01-22;coingecko;2026-09-27;-91.5;-88.8;-95.9;-95.2;-98.1;-97.4;ok
 NVPRIME;nuva-nvprime;rwa;2026-05-15;coingecko;2026-09-27;0.5;26.5;1.6;29.8;;;partiel
 TURTLE;turtle-4;rendement;2025-10-22;coingecko;2026-09-27;-71.6;-64.4;-80.8;-77.5;-83.5;-75.8;ok
-XRS;vertek;lending;2026-01-01;coingecko;2026-09-27;20.1;25.1;33.2;71.2;-98.3;-97.5;ok
 VULT;vultisig;bridges;2025-10-27;coingecko;2026-09-27;-74.0;-65.9;-77.4;-71.0;-67.3;-51.6;ok
 SPCX;spacex-backpack-securities;rwa;2026-06-12;coingecko;2026-09-27;-16.5;-16.8;-15.7;-31.5;;;partiel
 LV;leverup;perps;2025-12-18;override:ICO Drops;2026-09-28;;;;;;;non_mesurable
@@ -49,7 +47,7 @@ HPL;hyperlend;lending;2026-03-03;coingecko;2026-09-27;29.1;30.7;35.6;26.7;4.1;-8
 NEST;nest-2;dex;2026-04-13;coingecko;2026-09-27;352.2;297.0;1341.7;1497.0;;;partiel
 CGN;cygnus-2;lsd_restaking;2025-10-23;coingecko;2026-09-27;-91.3;-88.9;-86.5;-83.6;-89.4;-84.9;ok
 EVAA;evaa-protocol;lending;2025-10-03;coingecko;2026-09-27;45.6;59.5;-80.7;-73.4;-91.2;-84.4;ok
-RAM;ramses;dex;2025-11-15;coingecko;2026-09-27;-35.8;-31.0;-61.7;-45.3;-71.1;-65.5;ok
+RAM;ramses;dex;2023-03-30;override:notation strat_04 (approx. : lancement du token fin mars 2023, date CG = artefact);2026-09-28;;;;;;;non_mesurable
 KSKD;kaskad;lending;2026-06-08;coingecko;2026-09-27;-70.1;-70.2;-83.9;-87.2;;;partiel
 KYO;kyo;bridges;2025-12-10;coingecko;2026-09-27;-85.3;-85.0;-88.7;-84.7;-92.4;-88.9;ok
 V;vault-2;lsd_restaking;2025-11-25;coingecko;2026-09-27;-13.1;-12.5;-42.4;-22.0;-36.3;-26.7;ok
@@ -103,7 +101,6 @@ TROVE;trove;perps;2026-01-20;coingecko;2026-06-03;-94.2;-91.9;;;;;partiel
 RNGR;ranger;perps;2026-01-10;coingecko;2026-09-05;-31.8;-12.2;-61.6;-51.2;-39.1;-11.3;ok
 BYNOMO;bynomo;options;2026-03-26;coingecko;2026-09-25;-90.8;-91.5;-97.9;-97.6;-96.9;-97.4;ok
 PGOLD;pleasing-gold;rwa;2025-10-30;coingecko;2026-09-25;5.3;27.5;29.2;59.4;17.3;66.9;ok
-EMRL.D;emerald-security-token;rwa;2026-04-04;coingecko;2026-07-29;8.4;-7.7;-26.9;-20.6;;;partiel
 SAID;gaib-said;rwa;2026-01-27;coingecko;2026-07-05;;;9.1;22.4;;;partiel
 DAKS;draggable-aktionariat-ag;rwa;2026-04-15;coingecko;2026-09-23;11.3;2.0;-18.0;-2.2;;;partiel
 OOOO;oooo;bridges;2025-12-30;coingecko;2026-06-10;-93.8;-94.0;-99.8;-99.8;;;partiel

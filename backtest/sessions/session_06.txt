@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-kyo | KYO | Kyo | TGE 2025-12-10 | bridges (cross-chain-communication)
 meteora | MET | Meteora | TGE 2025-10-23 | dex (decentralized-exchange)
 katana-network-token | KAT | Katana | TGE 2026-03-18 | rendement (yield-farming)
 yei-finance | CLO | Yei Finance | TGE 2025-10-14 | bridges (cross-chain-communication)
-kayaknet | KNT | KayakNet | TGE 2026-01-21 | bridges (cross-chain-communication)
-lo0p | LO0P | LO0P | TGE 2026-05-10 | lending (lending-borrowing)
-owlto-finance | OWL | Owlto Finance | TGE 2026-01-15 | bridges (cross-chain-communication)
+confidential-layer | CLONE | Confidential Layer | TGE 2025-12-10 | bridges (bridge-governance-tokens)
+kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
+sigmadotmoney | SIGMA | SigmaDotMoney | TGE 2025-10-21 | perps (decentralized-perpetuals)
 pleasing-gold | PGOLD | Pleasing Gold | TGE 2025-10-30 | rwa (real-world-assets-rwa)
 goldfish-gold | GGBR | Goldfish Gold | TGE 2026-02-27 | rwa (real-world-assets-rwa)
-obsidian-2 | OBS | Obsidian | TGE 2025-10-19 | dex (decentralized-exchange)
+crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
+ylds | YLDS | YLDS | TGE 2025-11-14 | rwa (real-world-assets-rwa)

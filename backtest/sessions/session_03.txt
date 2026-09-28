@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-lsd-2 | LSD | LSD | TGE 2026-01-10 | lsd_restaking (liquid-staking)
-lucky | LUCKY | LUCKY | TGE 2025-10-31 | rendement (yield-farming)
-k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
-nest-2 | NEST | NEST | TGE 2026-04-13 | dex (decentralized-exchange)
-flap-futures | FFX | Flap Futures | TGE 2026-04-01 | perps (decentralized-perpetuals)
-mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
+zkclob | Z | zkCLOB | TGE 2025-11-12 | dex (decentralized-exchange)
+kodiak-finance | KDK | Kodiak Finance | TGE 2025-12-24 | perps (decentralized-perpetuals)
+hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
+evaa-protocol | EVAA | EVAA Protocol | TGE 2025-10-03 | lending (lending-borrowing)
+degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
+pendulum-chain | PEN | Pendulum | TGE 2025-10-03 | dex (decentralized-exchange)
 gaib-aid | AID | GAIB AID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
+parquet | PARQ | Parquet | TGE 2026-06-07 | perps (decentralized-perpetuals)
 o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
-kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
+kyo | KYO | Kyo | TGE 2025-12-10 | bridges (cross-chain-communication)

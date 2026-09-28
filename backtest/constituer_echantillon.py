@@ -106,9 +106,20 @@ def choisir_categories():
     return selection
 
 
+def lire_exclusions():
+    """backtest/exclusions.csv : purges unitaires tracées (id recyclé, hors périmètre…)."""
+    fichier = RACINE / "backtest" / "exclusions.csv"
+    if not fichier.exists():
+        return set()
+    with fichier.open(encoding="utf-8-sig", newline="") as entree:
+        return {(l.get("id_coingecko") or "").strip()
+                for l in csv.DictReader(entree, delimiter=";")} - {""}
+
+
 def candidats_par_prefiltre(selection, debut):
     """Pré-filtre gratuit : ATL et ATH tous deux dans la fenêtre => historique de prix
     entièrement récent, donc probablement listé dans la fenêtre (confirmé ensuite)."""
+    exclusions = lire_exclusions()
     pool, ecartes = {}, 0
     for verticale, categorie in selection:
         marches = appel_cg("/coins/markets", {
@@ -121,7 +132,8 @@ def candidats_par_prefiltre(selection, debut):
                 continue
             nom_id = f"{piece.get('name', '')} {piece['id']}".lower()
             symbole = (piece.get("symbol") or "").lower()
-            if any(m in nom_id for m in MARQUEURS_INSTRUMENTS) or "usd" in symbole or "eur" in symbole:
+            if any(m in nom_id for m in MARQUEURS_INSTRUMENTS) or "usd" in symbole or "eur" in symbole \
+                    or piece["id"] in exclusions:
                 ecartes += 1
                 continue
             if piece["id"] not in pool:

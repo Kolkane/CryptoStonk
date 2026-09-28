@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-permission-less-lending | MAGPIE | Magpie | TGE 2026-06-03 | lending (lending-borrowing)
-pluto-3 | PLUTO | Pluto | TGE 2025-10-25 | perps (decentralized-perpetuals)
-hodlerrewards | REWARD | HodlerRewards | TGE 2026-02-21 | rendement (yield-farming)
-ramses | RAM | Ramses | TGE 2025-11-15 | dex (decentralized-exchange)
-vertek | XRS | Xauras | TGE 2026-01-01 | lending (lending-borrowing)
-hash-hunter | HNTR | Hash Hunter | TGE 2025-10-22 | bridges (cross-chain-communication)
-epicentral-labs | LABS | Epicentral Labs | TGE 2026-01-12 | options (decentralized-options)
+teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
+pumpperps | PUMPPERPS | PumpPerps | TGE 2026-03-30 | perps (decentralized-perpetuals)
+kayaknet | KNT | KayakNet | TGE 2026-01-21 | bridges (cross-chain-communication)
+kaskad | KSKD | Kaskad | TGE 2026-06-08 | lending (lending-borrowing)
+spacex-backpack-securities | SPCX | SpaceX (Backpack Securities) | TGE 2026-06-12 | rwa (real-world-assets-rwa)
+lsd-2 | LSD | LSD | TGE 2026-01-10 | lsd_restaking (liquid-staking)
+nemesis-2 | NEMESIS | Nemesis | TGE 2025-10-31 | perps (decentralized-perpetuals)
 bynomo | BYNOMO | Bynomo | TGE 2026-03-26 | options (decentralized-options)
-pendulum-chain | PEN | Pendulum | TGE 2025-10-03 | dex (decentralized-exchange)
-izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)
+lucky | LUCKY | LUCKY | TGE 2025-10-31 | rendement (yield-farming)
+echelon-token | ELON | Echelon Token | TGE 2026-02-02 | lending (lending-borrowing)
