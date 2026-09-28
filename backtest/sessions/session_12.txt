@@ -21,10 +21,9 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-steak-3 | STEAK | Steak | TGE 2026-06-15 | lsd_restaking (liquid-staking)
 kinetiq | KNTQ | Kinetiq | TGE 2025-11-27 | lsd_restaking (liquid-staking)
 flying-tulip | FT | Flying Tulip | TGE 2026-02-23 | perps (decentralized-perpetuals)
 nuva-nvprime | NVPRIME | NUVA nvPRIME | TGE 2026-05-15 | rwa (real-world-assets-rwa)
 nest-3 | NEST | Nest | TGE 2026-06-20 | lending (lending-borrowing)
 sodax | SODA | SODAX | TGE 2025-12-01 | dex (decentralized-exchange)
-teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
+seasons | SEAS | Seasons | TGE 2026-05-26 | rendement (yield-farming)

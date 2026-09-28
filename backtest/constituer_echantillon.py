@@ -43,7 +43,7 @@ HISTO_MAX_JOURS = 365  # plafond d'historique de l'offre gratuite (days=max : pa
 # parts de fonds, LST, wrappés… : des instruments, pas des TGE de protocoles
 MARQUEURS_INSTRUMENTS = ("staked", "restaked", "wrapped", "bridged", "t-bill", "tbill",
                          "treasury", "fund", "overnight", "tokenized", "index",
-                         "xstock", "pre-ipo")
+                         "xstock", "pre-ipo", " lst", "-lst")
 ETIQUETTE = "v0 : TGE = première cotation CoinGecko ; FDV initiale approchée"
 COLONNES = ["ticker", "nom", "id_coingecko", "verticale", "categorie_cg", "date_tge",
             "fdv_initiale_approx_usd", "fdv_actuelle_usd", "methode"]

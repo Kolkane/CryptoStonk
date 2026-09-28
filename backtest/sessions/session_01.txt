@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-epicentral-labs | LABS | Epicentral Labs | TGE 2026-01-12 | options (decentralized-options)
-draggable-aktionariat-ag | DAKS | Draggable Aktionariat AG | TGE 2026-04-15 | rwa (real-world-assets-rwa)
-lsd-2 | LSD | LSD | TGE 2026-01-10 | lsd_restaking (liquid-staking)
-perk | PERK | PERK | TGE 2026-03-30 | perps (decentralized-perpetuals)
-kyo | KYO | Kyo | TGE 2025-12-10 | bridges (cross-chain-communication)
-flap-futures | FFX | Flap Futures | TGE 2026-04-01 | perps (decentralized-perpetuals)
-pendulum-chain | PEN | Pendulum | TGE 2025-10-03 | dex (decentralized-exchange)
-pleasing-gold | PGOLD | Pleasing Gold | TGE 2025-10-30 | rwa (real-world-assets-rwa)
+permission-less-lending | MAGPIE | Magpie | TGE 2026-06-03 | lending (lending-borrowing)
+pluto-3 | PLUTO | Pluto | TGE 2025-10-25 | perps (decentralized-perpetuals)
+hodlerrewards | REWARD | HodlerRewards | TGE 2026-02-21 | rendement (yield-farming)
 ramses | RAM | Ramses | TGE 2025-11-15 | dex (decentralized-exchange)
-usa | USAT | USAT | TGE 2026-01-27 | rwa (real-world-assets-rwa)
+vertek | XRS | Xauras | TGE 2026-01-01 | lending (lending-borrowing)
+hash-hunter | HNTR | Hash Hunter | TGE 2025-10-22 | bridges (cross-chain-communication)
+epicentral-labs | LABS | Epicentral Labs | TGE 2026-01-12 | options (decentralized-options)
+bynomo | BYNOMO | Bynomo | TGE 2026-03-26 | options (decentralized-options)
+pendulum-chain | PEN | Pendulum | TGE 2025-10-03 | dex (decentralized-exchange)
+izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)

@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-infinex-2 | INX | Infinex | TGE 2026-01-30 | perps (decentralized-perpetuals)
-o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
-izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)
-ranger | RNGR | Ranger | TGE 2026-01-10 | perps (decentralized-perpetuals)
-kaio | KAIO | KAIO | TGE 2026-05-06 | rwa (real-world-assets-rwa)
-seasons | SEAS | Seasons | TGE 2026-05-26 | rendement (yield-farming)
-k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
-degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
-pluto-3 | PLUTO | Pluto | TGE 2025-10-25 | perps (decentralized-perpetuals)
-hodlerrewards | REWARD | HodlerRewards | TGE 2026-02-21 | rendement (yield-farming)
+paradex | DIME | Paradex | TGE 2026-03-05 | dex (decentralized-exchange)
+rails | RAILS | Rails | TGE 2026-02-04 | perps (decentralized-perpetuals)
+r2protocol | R2 | R2 Protocol | TGE 2026-03-30 | rendement (yield-farming)
+evaa-protocol | EVAA | EVAA Protocol | TGE 2025-10-03 | lending (lending-borrowing)
+teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
+hybr | HYBR | HYBR | TGE 2026-06-22 | dex (decentralized-exchange)
+vultisig | VULT | Vultisig | TGE 2025-10-27 | bridges (cross-chain-communication)
+nexus-trading-labs | NEXUS | Nexus Trading Labs | TGE 2026-06-10 | perps (decentralized-perpetuals)
+gaib-said | SAID | GAIB sAID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
+topaz | TOPAZ | Topaz | TGE 2026-06-15 | dex (decentralized-exchange)

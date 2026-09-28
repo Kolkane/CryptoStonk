@@ -21,7 +21,6 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)
 zkclob | Z | zkCLOB | TGE 2025-11-12 | dex (decentralized-exchange)
 solstice | SLX | Solstice | TGE 2026-05-25 | rendement (yield-farming)
 spacex-reality-protocol | RSPCX | SpaceX (Reality Protocol) | TGE 2026-06-12 | rwa (real-world-assets-rwa)
@@ -31,3 +30,4 @@ momentum-3 | MMT | Momentum | TGE 2025-11-04 | dex (decentralized-exchange)
 autocompounding-voting-kat | AVKAT | Autocompounding Voting KAT | TGE 2026-03-28 | lsd_restaking (liquid-staking)
 lighter | LIT | Lighter | TGE 2025-12-30 | perps (decentralized-perpetuals)
 orbit-4 | ORBIT | Orbit | TGE 2026-05-02 | dex (decentralized-exchange)
+tx | TX | tx | TGE 2026-03-06 | rwa (real-world-assets-rwa)

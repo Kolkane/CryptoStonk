@@ -21,7 +21,6 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-victory-2 | VICTORY | VICTORY | TGE 2026-04-18 | dex (decentralized-exchange)
 trove | TROVE | Trove | TGE 2026-01-20 | perps (decentralized-perpetuals)
 zest-protocol | ZEST | Zest Protocol | TGE 2026-05-19 | lending (lending-borrowing)
 smilee | SMILEE | Smilee | TGE 2025-12-01 | lsd_restaking (liquid-staking)
@@ -31,3 +30,4 @@ meme-liquid | LIQUID | Meme Liquid | TGE 2026-02-08 | perps (decentralized-perpe
 hyperlend | HPL | HyperLend | TGE 2026-03-03 | lending (lending-borrowing)
 kaskad | KSKD | Kaskad | TGE 2026-06-08 | lending (lending-borrowing)
 echelon-token | ELON | Echelon Token | TGE 2026-02-02 | lending (lending-borrowing)
+steak-3 | STEAK | Steak | TGE 2026-06-15 | lsd_restaking (liquid-staking)

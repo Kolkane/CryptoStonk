@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-oooo | OOOO | oooo | TGE 2025-12-30 | bridges (cross-chain-communication)
-asset | ASSET | REAL | TGE 2026-04-30 | rwa (real-world-assets-rwa)
-nest-2 | NEST | NEST | TGE 2026-04-13 | dex (decentralized-exchange)
-lucky | LUCKY | LUCKY | TGE 2025-10-31 | rendement (yield-farming)
-vultisig | VULT | Vultisig | TGE 2025-10-27 | bridges (cross-chain-communication)
-nexus-trading-labs | NEXUS | Nexus Trading Labs | TGE 2026-06-10 | perps (decentralized-perpetuals)
-vertek | XRS | Xauras | TGE 2026-01-01 | lending (lending-borrowing)
 based-one | BASED | Based | TGE 2026-03-30 | perps (decentralized-perpetuals)
+vault-2 | V | Vault | TGE 2025-11-25 | lsd_restaking (liquid-staking)
+amara | AMARA | AMARA | TGE 2026-02-12 | perps (decentralized-perpetuals)
+infinex-2 | INX | Infinex | TGE 2026-01-30 | perps (decentralized-perpetuals)
+leverup | LV | LeverUp | TGE 2026-03-26 | perps (decentralized-perpetuals)
+kaio | KAIO | KAIO | TGE 2026-05-06 | rwa (real-world-assets-rwa)
+nemesis-2 | NEMESIS | Nemesis | TGE 2025-10-31 | perps (decentralized-perpetuals)
+asset | ASSET | REAL | TGE 2026-04-30 | rwa (real-world-assets-rwa)
 mantra | MANTRA | MANTRA | TGE 2026-03-03 | rwa (real-world-assets-rwa)
-pixie-dust | DUST | Pixie Dust | TGE 2025-12-17 | lending (lending-borrowing)
+draggable-aktionariat-ag | DAKS | Draggable Aktionariat AG | TGE 2026-04-15 | rwa (real-world-assets-rwa)

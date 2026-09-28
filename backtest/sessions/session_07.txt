@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-rails | RAILS | Rails | TGE 2026-02-04 | perps (decentralized-perpetuals)
 ylds | YLDS | YLDS | TGE 2025-11-14 | rwa (real-world-assets-rwa)
-nemesis-2 | NEMESIS | Nemesis | TGE 2025-10-31 | perps (decentralized-perpetuals)
-gaib-said | SAID | GAIB sAID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-r2protocol | R2 | R2 Protocol | TGE 2026-03-30 | rendement (yield-farming)
-lo0p | LO0P | LO0P | TGE 2026-05-10 | lending (lending-borrowing)
-amara | AMARA | AMARA | TGE 2026-02-12 | perps (decentralized-perpetuals)
-apriori-monad-lst | APRMON | aPriori Monad LST | TGE 2026-01-29 | lsd_restaking (liquid-staking)
-bynomo | BYNOMO | Bynomo | TGE 2026-03-26 | options (decentralized-options)
+emerald-security-token | EMRL.D | Emerald Security Token | TGE 2026-04-04 | rwa (real-world-assets-rwa)
+usa | USAT | USAT | TGE 2026-01-27 | rwa (real-world-assets-rwa)
+parquet | PARQ | Parquet | TGE 2026-06-07 | perps (decentralized-perpetuals)
+sigmadotmoney | SIGMA | SigmaDotMoney | TGE 2025-10-21 | perps (decentralized-perpetuals)
+degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
+spol | SPOL | sPOL | TGE 2026-04-25 | lsd_restaking (liquid-staking)
+ranger | RNGR | Ranger | TGE 2026-01-10 | perps (decentralized-perpetuals)
 edgex | EDGE | edgeX | TGE 2026-03-31 | dex (decentralized-exchange)
+pumpbank | PBANK | PUMPBANK | TGE 2026-01-01 | lending (lending-borrowing)

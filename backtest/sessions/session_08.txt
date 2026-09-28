@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-pumpbank | PBANK | PUMPBANK | TGE 2026-01-01 | lending (lending-borrowing)
 roll-2 | ROLL | ROLL | TGE 2026-01-16 | dex (decentralized-exchange)
 folks | FOLKS | FOLKS | TGE 2025-11-06 | lending (lending-borrowing)
-topaz | TOPAZ | Topaz | TGE 2026-06-15 | dex (decentralized-exchange)
-spol | SPOL | sPOL | TGE 2026-04-25 | lsd_restaking (liquid-staking)
+cypher-3 | CYPH | Cypher | TGE 2025-12-19 | dex (decentralized-exchange)
+oooo | OOOO | oooo | TGE 2025-12-30 | bridges (cross-chain-communication)
 zama | ZAMA | Zama | TGE 2026-02-02 | bridges (cross-chain-communication)
 genius-3 | GENIUS | Genius | TGE 2026-04-13 | perps (decentralized-perpetuals)
 paystream | PAYS | Paystream | TGE 2025-10-30 | lending (lending-borrowing)
-kayaknet | KNT | KayakNet | TGE 2026-01-21 | bridges (cross-chain-communication)
+perk | PERK | PERK | TGE 2026-03-30 | perps (decentralized-perpetuals)
 unitas | UP | Unitas | TGE 2026-03-14 | rendement (yield-farming)
+vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)

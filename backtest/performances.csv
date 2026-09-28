@@ -83,7 +83,7 @@ ABX;aborean;dex;2025-10-10;coingecko;2026-09-27;-81.7;-78.3;-93.3;-91.1;-98.4;-9
 ORBIT;orbit-4;dex;2026-05-02;coingecko;2026-09-27;-40.2;-36.5;-75.4;-70.3;;;partiel
 DUST;pixie-dust;lending;2025-12-17;coingecko;2026-09-27;59.0;45.9;-5.3;11.3;-32.5;-9.9;ok
 MAGPIE;permission-less-lending;lending;2026-06-03;coingecko;2026-09-27;-21.7;-15.1;-53.0;-60.1;;;partiel
-LABS;epicentral-labs;options;2026-01-12;coingecko;2026-09-27;-31.1;-9.1;-69.2;-61.6;-92.8;-89.8;ok
+LABS;epicentral-labs;options;2024-07-01;override:notation strat_02 (approx. : vesting depuis juil 2024, date CG = listing);2026-09-28;;;;;;;non_mesurable
 VICTORY;victory-2;dex;2026-04-18;coingecko;2026-09-27;-21.0;-21.3;-72.9;-67.2;;;partiel
 PARQ;parquet;perps;2026-06-07;coingecko;2026-09-27;-7.7;-12.2;-91.6;-93.6;;;partiel
 LIQUID;meme-liquid;perps;2026-02-08;coingecko;2026-09-27;-90.4;-90.3;-81.3;-83.9;-99.3;-99.3;ok
@@ -108,7 +108,6 @@ SAID;gaib-said;rwa;2026-01-27;coingecko;2026-07-05;;;9.1;22.4;;;partiel
 DAKS;draggable-aktionariat-ag;rwa;2026-04-15;coingecko;2026-09-23;11.3;2.0;-18.0;-2.2;;;partiel
 OOOO;oooo;bridges;2025-12-30;coingecko;2026-06-10;-93.8;-94.0;-99.8;-99.8;;;partiel
 SPOL;spol;lsd_restaking;2026-04-25;coingecko;2026-09-27;-2.0;-1.4;-17.7;-2.0;;;partiel
-APRMON;apriori-monad-lst;lsd_restaking;2026-01-29;coingecko;2026-09-27;-0.1;35.2;44.9;69.4;2.5;43.6;ok
 SMILEE;smilee;lsd_restaking;2025-12-01;coingecko;2026-09-25;-32.5;-31.0;-31.9;-8.2;-62.7;-54.2;ok
 STEAK;steak-3;lsd_restaking;2026-06-15;coingecko;2026-09-13;-95.0;-94.9;-94.2;-95.0;;;partiel
 PAYS;paystream;lending;2025-10-30;coingecko;2026-09-25;-29.5;-14.7;-22.5;-4.4;-50.9;-30.1;ok

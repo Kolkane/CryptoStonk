@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **117** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **77**.
+- Tokens ciblés : **116** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **75**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 115 | 0 | 0 | 1 | 1 |
-| J+90 | 112 | 0 | 0 | 4 | 1 |
-| J+180 | 78 | 31 | 3 | 4 | 1 |
+| J+30 | 113 | 0 | 0 | 1 | 2 |
+| J+90 | 110 | 0 | 0 | 4 | 2 |
+| J+180 | 76 | 31 | 3 | 4 | 2 |
 
 Tokens incomplets et diagnostic :
 
@@ -44,6 +44,7 @@ Tokens incomplets et diagnostic :
 | HYBR | dex | 2026-06-22 | 2026-09-27 | J+180 : pas encore écoulée |
 | ORBIT | dex | 2026-05-02 | 2026-09-27 | J+180 : pas encore écoulée |
 | MAGPIE | lending | 2026-06-03 | 2026-09-27 | J+180 : pas encore écoulée |
+| LABS | options | 2024-07-01 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | VICTORY | dex | 2026-04-18 | 2026-09-27 | J+180 : pas encore écoulée |
 | PARQ | perps | 2026-06-07 | 2026-09-27 | J+180 : pas encore écoulée |
 | REWARD | rendement | 2026-02-21 | 2026-09-27 | J+90 : trou de données; J+180 : trou de données |
@@ -73,19 +74,19 @@ Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 890 318 $ |
-| Piku Finance | PIKU | rendement | 19 168 653 $ |
+| Sierra Protocol | SIERRA | rendement | 44 889 475 $ |
+| Piku Finance | PIKU | rendement | 19 142 650 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
-| Ledgity Yield | LDY | rendement | 2 470 064 $ |
-| Omnipair | OMFG | lending | 670 408 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 608 786 $ |
-| DIEM Relay | DIEM | lsd_restaking | 510 416 $ |
-| Everything | EV | lending | 367 380 $ |
-| Pepu Bridge | PEPU | bridges | 301 659 $ |
+| Ledgity Yield | LDY | rendement | 2 471 026 $ |
+| Omnipair | OMFG | lending | 658 809 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 607 807 $ |
+| DIEM Relay | DIEM | lsd_restaking | 512 849 $ |
+| Everything | EV | lending | 368 437 $ |
+| Pepu Bridge | PEPU | bridges | 301 620 $ |
 | Ripe Protocol | RIPE | lending | 164 338 $ |
-| Alvara | ALVA | rendement | 13 762 $ |
+| Alvara | ALVA | rendement | 13 482 $ |
 | Juris Protocol | JURIS | lending | 6 545 $ |
-| PrimeFi | PRFI | lending | 2 771 $ |
+| PrimeFi | PRFI | lending | 2 752 $ |
 | Defimarketplus | DMTP | rendement | 1 388 $ |
 | Edel | EDEL | lending | 873 $ |
 
@@ -95,19 +96,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 112 | -99.8 % | -45.5 % | +2702.1 % | 23 % |
-| Avec morts imputés -100 % | 112 | -99.8 % | -45.5 % | +2702.1 % | 23 % |
+| Survivants (mesuré) | 110 | -99.8 % | -45.5 % | +2702.1 % | 23 % |
+| Avec morts imputés -100 % | 110 | -99.8 % | -45.5 % | +2702.1 % | 23 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -22.4 %, 29 % positifs (115 mesurés).
-Complément J+180 : médiane -59.1 %, 21 % positifs (78 mesurés) ; avec 5 mort(s) imputé(s) : médiane -64.6 %, 19 % positifs (83).
+Complément J+30 : médiane -29.2 %, 28 % positifs (113 mesurés).
+Complément J+180 : médiane -59.1 %, 20 % positifs (76 mesurés) ; avec 5 mort(s) imputé(s) : médiane -64.6 %, 19 % positifs (81).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (112 sur 117).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (110 sur 116).
 - Garder les 8 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.

@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-hybr | HYBR | HYBR | TGE 2026-06-22 | dex (decentralized-exchange)
 sharex-2 | SHARE | ShareX | TGE 2026-05-08 | rwa (real-world-assets-rwa)
-permission-less-lending | MAGPIE | Magpie | TGE 2026-06-03 | lending (lending-borrowing)
+pixie-dust | DUST | Pixie Dust | TGE 2025-12-17 | lending (lending-borrowing)
 humidifi | WET | HumidiFi | TGE 2025-12-09 | dex (decentralized-exchange)
 cap-4 | CAP | Cap | TGE 2026-06-26 | lending (lending-borrowing)
-mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
+hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
 apriori | APR | Capricorn | TGE 2025-10-23 | lsd_restaking (liquid-staking)
 turtle-4 | TURTLE | Turtle | TGE 2025-10-22 | rendement (yield-farming)
-obsidian-2 | OBS | Obsidian | TGE 2025-10-19 | dex (decentralized-exchange)
+pumpperps | PUMPPERPS | PumpPerps | TGE 2026-03-30 | perps (decentralized-perpetuals)
 cygnus-2 | CGN | Cygnus | TGE 2025-10-23 | lsd_restaking (restaking)
+confidential-layer | CLONE | Confidential Layer | TGE 2025-12-10 | bridges (bridge-governance-tokens)

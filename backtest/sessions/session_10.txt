@@ -21,7 +21,6 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-tx | TX | tx | TGE 2026-03-06 | rwa (real-world-assets-rwa)
 a-t-m-by-basevol | ATM | A.T.M. by BaseVol | TGE 2025-10-23 | options (decentralized-options)
 aborean | ABX | Aborean | TGE 2025-10-10 | dex (decentralized-exchange)
 alt | ALT | ALT | TGE 2026-05-17 | perps (decentralized-perpetuals)
@@ -31,3 +30,4 @@ bitway | BTW | Bitway | TGE 2026-03-03 | rendement (yield-farming)
 streamex-gldy | GLDY | Streamex GLDY | TGE 2026-03-18 | rwa (real-world-assets-rwa)
 collect-on-fanable | COLLECT | Collect on Fanable | TGE 2025-12-29 | rwa (real-world-assets-rwa)
 kodiak-finance | KDK | Kodiak Finance | TGE 2025-12-24 | perps (decentralized-perpetuals)
+victory-2 | VICTORY | VICTORY | TGE 2026-04-18 | dex (decentralized-exchange)

@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-pumpperps | PUMPPERPS | PumpPerps | TGE 2026-03-30 | perps (decentralized-perpetuals)
-hash-hunter | HNTR | Hash Hunter | TGE 2025-10-22 | bridges (cross-chain-communication)
-crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
-hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
-evaa-protocol | EVAA | EVAA Protocol | TGE 2025-10-03 | lending (lending-borrowing)
-leverup | LV | LeverUp | TGE 2026-03-26 | perps (decentralized-perpetuals)
-paradex | DIME | Paradex | TGE 2026-03-05 | dex (decentralized-exchange)
+lsd-2 | LSD | LSD | TGE 2026-01-10 | lsd_restaking (liquid-staking)
+lucky | LUCKY | LUCKY | TGE 2025-10-31 | rendement (yield-farming)
+k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
+nest-2 | NEST | NEST | TGE 2026-04-13 | dex (decentralized-exchange)
+flap-futures | FFX | Flap Futures | TGE 2026-04-01 | perps (decentralized-perpetuals)
+mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
 gaib-aid | AID | GAIB AID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-cypher-3 | CYPH | Cypher | TGE 2025-12-19 | dex (decentralized-exchange)
-parquet | PARQ | Parquet | TGE 2026-06-07 | perps (decentralized-perpetuals)
+crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
+o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
+kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
