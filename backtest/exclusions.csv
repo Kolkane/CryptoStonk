@@ -3,3 +3,5 @@ vertek;id CoinGecko recyclé (ex-DEX Vertek 2023 -> Xauras) : historique de prix
 emerald-security-token;security token Reg A adossé à des émeraudes : titre financier tokenisé, hors périmètre (notation strat_04)
 verified-emeralds;commodity token émeraudes famille PAXG, pas un protocole : hors périmètre (notation strat_04)
 spacex-backpack-securities;action SpaceX pre-IPO tokenisée (Backpack Securities), famille xStocks : hors périmètre (notation session_01)
+goldfish-gold;stablecoin adossé à l'or physique, commodity token famille émeraudes : hors périmètre (notation session_02)
+gaib-aid;dollar synthétique de GAIB (instrument, le token de projet est GAIB) : hors périmètre (notation session_02)
