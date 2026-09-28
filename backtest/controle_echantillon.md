@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **109** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **69**.
+- Tokens ciblés : **106** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **68**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 105 | 0 | 0 | 0 | 4 |
-| J+90 | 101 | 0 | 0 | 4 | 4 |
-| J+180 | 70 | 29 | 2 | 4 | 4 |
+| J+30 | 101 | 0 | 0 | 0 | 5 |
+| J+90 | 97 | 0 | 0 | 4 | 5 |
+| J+180 | 69 | 26 | 2 | 4 | 5 |
 
 Tokens incomplets et diagnostic :
 
@@ -30,7 +30,6 @@ Tokens incomplets et diagnostic :
 | SODA | dex | 2025-12-01 | 2026-09-27 | J+180 : trou de données |
 | SHARE | rwa | 2026-05-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | KAIO | rwa | 2026-05-06 | 2026-09-27 | J+180 : pas encore écoulée |
-| RSPCX | rwa | 2026-06-12 | 2026-09-27 | J+180 : pas encore écoulée |
 | NVPRIME | rwa | 2026-05-15 | 2026-09-27 | J+180 : pas encore écoulée |
 | LV | perps | 2025-12-18 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | NEST | dex | 2026-04-13 | 2026-09-27 | J+180 : pas encore écoulée |
@@ -56,9 +55,8 @@ Tokens incomplets et diagnostic :
 | TROVE | perps | 2026-01-20 | 2026-06-03 | J+90 : trou de données; J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
 | DAKS | rwa | 2026-04-15 | 2026-09-23 | J+180 : pas encore écoulée |
 | OOOO | bridges | 2025-12-30 | 2026-06-10 | J+180 : série arrêtée — **mort probable, fenêtres post-mortem imputées -100 %** |
-| SPOL | lsd_restaking | 2026-04-25 | 2026-09-27 | J+180 : pas encore écoulée |
 | STEAK | lsd_restaking | 2026-06-15 | 2026-09-13 | J+180 : pas encore écoulée — **mort probable, fenêtres post-mortem imputées -100 %** |
-| SEAS | rendement | 2026-05-26 | 2026-09-27 | J+180 : pas encore écoulée |
+| SEAS | rendement | 2025-12-09 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 
 ## 2. Biais du survivant
 
@@ -73,19 +71,19 @@ Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 901 377 $ |
-| Piku Finance | PIKU | rendement | 19 296 902 $ |
+| Sierra Protocol | SIERRA | rendement | 44 902 369 $ |
+| Piku Finance | PIKU | rendement | 19 284 578 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
-| Ledgity Yield | LDY | rendement | 2 468 624 $ |
-| Omnipair | OMFG | lending | 652 723 $ |
-| DIEM Relay | DIEM | lsd_restaking | 609 611 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 605 377 $ |
-| Everything | EV | lending | 368 273 $ |
-| Pepu Bridge | PEPU | bridges | 301 519 $ |
-| Ripe Protocol | RIPE | lending | 164 655 $ |
-| Alvara | ALVA | rendement | 13 482 $ |
+| Ledgity Yield | LDY | rendement | 2 468 149 $ |
+| Omnipair | OMFG | lending | 658 638 $ |
+| DIEM Relay | DIEM | lsd_restaking | 612 464 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 582 243 $ |
+| Everything | EV | lending | 368 289 $ |
+| Pepu Bridge | PEPU | bridges | 300 068 $ |
+| Ripe Protocol | RIPE | lending | 164 914 $ |
+| Alvara | ALVA | rendement | 13 636 $ |
 | Juris Protocol | JURIS | lending | 6 514 $ |
-| PrimeFi | PRFI | lending | 2 752 $ |
+| PrimeFi | PRFI | lending | 4 346 $ |
 | Defimarketplus | DMTP | rendement | 1 388 $ |
 | Edel | EDEL | lending | 873 $ |
 
@@ -95,19 +93,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 101 | -99.8 % | -51.2 % | +2702.1 % | 21 % |
-| Avec morts imputés -100 % | 101 | -99.8 % | -51.2 % | +2702.1 % | 21 % |
+| Survivants (mesuré) | 97 | -99.8 % | -56.4 % | +2702.1 % | 21 % |
+| Avec morts imputés -100 % | 97 | -99.8 % | -56.4 % | +2702.1 % | 21 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -31.0 %, 28 % positifs (105 mesurés).
-Complément J+180 : médiane -59.1 %, 19 % positifs (70 mesurés) ; avec 3 mort(s) imputé(s) : médiane -64.4 %, 18 % positifs (73).
+Complément J+30 : médiane -32.5 %, 27 % positifs (101 mesurés).
+Complément J+180 : médiane -60.5 %, 17 % positifs (69 mesurés) ; avec 3 mort(s) imputé(s) : médiane -64.5 %, 17 % positifs (72).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (101 sur 109).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (97 sur 106).
 - Garder les 6 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.

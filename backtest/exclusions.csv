@@ -6,3 +6,6 @@ spacex-backpack-securities;action SpaceX pre-IPO tokenisée (Backpack Securities
 goldfish-gold;stablecoin adossé à l'or physique, commodity token famille émeraudes : hors périmètre (notation session_02)
 gaib-aid;dollar synthétique de GAIB (instrument, le token de projet est GAIB) : hors périmètre (notation session_02)
 gaib-said;sAID = staked AID, dérivé du dollar synthétique de GAIB, instrument, même famille que gaib-aid purgé : hors périmètre (décision 2026-09-28)
+usa;USAT, stablecoin US de Tether (Anchorage Digital Bank) : instrument hors périmètre (notation session_03)
+spacex-reality-protocol;action SpaceX pre-IPO tokenisée via Reality Protocol, famille xStocks : hors périmètre (notation session_03)
+spol;sPOL, LST natif de POL émis par Polygon Labs : instrument, famille APRMON : hors périmètre (notation session_03)

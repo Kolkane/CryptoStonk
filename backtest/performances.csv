@@ -5,7 +5,6 @@ YLDS;ylds;rwa;2025-11-14;coingecko;2026-09-27;0.0;10.2;0.0;48.3;-0.0;23.6;ok
 EDGE;edgex;dex;2026-03-31;coingecko;2026-09-27;122.3;95.6;-47.9;-41.6;15.5;-8.8;ok
 ZAMA;zama;bridges;2026-02-02;coingecko;2026-09-27;-40.0;-32.5;-21.0;-22.8;52.3;86.5;ok
 MET;meteora;dex;2025-10-23;coingecko;2026-09-27;-53.5;-41.2;-62.9;-54.9;-78.6;-69.6;ok
-USAT;usa;rwa;2026-01-27;coingecko;2026-09-27;0.0;30.1;0.0;12.2;-0.0;37.1;ok
 GENIUS;genius-3;perps;2026-04-13;coingecko;2026-09-27;18.5;4.1;-27.8;-20.0;;;partiel
 NOPAL;nest-blackopal-liquidstone-ii-vault;rwa;2025-12-23;coingecko;2026-09-27;0.9;-0.2;2.9;34.0;4.6;44.0;ok
 KNTQ;kinetiq;lsd_restaking;2025-11-27;coingecko;2026-09-27;-63.5;-62.1;-25.3;5.5;18.5;38.9;ok
@@ -33,7 +32,6 @@ GLDY;streamex-gldy;rwa;2026-03-18;coingecko;2026-09-27;-4.3;-5.7;-13.8;-3.8;-13.
 ROLL;roll-2;dex;2026-01-16;coingecko;2026-09-27;15.6;58.3;-18.0;4.8;-32.8;-1.1;ok
 SHARE;sharex-2;rwa;2026-05-08;coingecko;2026-09-27;-67.9;-57.8;-56.1;-45.6;;;partiel
 KAIO;kaio;rwa;2026-05-06;coingecko;2026-09-27;-78.3;-72.5;-89.0;-85.9;;;partiel
-RSPCX;spacex-reality-protocol;rwa;2026-06-12;coingecko;2026-09-27;-14.2;-14.5;-7.8;-25.2;;;partiel
 COLLECT;collect-on-fanable;rwa;2025-12-29;coingecko;2026-09-27;105.1;102.1;-1.9;29.8;-0.7;45.3;ok
 CLO;yei-finance;bridges;2025-10-14;coingecko;2026-09-27;51.3;71.6;441.4;586.7;-34.6;3.3;ok
 NVPRIME;nuva-nvprime;rwa;2026-05-15;coingecko;2026-09-27;0.5;26.5;1.6;29.8;;;partiel
@@ -100,11 +98,10 @@ BYNOMO;bynomo;options;2026-03-26;coingecko;2026-09-25;-90.8;-91.5;-97.9;-97.6;-9
 PGOLD;pleasing-gold;rwa;2025-10-30;coingecko;2026-09-25;5.3;27.5;29.2;59.4;17.3;66.9;ok
 DAKS;draggable-aktionariat-ag;rwa;2026-04-15;coingecko;2026-09-23;11.3;2.0;-18.0;-2.2;;;partiel
 OOOO;oooo;bridges;2025-12-30;coingecko;2026-06-10;-93.8;-94.0;-99.8;-99.8;;;partiel
-SPOL;spol;lsd_restaking;2026-04-25;coingecko;2026-09-27;-2.0;-1.4;-17.7;-2.0;;;partiel
 SMILEE;smilee;lsd_restaking;2025-12-01;coingecko;2026-09-25;-32.5;-31.0;-31.9;-8.2;-62.7;-54.2;ok
 STEAK;steak-3;lsd_restaking;2026-06-15;coingecko;2026-09-13;-95.0;-94.9;-94.2;-95.0;;;partiel
 PAYS;paystream;lending;2025-10-30;coingecko;2026-09-25;-29.5;-14.7;-22.5;-4.4;-50.9;-30.1;ok
 PBANK;pumpbank;lending;2026-01-01;coingecko;2026-09-25;-97.2;-97.1;-98.6;-98.3;-98.7;-98.2;ok
 IZKY;izky;lending;2025-12-01;coingecko;2026-09-07;85.9;90.1;97.7;166.6;15.3;41.8;ok
 TEA;teafi-token;dex;2025-11-03;coingecko;2026-06-27;-63.7;-56.1;-85.5;-79.7;-99.5;-99.2;ok
-SEAS;seasons;rendement;2026-05-26;coingecko;2026-09-27;-18.2;3.6;-27.6;-28.1;;;partiel
+SEAS;seasons;rendement;2025-12-09;override:notation session_03 (approx. : ATL CoinMarketCap du 09/12/2025, listing CoinGecko tardif);2026-09-28;;;;;;;non_mesurable
