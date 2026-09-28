@@ -56,7 +56,7 @@ V;vault-2;lsd_restaking;2025-11-25;coingecko;2026-09-27;-13.1;-12.5;-42.4;-22.0;
 VOOI;vooi;perps;2025-12-18;coingecko;2026-09-27;-90.8;-91.7;-95.0;-94.2;-96.5;-95.5;ok
 SWAP;hyperswap;dex;2025-10-21;coingecko;2026-09-27;-68.4;-61.7;-87.9;-85.7;-84.4;-77.3;ok
 MEZO;mezo;lending;2026-04-01;coingecko;2026-09-27;-60.1;-64.4;-88.2;-86.7;;;partiel
-PEN;pendulum-chain;dex;2025-10-03;coingecko;2026-09-27;8.0;18.3;63.8;125.4;113.7;278.1;ok
+PEN;pendulum-chain;dex;2023-03-13;override:notation strat_03 (transferabilite + listing MEXC 13/03/2023, Chainwire d'epoque);2026-09-28;;;;;;;non_mesurable
 LUCKY;lucky;rendement;2025-10-31;coingecko;2026-09-27;-21.8;-6.7;-65.2;-57.7;-77.9;-68.6;ok
 KDK;kodiak-finance;perps;2025-12-24;coingecko;2026-09-27;-44.6;-45.8;-37.6;-23.1;-59.2;-43.6;ok
 OBS;obsidian-2;dex;2025-10-19;coingecko;2026-09-27;-55.4;-48.1;-36.5;-28.7;-52.9;-32.7;ok
