@@ -98,16 +98,37 @@ def main():
               "Claude.ai, collez les réponses dans backtest/notes/<session>.csv")
         return
 
-    notes = {}
+    par_id = {}
     for fichier in fichiers:
         for note in lire_csv(fichier):
             identifiant = (note.get("id_coingecko") or "").strip()
             if not identifiant:
                 print(f"  ! {fichier.name} : ligne sans id_coingecko ignorée")
                 continue
-            if identifiant in notes:
-                print(f"  ! {identifiant} noté deux fois, la dernière note gagne ({fichier.name})")
-            notes[identifiant] = note
+            par_id.setdefault(identifiant, []).append((fichier.name, note))
+
+    # un même id noté plusieurs fois : toléré seulement si les notes sont identiques —
+    # toute divergence est une erreur à résoudre à la main, jamais silencieusement
+    champs_notation = ("produit_live", "traction_tge", "float_initial_pct",
+                       "fees_vers_token", "backers", "confiance")
+
+    def normalise(note, champ):
+        return str(note.get(champ) or "").strip().lower().replace(",", ".")
+
+    notes, conflits = {}, []
+    for identifiant, versions in par_id.items():
+        premier_fichier, reference = versions[0]
+        for nom_fichier, note in versions[1:]:
+            divergents = [c for c in champs_notation
+                          if normalise(note, c) != normalise(reference, c)]
+            if divergents:
+                conflits.append((identifiant, premier_fichier, nom_fichier, divergents))
+        notes[identifiant] = reference
+    if conflits:
+        print("CONFLITS de notation — résolvez à la main avant analyse :")
+        for identifiant, f1, f2, divergents in conflits:
+            print(f"  {identifiant} : {f1} vs {f2} — divergent sur {', '.join(divergents)}")
+        sys.exit(1)
 
     seuil_mort = (date.today() - timedelta(days=JOURS_SANS_COTATION_MORT)).isoformat()
     j90 = {}

@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-sharex-2 | SHARE | ShareX | TGE 2026-05-08 | rwa (real-world-assets-rwa)
-draggable-aktionariat-ag | DAKS | Draggable Aktionariat AG | TGE 2026-04-15 | rwa (real-world-assets-rwa)
-humidifi | WET | HumidiFi | TGE 2025-12-09 | dex (decentralized-exchange)
-cap-4 | CAP | Cap | TGE 2026-06-26 | lending (lending-borrowing)
-a-t-m-by-basevol | ATM | A.T.M. by BaseVol | TGE 2025-10-23 | options (decentralized-options)
-apriori | APR | Capricorn | TGE 2025-10-23 | lsd_restaking (liquid-staking)
-vultisig | VULT | Vultisig | TGE 2025-10-27 | bridges (cross-chain-communication)
-obsidian-2 | OBS | Obsidian | TGE 2025-10-19 | dex (decentralized-exchange)
-flap-futures | FFX | Flap Futures | TGE 2026-04-01 | perps (decentralized-perpetuals)
-cypher-3 | CYPH | Cypher | TGE 2025-12-19 | dex (decentralized-exchange)
+alt | ALT | ALT | TGE 2026-05-17 | perps (decentralized-perpetuals)
+genius-3 | GENIUS | Genius | TGE 2026-04-13 | perps (decentralized-perpetuals)
+nuva-nvprime | NVPRIME | NUVA nvPRIME | TGE 2026-05-15 | rwa (real-world-assets-rwa)
+zkclob | Z | zkCLOB | TGE 2025-11-12 | dex (decentralized-exchange)
+crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
+teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
+zama | ZAMA | Zama | TGE 2026-02-02 | bridges (cross-chain-communication)
+hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
+nexus-trading-labs | NEXUS | Nexus Trading Labs | TGE 2026-06-10 | perps (decentralized-perpetuals)
+vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)

@@ -44,6 +44,12 @@ def score_tokenomics(c):
     if str(tk.get("token_lance") or "non").lower() == "non":
         return 70  # pas de token : optionnalité points, pas de bagholders — à réévaluer au TGE
     score = 0
+    # TODO réforme float (bilan stratifié 2026-09-28, backtest/notes/strat_01-04) :
+    # le seuil binaire « >= 15 % favorable » est inversé sur l'échantillon backtest —
+    # les 3 gagnants notés (NEST 3,5 %, CLO 12,9 %, UP 14,6 %) sont sous 15 %, et les
+    # tokens fantômes à 100 % de float finissent à -95/-100 % vs BTC. Piste : notation
+    # en cloche (pénaliser les deux extrêmes : très bas = risque d'unlocks, ~100 % =
+    # tout déjà dehors). Décision après le passage complet des sessions.
     if (tk.get("float_lancement_pct") or 0) >= 15:
         score += 40
     if (tk.get("unlocks_12m_pct") if tk.get("unlocks_12m_pct") is not None else 100) <= 20:

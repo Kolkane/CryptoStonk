@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-meteora | MET | Meteora | TGE 2025-10-23 | dex (decentralized-exchange)
-katana-network-token | KAT | Katana | TGE 2026-03-18 | rendement (yield-farming)
-yei-finance | CLO | Yei Finance | TGE 2025-10-14 | bridges (cross-chain-communication)
-confidential-layer | CLONE | Confidential Layer | TGE 2025-12-10 | bridges (bridge-governance-tokens)
-kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
-sigmadotmoney | SIGMA | SigmaDotMoney | TGE 2025-10-21 | perps (decentralized-perpetuals)
-pleasing-gold | PGOLD | Pleasing Gold | TGE 2025-10-30 | rwa (real-world-assets-rwa)
-goldfish-gold | GGBR | Goldfish Gold | TGE 2026-02-27 | rwa (real-world-assets-rwa)
-crackrock | CRACKROCK | CrackRock | TGE 2026-04-29 | perps (decentralized-perpetuals)
-ylds | YLDS | YLDS | TGE 2025-11-14 | rwa (real-world-assets-rwa)
+meme-liquid | LIQUID | Meme Liquid | TGE 2026-02-08 | perps (decentralized-perpetuals)
+aborean | ABX | Aborean | TGE 2025-10-10 | dex (decentralized-exchange)
+cap-4 | CAP | Cap | TGE 2026-06-26 | lending (lending-borrowing)
+pumpperps | PUMPPERPS | PumpPerps | TGE 2026-03-30 | perps (decentralized-perpetuals)
+paystream | PAYS | Paystream | TGE 2025-10-30 | lending (lending-borrowing)
+cypher-3 | CYPH | Cypher | TGE 2025-12-19 | dex (decentralized-exchange)
+mezo | MEZO | MEZO | TGE 2026-04-01 | lending (lending-borrowing)
+a-t-m-by-basevol | ATM | A.T.M. by BaseVol | TGE 2025-10-23 | options (decentralized-options)
+sodax | SODA | SODAX | TGE 2025-12-01 | dex (decentralized-exchange)
+nest-blackopal-liquidstone-ii-vault | NOPAL | Nest BlackOpal LiquidStone II Vault | TGE 2025-12-23 | rwa (real-world-assets-rwa)

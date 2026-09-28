@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-based-one | BASED | Based | TGE 2026-03-30 | perps (decentralized-perpetuals)
-vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)
-nexus-trading-labs | NEXUS | Nexus Trading Labs | TGE 2026-06-10 | perps (decentralized-perpetuals)
-infinex-2 | INX | Infinex | TGE 2026-01-30 | perps (decentralized-perpetuals)
-nest-2 | NEST | NEST | TGE 2026-04-13 | dex (decentralized-exchange)
-kaio | KAIO | KAIO | TGE 2026-05-06 | rwa (real-world-assets-rwa)
-victory-2 | VICTORY | VICTORY | TGE 2026-04-18 | dex (decentralized-exchange)
-asset | ASSET | REAL | TGE 2026-04-30 | rwa (real-world-assets-rwa)
-mantra | MANTRA | MANTRA | TGE 2026-03-03 | rwa (real-world-assets-rwa)
-oooo | OOOO | oooo | TGE 2025-12-30 | bridges (cross-chain-communication)
+permission-less-lending | MAGPIE | Magpie | TGE 2026-06-03 | lending (lending-borrowing)
+hybr | HYBR | HYBR | TGE 2026-06-22 | dex (decentralized-exchange)
+goldfish-gold | GGBR | Goldfish Gold | TGE 2026-02-27 | rwa (real-world-assets-rwa)
+confidential-layer | CLONE | Confidential Layer | TGE 2025-12-10 | bridges (bridge-governance-tokens)
+ranger | RNGR | Ranger | TGE 2026-01-10 | perps (decentralized-perpetuals)
+folks | FOLKS | FOLKS | TGE 2025-11-06 | lending (lending-borrowing)
+humidifi | WET | HumidiFi | TGE 2025-12-09 | dex (decentralized-exchange)
+kodiak-finance | KDK | Kodiak Finance | TGE 2025-12-24 | perps (decentralized-perpetuals)
+kyros | KYROS | Kyros | TGE 2025-10-15 | lsd_restaking (restaking)
+gaib-aid | AID | GAIB AID | TGE 2026-01-27 | rwa (real-world-assets-rwa)

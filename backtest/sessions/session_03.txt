@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-zkclob | Z | zkCLOB | TGE 2025-11-12 | dex (decentralized-exchange)
-kodiak-finance | KDK | Kodiak Finance | TGE 2025-12-24 | perps (decentralized-perpetuals)
-hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
+seasons | SEAS | Seasons | TGE 2026-05-26 | rendement (yield-farming)
+victory-2 | VICTORY | VICTORY | TGE 2026-04-18 | dex (decentralized-exchange)
 evaa-protocol | EVAA | EVAA Protocol | TGE 2025-10-03 | lending (lending-borrowing)
-degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
-pendulum-chain | PEN | Pendulum | TGE 2025-10-03 | dex (decentralized-exchange)
-gaib-aid | AID | GAIB AID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-parquet | PARQ | Parquet | TGE 2026-06-07 | perps (decentralized-perpetuals)
-o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
-kyo | KYO | Kyo | TGE 2025-12-10 | bridges (cross-chain-communication)
+usa | USAT | USAT | TGE 2026-01-27 | rwa (real-world-assets-rwa)
+nest-3 | NEST | Nest | TGE 2026-06-20 | lending (lending-borrowing)
+spacex-reality-protocol | RSPCX | SpaceX (Reality Protocol) | TGE 2026-06-12 | rwa (real-world-assets-rwa)
+turtle-4 | TURTLE | Turtle | TGE 2025-10-22 | rendement (yield-farming)
+sigmadotmoney | SIGMA | SigmaDotMoney | TGE 2025-10-21 | perps (decentralized-perpetuals)
+trove | TROVE | Trove | TGE 2026-01-20 | perps (decentralized-perpetuals)
+spol | SPOL | sPOL | TGE 2026-04-25 | lsd_restaking (liquid-staking)

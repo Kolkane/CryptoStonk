@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
-pumpperps | PUMPPERPS | PumpPerps | TGE 2026-03-30 | perps (decentralized-perpetuals)
-kayaknet | KNT | KayakNet | TGE 2026-01-21 | bridges (cross-chain-communication)
-kaskad | KSKD | Kaskad | TGE 2026-06-08 | lending (lending-borrowing)
+pixie-dust | DUST | Pixie Dust | TGE 2025-12-17 | lending (lending-borrowing)
+apriori | APR | Capricorn | TGE 2025-10-23 | lsd_restaking (liquid-staking)
+topaz | TOPAZ | Topaz | TGE 2026-06-15 | dex (decentralized-exchange)
+o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
+orbit-4 | ORBIT | Orbit | TGE 2026-05-02 | dex (decentralized-exchange)
+owlto-finance | OWL | Owlto Finance | TGE 2026-01-15 | bridges (cross-chain-communication)
+degen-perp-dex | PDGN | Degen Perp Dex | TGE 2025-10-14 | perps (decentralized-perpetuals)
+roll-2 | ROLL | ROLL | TGE 2026-01-16 | dex (decentralized-exchange)
 spacex-backpack-securities | SPCX | SpaceX (Backpack Securities) | TGE 2026-06-12 | rwa (real-world-assets-rwa)
-lsd-2 | LSD | LSD | TGE 2026-01-10 | lsd_restaking (liquid-staking)
-nemesis-2 | NEMESIS | Nemesis | TGE 2025-10-31 | perps (decentralized-perpetuals)
-bynomo | BYNOMO | Bynomo | TGE 2026-03-26 | options (decentralized-options)
-lucky | LUCKY | LUCKY | TGE 2025-10-31 | rendement (yield-farming)
-echelon-token | ELON | Echelon Token | TGE 2026-02-02 | lending (lending-borrowing)
+obsidian-2 | OBS | Obsidian | TGE 2025-10-19 | dex (decentralized-exchange)

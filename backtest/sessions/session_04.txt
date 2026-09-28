@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
-paradex | DIME | Paradex | TGE 2026-03-05 | dex (decentralized-exchange)
-nest-3 | NEST | Nest | TGE 2026-06-20 | lending (lending-borrowing)
-trove | TROVE | Trove | TGE 2026-01-20 | perps (decentralized-perpetuals)
-ramses | RAM | Ramses | TGE 2025-11-15 | dex (decentralized-exchange)
-seasons | SEAS | Seasons | TGE 2026-05-26 | rendement (yield-farming)
-k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
-leverup | LV | LeverUp | TGE 2026-03-26 | perps (decentralized-perpetuals)
-pluto-3 | PLUTO | Pluto | TGE 2025-10-25 | perps (decentralized-perpetuals)
+meteora | MET | Meteora | TGE 2025-10-23 | dex (decentralized-exchange)
+lighter | LIT | Lighter | TGE 2025-12-30 | perps (decentralized-perpetuals)
+solstice | SLX | Solstice | TGE 2026-05-25 | rendement (yield-farming)
 hodlerrewards | REWARD | HodlerRewards | TGE 2026-02-21 | rendement (yield-farming)
-hybr | HYBR | HYBR | TGE 2026-06-22 | dex (decentralized-exchange)
+pleasing-gold | PGOLD | Pleasing Gold | TGE 2025-10-30 | rwa (real-world-assets-rwa)
+rails | RAILS | Rails | TGE 2026-02-04 | perps (decentralized-perpetuals)
+kaio | KAIO | KAIO | TGE 2026-05-06 | rwa (real-world-assets-rwa)
+ylds | YLDS | YLDS | TGE 2025-11-14 | rwa (real-world-assets-rwa)
+edgex | EDGE | edgeX | TGE 2026-03-31 | dex (decentralized-exchange)
+nemesis-2 | NEMESIS | Nemesis | TGE 2025-10-31 | perps (decentralized-perpetuals)

@@ -10,6 +10,8 @@ Garde-fous méthodo :
   ticker, nom, date de TGE et catégorie. Les performances restent dans
   performances.csv et n'entrent JAMAIS dans une session.
 - Ordre aléatoire à graine fixe (GRAINE), lots de 10, reproductibles.
+- Sessions complètes : les tokens déjà notés (backtest/notes/*.csv) sont exclus,
+  leurs notes stratifiées sont réutilisées telles quelles à l'analyse.
 - --stratifie : 40 tokens (10 meilleurs J+90 rel. BTC, 10 pires — morts imputés
   à -100 % compris —, 20 tirés au sort dans le reste), REMÉLANGÉS avant découpe
   pour qu'aucune session ne trahisse son groupe d'origine. La stratification
@@ -76,6 +78,16 @@ def valeur_j90(ligne, seuil_mort):
     return None
 
 
+def ids_deja_notes():
+    dossier = RACINE / "backtest" / "notes"
+    if not dossier.exists():
+        return set()
+    notes = set()
+    for fichier in dossier.glob("*.csv"):
+        notes |= {(l.get("id_coingecko") or "").strip() for l in lire_csv(fichier)}
+    return notes - {""}
+
+
 def selection_stratifiee(echantillon, rng):
     """10 meilleurs + 10 pires J+90 rel. BTC (morts imputés compris) + 20 au sort."""
     perfs = lire_csv(RACINE / "backtest" / "performances.csv")
@@ -128,7 +140,11 @@ def main():
         tokens = selection_stratifiee(echantillon, rng)
         prefixe = "strat"
     else:
-        tokens = list(echantillon)
+        deja = ids_deja_notes()
+        tokens = [t for t in echantillon if t["id_coingecko"] not in deja]
+        if len(tokens) < len(echantillon):
+            print(f"{len(echantillon) - len(tokens)} token(s) déjà noté(s), exclus "
+                  f"des sessions complètes (notes réutilisées à l'analyse)")
         prefixe = "session"
     rng.shuffle(tokens)  # aussi après stratification : aucune session ne trahit son groupe
 

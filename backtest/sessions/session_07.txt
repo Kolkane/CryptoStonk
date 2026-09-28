@@ -21,13 +21,13 @@ id_coingecko;ticker;produit_live;traction_tge;float_initial_pct;fees_vers_token;
 
 Tokens à noter (id_coingecko | ticker | nom | TGE | catégorie) :
 
+bitway | BTW | Bitway | TGE 2026-03-03 | rendement (yield-farming)
+momentum-3 | MMT | Momentum | TGE 2025-11-04 | dex (decentralized-exchange)
+mantra | MANTRA | MANTRA | TGE 2026-03-03 | rwa (real-world-assets-rwa)
+parquet | PARQ | Parquet | TGE 2026-06-07 | perps (decentralized-perpetuals)
+streamex-gldy | GLDY | Streamex GLDY | TGE 2026-03-18 | rwa (real-world-assets-rwa)
 gaib-said | SAID | GAIB sAID | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-usa | USAT | USAT | TGE 2026-01-27 | rwa (real-world-assets-rwa)
-epicentral-labs | LABS | Epicentral Labs | TGE 2026-01-12 | options (decentralized-options)
+echelon-token | ELON | Echelon Token | TGE 2026-02-02 | lending (lending-borrowing)
+re | RE | RE | TGE 2026-06-18 | rwa (real-world-assets-rwa)
 lo0p | LO0P | LO0P | TGE 2026-05-10 | lending (lending-borrowing)
-amara | AMARA | AMARA | TGE 2026-02-12 | perps (decentralized-perpetuals)
-smilee | SMILEE | Smilee | TGE 2025-12-01 | lsd_restaking (liquid-staking)
-ranger | RNGR | Ranger | TGE 2026-01-10 | perps (decentralized-perpetuals)
-edgex | EDGE | edgeX | TGE 2026-03-31 | dex (decentralized-exchange)
-izky | IZKY | IZKY | TGE 2025-12-01 | lending (lending-borrowing)
-roll-2 | ROLL | ROLL | TGE 2026-01-16 | dex (decentralized-exchange)
+k9-2 | K9 | K9 | TGE 2026-03-30 | perps (decentralized-perpetuals)
