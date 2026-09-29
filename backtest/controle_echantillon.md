@@ -1,19 +1,19 @@
 # Contrôle qualité de l'échantillon — backtest v0
 
-_Généré le 2026-09-28 par backtest/controler_echantillon.py — à relancer après toute extension de l'échantillon._
+_Généré le 2026-09-29 par backtest/controler_echantillon.py — à relancer après toute extension de l'échantillon._
 
 Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de plaintes à J-90), donc ce backtest valide uniquement la grille d'audit couche 4, pas la détection de problèmes.
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **106** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **68**.
+- Tokens ciblés : **104** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **66**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 101 | 0 | 0 | 0 | 5 |
-| J+90 | 97 | 0 | 0 | 4 | 5 |
-| J+180 | 69 | 26 | 2 | 4 | 5 |
+| J+30 | 99 | 0 | 0 | 0 | 5 |
+| J+90 | 95 | 0 | 0 | 4 | 5 |
+| J+180 | 67 | 26 | 2 | 4 | 5 |
 
 Tokens incomplets et diagnostic :
 
@@ -65,27 +65,27 @@ CoinGecko déliste ou cesse de suivre les tokens morts : ils ne peuvent pas entr
 - Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **6** — IZKY, OOOO, RNGR, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
 
 - Univers estimé (DefiLlama /protocols) : **36** lancements de token sur la fenêtre, nos verticales — après exclusion de 46 fiches dont le token préexiste à la fenêtre (nouveaux produits de protocoles établis, pas des TGE), de 2 instruments, et dédoublonnage par symbole.
-- Retrouvés dans l'échantillon : **9** (couverture 25 %). Absents : **27**, dont **16** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
+- Retrouvés dans l'échantillon : **8** (couverture 22 %). Absents : **28**, dont **17** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
 
 Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 902 369 $ |
-| Piku Finance | PIKU | rendement | 19 284 578 $ |
+| Sierra Protocol | SIERRA | rendement | 44 908 014 $ |
+| Piku Finance | PIKU | rendement | 19 342 983 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
-| Ledgity Yield | LDY | rendement | 2 468 149 $ |
-| Omnipair | OMFG | lending | 658 638 $ |
-| DIEM Relay | DIEM | lsd_restaking | 612 464 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 582 243 $ |
-| Everything | EV | lending | 368 289 $ |
-| Pepu Bridge | PEPU | bridges | 300 068 $ |
-| Ripe Protocol | RIPE | lending | 164 914 $ |
-| Alvara | ALVA | rendement | 13 636 $ |
-| Juris Protocol | JURIS | lending | 6 514 $ |
-| PrimeFi | PRFI | lending | 4 346 $ |
+| Ledgity Yield | LDY | rendement | 2 467 968 $ |
+| Omnipair | OMFG | lending | 663 845 $ |
+| DIEM Relay | DIEM | lsd_restaking | 609 080 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 566 899 $ |
+| Everything | EV | lending | 370 022 $ |
+| Pepu Bridge | PEPU | bridges | 300 270 $ |
+| Ripe Protocol | RIPE | lending | 163 417 $ |
+| Alvara | ALVA | rendement | 13 455 $ |
+| Juris Protocol | JURIS | lending | 6 358 $ |
+| PrimeFi | PRFI | lending | 4 319 $ |
 | Defimarketplus | DMTP | rendement | 1 388 $ |
-| Edel | EDEL | lending | 873 $ |
+| Edel | EDEL | lending | 865 $ |
 
 Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE ; rapprochement par symbole/nom approximatif ; DefiLlama a son propre biais de survie (plus faible : les fiches mortes restent) ; /emissions (vraies dates de TGE) est passée en offre payante.
 
@@ -93,19 +93,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 97 | -99.8 % | -56.4 % | +2702.1 % | 21 % |
-| Avec morts imputés -100 % | 97 | -99.8 % | -56.4 % | +2702.1 % | 21 % |
+| Survivants (mesuré) | 95 | -99.8 % | -56.7 % | +2702.1 % | 19 % |
+| Avec morts imputés -100 % | 95 | -99.8 % | -56.7 % | +2702.1 % | 19 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -32.5 %, 27 % positifs (101 mesurés).
-Complément J+180 : médiane -60.5 %, 17 % positifs (69 mesurés) ; avec 3 mort(s) imputé(s) : médiane -64.5 %, 17 % positifs (72).
+Complément J+30 : médiane -34.1 %, 25 % positifs (99 mesurés).
+Complément J+180 : médiane -64.4 %, 15 % positifs (67 mesurés) ; avec 3 mort(s) imputé(s) : médiane -66.6 %, 14 % positifs (70).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (97 sur 106).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (95 sur 104).
 - Garder les 6 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.

@@ -1,7 +1,6 @@
 ﻿ticker;id_coingecko;verticale;date_tge;origine_tge;derniere_cotation;perf_j30_pct;rel_btc_j30_pct;perf_j90_pct;rel_btc_j90_pct;perf_j180_pct;rel_btc_j180_pct;statut
 BTW;bitway;rendement;2026-03-03;coingecko;2026-09-27;103.3;105.8;28.3;20.0;4550.1;3990.7;ok
 LIT;lighter;perps;2025-12-30;coingecko;2026-09-27;-27.6;-29.2;-69.7;-59.9;-36.9;-8.2;ok
-YLDS;ylds;rwa;2025-11-14;coingecko;2026-09-27;0.0;10.2;0.0;48.3;-0.0;23.6;ok
 EDGE;edgex;dex;2026-03-31;coingecko;2026-09-27;122.3;95.6;-47.9;-41.6;15.5;-8.8;ok
 ZAMA;zama;bridges;2026-02-02;coingecko;2026-09-27;-40.0;-32.5;-21.0;-22.8;52.3;86.5;ok
 MET;meteora;dex;2025-10-23;coingecko;2026-09-27;-53.5;-41.2;-62.9;-54.9;-78.6;-69.6;ok
@@ -95,7 +94,6 @@ CRACKROCK;crackrock;perps;2026-04-29;coingecko;2026-09-22;-98.9;-98.8;;;;;partie
 TROVE;trove;perps;2026-01-20;coingecko;2026-06-03;-94.2;-91.9;;;;;partiel
 RNGR;ranger;perps;2026-01-10;coingecko;2026-09-05;-31.8;-12.2;-61.6;-51.2;-39.1;-11.3;ok
 BYNOMO;bynomo;options;2026-03-26;coingecko;2026-09-25;-90.8;-91.5;-97.9;-97.6;-96.9;-97.4;ok
-PGOLD;pleasing-gold;rwa;2025-10-30;coingecko;2026-09-25;5.3;27.5;29.2;59.4;17.3;66.9;ok
 DAKS;draggable-aktionariat-ag;rwa;2026-04-15;coingecko;2026-09-23;11.3;2.0;-18.0;-2.2;;;partiel
 OOOO;oooo;bridges;2025-12-30;coingecko;2026-06-10;-93.8;-94.0;-99.8;-99.8;;;partiel
 SMILEE;smilee;lsd_restaking;2025-12-01;coingecko;2026-09-25;-32.5;-31.0;-31.9;-8.2;-62.7;-54.2;ok

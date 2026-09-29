@@ -9,3 +9,5 @@ gaib-said;sAID = staked AID, dérivé du dollar synthétique de GAIB, instrument
 usa;USAT, stablecoin US de Tether (Anchorage Digital Bank) : instrument hors périmètre (notation session_03)
 spacex-reality-protocol;action SpaceX pre-IPO tokenisée via Reality Protocol, famille xStocks : hors périmètre (notation session_03)
 spol;sPOL, LST natif de POL émis par Polygon Labs : instrument, famille APRMON : hors périmètre (notation session_03)
+ylds;stablecoin yield-bearing SEC-registered émis par Figure Certificate Company : instrument, hors périmètre (notation session_04)
+pleasing-gold;or tokenisé 1 oz LBMA, émetteur Pleasing International : instrument, famille commodity tokens : hors périmètre (notation session_04)
