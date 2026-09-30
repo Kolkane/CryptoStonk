@@ -1,5 +1,7 @@
 # CryptoStonk
 
+> **Phase backtest close : lire d'abord la [synthèse](SYNTHESE.md).**
+
 Moteur de détection précoce de cryptos à fort potentiel. Outil interne pour notre propre capital : il structure la décision et réduit le hasard, il ne supprime pas le risque. Rien ici n'est une boule de cristal ni un conseil d'investissement — chaque position reste un pari dimensionné en conséquence.
 
 ## Le pari
