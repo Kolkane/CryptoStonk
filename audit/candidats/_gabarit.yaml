@@ -2,9 +2,16 @@
 nom:
 verticale:            # perps | options | rwa | bridges | lending | dex | lsd_restaking | rendement | infra | autre
 probleme_adresse:     # titre du problème dans problemes/carte_problemes.md
-produit_live: non     # oui | testnet | non
 
-traction:
+# Grille du scoring v1 : même vocabulaire que les notes du backtest
+# (backtest/notation_retroactive.md). Le filtre exclut produit_live=non ET
+# traction_tge=nulle ET backers=aucun.
+produit_live: non     # oui | testnet | non
+traction_tge:         # forte | moyenne | faible | nulle
+backers:              # tier1 | tier2 | aucun — tier1 : écosystème qui incube et garde une allocation, ou lead d'un fonds majeur ; fonds majeur à petit ticket = tier2
+float_initial_pct:    # % du supply en circulation au lancement (prévu si pas encore de token)
+
+traction:             # chiffres à l'appui de traction_tge
   tvl_usd:
   volume_30j_usd:
   revenus_30j_usd:
@@ -12,13 +19,12 @@ traction:
 
 tokenomics:
   token_lance: non
-  float_lancement_pct:
   unlocks_12m_pct:    # % du supply débloqué dans les 12 mois
   fdv_usd:
-  capture_valeur:     # frais reversés, burn, droits… ou « rien »
+  capture_valeur:     # frais reversés, burn, droits… ou « rien » (affiché, poids 0 en v1)
 
 distribution:
-  backers: []
+  noms_backers: []    # à l'appui de backers
   ecosysteme:         # chaîne/écosystème porteur, relais
 
 comparables:          # 2-3 projets même verticale, traction voisine

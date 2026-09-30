@@ -159,8 +159,8 @@ def main():
     print(f"Notes : {len(notes)} ({len(fichiers)} fichier(s)) ; jointes à un J+90 mesuré ou "
           f"imputé : {len(joints)}" + (f" ; sans perf : {sans_perf}" if sans_perf else "")
           + f" ; confiance basse : {basses}")
-    print("v0 — grille non validée. Passage stratifié => pas de lecture absolue : "
-          "seul l'écart favorable/défavorable compte.\n")
+    print("v0 — passage complet terminé (bilan_passage_complet.md) : "
+          "lecture absolue autorisée.\n")
     if not joints:
         return
 

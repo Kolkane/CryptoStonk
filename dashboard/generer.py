@@ -236,6 +236,38 @@ def section_candidats():
 </section>"""
 
 
+def section_audit():
+    sys.path.insert(0, str(RACINE / "audit"))
+    import yaml
+    from scoring import ETIQUETTE_V1, evaluer
+
+    fichiers = sorted(f for f in (RACINE / "audit" / "candidats").glob("*.yaml")
+                      if not f.name.startswith("_"))
+    note = f"<p class='note'>{echapper(ETIQUETTE_V1)}</p>"
+    if not fichiers:
+        return ("<section class='carte'><h2>Audit couche 4 — scoring v1</h2>"
+                "<p class='vide'>Aucun candidat audité — copier "
+                "<code>audit/candidats/_gabarit.yaml</code> vers <code>&lt;slug&gt;.yaml</code>.</p>"
+                f"{note}</section>")
+    rangs = []
+    for fichier in fichiers:
+        candidat = yaml.safe_load(fichier.read_text(encoding="utf-8")) or {}
+        r = evaluer(candidat)
+        filtre = "<strong>exclu</strong>" if r["filtre"] == "exclu" else echapper(r["filtre"])
+        indices = " ; ".join(f"{echapper(l)} : {echapper(s)}" for l, s in r["indices"])
+        rangs.append(f"<tr><td>{echapper(candidat.get('nom') or fichier.stem)}</td>"
+                     f"<td>{echapper(candidat.get('verticale') or '')}</td>"
+                     f"<td>{filtre}</td><td>{indices}</td></tr>")
+    return f"""<section class='carte'>
+  <h2>Audit couche 4 — scoring v1</h2>
+  <table>
+    <thead><tr><th>Candidat</th><th>Verticale</th><th>Filtre</th><th>Indices (pas un classement)</th></tr></thead>
+    <tbody>{''.join(rangs)}</tbody>
+  </table>
+  {note}
+</section>"""
+
+
 def section_veille():
     fichier = dernier_fichier("veille", "nouveaux_*.csv")
     if not fichier:
@@ -262,7 +294,8 @@ def section_veille():
 
 
 def main():
-    corps = section_cycle() + section_problemes() + section_candidats() + section_veille()
+    corps = (section_cycle() + section_problemes() + section_candidats() + section_audit()
+             + section_veille())
     page = f"""<!doctype html>
 <html lang="fr">
 <head>
