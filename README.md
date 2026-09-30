@@ -87,7 +87,7 @@ Scoring v1 (la v0 pondérée reste dans l'historique git) :
 - **Étape 2, indices — non validés comme classeur.** Float initial ≥ 50 % : malus ; 20-50 % : malus léger ; en dessous : neutre. Traction forte ou moyenne : bonus. Capture de valeur et backers : affichés, poids nul. Au-dessus du plancher, la grille ne sépare pas les gagnants (composite +1,5 pt) : les indices orientent la lecture, ils ne trient pas.
 - Acheter à J+90 plutôt qu'au TGE ne rattrape pas la baisse dans ce régime : médiane hors plancher −19,0 % vs BTC entre J+90 et J+180.
 
-Détails : [backtest/bilan_passage_complet.md](backtest/bilan_passage_complet.md) et [backtest/entree_differee.md](backtest/entree_differee.md). `python audit/scoring.py --controle-backtest` vérifie que le filtre exclut exactement les 25 profils plancher du bilan. L'hypothèse restante est l'entrée avant le token (farming de points) : protocole figé dans [backtest/farming/protocole.md](backtest/farming/protocole.md).
+Détails : [backtest/bilan_passage_complet.md](backtest/bilan_passage_complet.md) et [backtest/entree_differee.md](backtest/entree_differee.md). `python audit/scoring.py --controle-backtest` vérifie que le filtre exclut exactement les 25 profils plancher du bilan. L'entrée avant le token (farming de points) n'a pas pu être mesurée sur données publiques : [backtest/farming/bilan_farming.md](backtest/farming/bilan_farming.md).
 
 ## Backtest (couche 4 uniquement)
 
@@ -99,7 +99,7 @@ Détails : [backtest/bilan_passage_complet.md](backtest/bilan_passage_complet.md
 4. `python backtest/analyser_notation.py` — joint les notes aux performances : par critère puis sur un score composite, perf médiane J+90 vs BTC des tokens favorablement vs défavorablement notés, avec deux contrôles de robustesse (haute confiance, hors plancher). Passage complet terminé : 99 tokens notés, 87 joints à J+90. Les purges unitaires (instruments, ids recyclés) sont tracées dans `backtest/exclusions.csv`.
 5. `python backtest/bilan_passage.py` → [backtest/bilan_passage_complet.md](backtest/bilan_passage_complet.md) : lecture absolue (médiane −59,9 % vs BTC à J+90, 18 % de tokens positifs), contrastes J+90 et J+180 global et hors plancher, float en tranches, valeur du filtre. Verdict : la grille écarte les quasi-zéros, elle ne désigne pas les gagnants. **Recalibrage fait : scoring v1** (voir Couche 4).
 6. `python backtest/entree_differee.py` → [backtest/entree_differee.md](backtest/entree_differee.md) : acheter à J+90 plutôt qu'au TGE ne rattrape pas la baisse (médiane hors plancher −19,0 % vs BTC entre J+90 et J+180). Règle posée avant les résultats : pas d'achat post-TGE dans ce régime.
-7. **Backtest farming, en cours** : le capital immobilisé avant le TGE est-il rémunéré ? Protocole figé avant toute mesure dans [backtest/farming/protocole.md](backtest/farming/protocole.md). `python backtest/farming/preparer.py` liste les candidats, vérifie la couverture DefiLlama et génère les sessions `farm_NN.txt` (`--sessions-seules` pour les régénérer sans réseau) ; réponses dans `backtest/farming/notes/farm_NN.csv`, puis `python backtest/farming/calculer.py`.
+7. **Backtest farming, clos — non concluant sur données publiques** ([bilan](backtest/farming/bilan_farming.md)) : le capital immobilisé avant le TGE est-il rémunéré ? Protocole figé avant toute mesure dans [backtest/farming/protocole.md](backtest/farming/protocole.md). `python backtest/farming/preparer.py` liste les candidats, vérifie la couverture DefiLlama et génère les sessions `farm_NN.txt` (`--sessions-seules` pour les régénérer sans réseau) ; réponses dans `backtest/farming/notes/farm_NN.csv`, puis `python backtest/farming/calculer.py`.
 
 Clé CoinGecko optionnelle : `COINGECKO_API_KEY` (offre démo) si le sans-clé rate-limite trop.
 
@@ -110,6 +110,6 @@ Résoudre un problème ne suffit pas : beaucoup de projets utiles vont à zéro.
 ## Feuille de route
 
 - **Fait** : backtest couche 4 (passage complet, bilan, entrée différée négative) et recalibrage en scoring v1.
-- **En cours** : backtest farming (rendement du capital immobilisé avant le TGE).
+- **Clos** : backtest farming, non concluant sur données publiques (2 lectures TVL mesurables pour un seuil de 8) : [backtest/farming/bilan_farming.md](backtest/farming/bilan_farming.md).
 - **Ensuite** : levées VC (RootData), calendrier des TGE, backtest du croisement (l'heuristique v0 n'est pas validée).
 - Les seuils du thermomètre sont des heuristiques v0, à recalibrer sur données historiques.

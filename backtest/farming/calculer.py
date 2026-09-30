@@ -166,7 +166,7 @@ def couverture(notes):
         elif base == "taches":
             manques = ["base taches"]
         elif base not in ("tvl", "volume", "mixte"):
-            manques = ["base_eligibilite"]
+            manques = ["base manquante"]
         else:
             communs = []
             if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(note.get("debut_programme") or "").strip()):
@@ -232,7 +232,7 @@ def main():
                  for l in lire_csv(RACINE / "backtest" / "performances.csv")}
     notes_backtest = charger_notes()
 
-    lignes = []
+    lignes, obtenues = [], []
     principales = {"tvl": {}, "volume": {}}
     sensibilite = {"tvl": {}, "volume": {}}
     for identifiant, note in sorted(notes.items()):
@@ -246,20 +246,24 @@ def main():
             debut = ""  # format invalide : traité comme manquant
         valeur, detail, proxy = valeur_sortie(identifiant, date_tge, note)
         ligne = {"ticker": c["ticker"], "base": base or "?", "valeur": valeur, "detail": detail,
-                 "supply": "supply_proxy" if proxy else "max_supply", "tvl": "—", "volume": "—"}
+                 "supply": ("supply_proxy" if proxy else "max_supply") if valeur is not None else "—", "tvl": "—", "volume": "—"}
         cible = sensibilite if base == "mixte" else principales
 
         if valeur is not None and not debut and base in ("tvl", "volume", "mixte"):
             ligne["tvl"] = ligne["volume"] = "debut_programme manquant"
         elif valeur is not None:
+            statut = "mixte, sensibilité" if base == "mixte" else "principale"
             if base in ("tvl", "mixte"):
                 rendement, ligne["tvl"] = lecture_tvl(c, debut, date_tge, valeur)
                 if rendement is not None:
                     cible["tvl"][identifiant] = rendement
+                    obtenues.append((c["ticker"], f"TVL ({statut})", ligne["tvl"]))
             if base in ("volume", "mixte"):
                 bps, ligne["volume"] = lecture_volume(note, valeur)
                 if bps is not None:
                     cible["volume"][identifiant] = bps
+                    obtenues.append((c["ticker"], f"volume ({statut}, ordre de grandeur)",
+                                     ligne["volume"]))
         lignes.append(ligne)
         print(f"  {c['ticker']:<8} {base or '?':<7} TVL : {ligne['tvl']} | volume : {ligne['volume']}")
 
@@ -275,8 +279,11 @@ def main():
 
     L += ["", "## Q1 — rendement annualisé TVL contre 5 %/an (base tvl)", ""]
     n_tvl = len(principales["tvl"])
-    if n_tvl < Q1_N_MIN:
-        L.append(f"**Non concluante** : {n_tvl} lecture(s) TVL principale(s), seuil {Q1_N_MIN}.")
+    concluant = n_tvl >= Q1_N_MIN
+    if not concluant:
+        L.append(f"**Non concluante** : {n_tvl} lecture(s) TVL principale(s), seuil {Q1_N_MIN}. "
+                 f"Les lectures obtenues sont rapportées plus bas comme cas isolés, non "
+                 f"généralisables : ni médiane, ni comparaison à {SEUIL_Q1:.0f} %/an.")
     else:
         mediane = statistics.median(principales["tvl"].values())
         L.append(f"Médiane : **{mediane:.1f} %/an** (n={n_tvl}), "
@@ -297,8 +304,17 @@ def main():
     L += ["", "## Sensibilité — base mixte (hors Q1 et Q2)", ""]
     for nom, unite in (("tvl", "%/an"), ("volume", "bps")):
         valeurs = list(sensibilite[nom].values())
-        L.append(f"- Lecture {nom} : " + (f"n={len(valeurs)}, médiane {statistics.median(valeurs):.1f} {unite}"
-                                          if valeurs else "aucune lecture mesurable"))
+        if not valeurs:
+            L.append(f"- Lecture {nom} : aucune lecture mesurable")
+        elif concluant:
+            L.append(f"- Lecture {nom} : n={len(valeurs)}, médiane {statistics.median(valeurs):.1f} {unite}")
+        else:
+            L.append(f"- Lecture {nom} : n={len(valeurs)}, rapportée dans les cas isolés (pas de médiane)")
+
+    if not concluant:
+        L += ["", "## Cas isolés — non généralisables", ""]
+        L += ([f"- {ticker} — {genre} : {texte}" for ticker, genre, texte in obtenues]
+              or ["Aucune lecture obtenue."])
 
     fichier = DOSSIER / "resultats.md"
     fichier.write_text("\n".join(L) + "\n", encoding="utf-8")
