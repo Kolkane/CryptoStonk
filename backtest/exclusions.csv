@@ -11,3 +11,4 @@ spacex-reality-protocol;action SpaceX pre-IPO tokenisée via Reality Protocol, f
 spol;sPOL, LST natif de POL émis par Polygon Labs : instrument, famille APRMON : hors périmètre (notation session_03)
 ylds;stablecoin yield-bearing SEC-registered émis par Figure Certificate Company : instrument, hors périmètre (notation session_04)
 pleasing-gold;or tokenisé 1 oz LBMA, émetteur Pleasing International : instrument, famille commodity tokens : hors périmètre (notation session_04)
+nuva-nvprime;nvAsset, token de vault NUVA sur crédit privé HELOC Figure : instrument, famille YLDS/AID : hors périmètre (notation session_05)
