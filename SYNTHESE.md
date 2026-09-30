@@ -4,6 +4,8 @@ _Close le 2026-09-30. Échantillon : TGE d'octobre 2025 à juin 2026 sur nos ver
 
 ## Trois verdicts
 
+Portée : cette phase a testé une grille générique appliquée au TGE (produit, traction, float, capture de valeur, backers). Elle n'a pas testé la thèse centrale du projet, l'adéquation entre un problème remonté par le marché et la solution qui s'y positionne (taille du problème, part captée, rétention hors incitations). Cette thèse est non testée, pas réfutée.
+
 **1. La grille d'audit écarte les quasi-zéros, elle ne désigne pas les gagnants.** ([bilan](backtest/bilan_passage_complet.md))
 99 tokens notés, 87 mesurés à J+90. En niveau : médiane −59,9 % contre BTC à J+90, 18 % seulement battent BTC. Le score composite sépare les tokens de +15,5 points sur l'ensemble, mais de +1,5 point une fois les profils fantômes retirés (−1,7 à J+180). Le profil fantôme (ni produit, ni traction, ni backers) compte 44 % de quasi-zéros (−90 % ou pire) contre 8 % au-dessus, et regroupe 69 % des quasi-zéros.
 
@@ -24,10 +26,12 @@ Sur 24 programmes pré-TGE, 5 seulement publient ensemble la date de début, la 
 - **Biais de publication.** Les programmes mesurables sont ceux qui publient leurs chiffres, c'est-à-dire surtout les gros dossiers (Lighter, Meteora, Kinetiq, Turtle, Genius). Un rendement calculé sur eux décrirait les meilleurs cas, pas le farming typique : même avec plus de lectures, l'échantillon resterait biaisé vers le haut.
 - **Une seule fenêtre de marché, baissière pour les lancements.** Tous les écarts et verdicts sont relatifs à ce régime. Ils ne disent rien d'un cycle où les lancements montent.
 
-## Décision en attente : forward cadré ou pause
+## Décision en attente : forward cadré, pause ou test de rétention
 
 **Forward cadré** : suivre en temps réel les prochains lancements avec le filtre v1, sous un protocole écrit avant de commencer (population, critères, durée, nombre minimal de cas, règle de décision). Il supprime deux limites du backtest : les notes sont prises au moment des faits, sans reconstitution, et les données de farming sont relevées par nous (date d'entrée, capital engagé, allocation reçue) au lieu de dépendre de ce que les projets publient. Il coûte une notation régulière et des mois avant le premier verdict.
 
 **Pause** : garder la routine quotidienne (thermomètre, veille, croisement) et le filtre v1 pour l'hygiène des dossiers, sans nouvelle mesure. Reprendre quand le régime change (signal du thermomètre) ou quand une nouvelle question justifie l'effort.
 
-Dans les deux cas, aucun résultat de cette phase ne justifie aujourd'hui une position.
+**Test de rétention** : mesurer la TVL qui reste après le TGE, une fois les incitations terminées, comme proxy de l'adéquation entre le problème et la solution. Il s'appuie sur les données déjà réunies dans le dépôt (échantillon, notes, correspondances DefiLlama) et touche directement la thèse centrale. Protocole à figer avant tout calcul.
+
+Dans tous les cas, aucun résultat de cette phase ne justifie aujourd'hui une position.
