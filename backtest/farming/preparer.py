@@ -19,7 +19,8 @@ volumes perps (derivatives) sont payants chez DefiLlama (HTTP 402). Pour un
 protocole perps, seule une série aggregator-derivatives est retenue : sa série
 spot gratuite ne mesure pas le volume qui rapportait les points.
 
-Usage  : python backtest/farming/preparer.py
+Usage  : python backtest/farming/preparer.py [--sessions-seules]
+         --sessions-seules : régénère les sessions depuis candidats.csv, sans réseau
 Sortie : backtest/farming/candidats.csv, backtest/farming/sessions/farm_NN.txt
 """
 
@@ -68,12 +69,15 @@ Champs à renseigner :
 - airdrop_pct_farmers : % du supply TOTAL alloué aux participants du programme pré-TGE
   (hors équipe, investisseurs, trésorerie, réserves pour de futures saisons).
 - airdrop_unlock_tge_pct : % de cette allocation débloqué au TGE (100 si tout est liquide).
+- volume_cumule_pretge_usd : volume cumulé pré-TGE en dollars, publié dans une source
+  datée à 30 jours près du TGE, compté depuis une date à 30 jours près de
+  debut_programme ; sinon vide. Nombre en chiffres, sans unité (ex. 250000000000).
 - confiance : haute | basse — basse si une valeur est estimée ou si les sources divergent.
-- sources : références d'époque. N'utilise JAMAIS de point-virgule dans ce champ
-  (virgules uniquement) : le fichier est séparé par des points-virgules.
+- sources : références d'époque. Séparateur interne « | », jamais « ; » : le fichier
+  est séparé par des points-virgules.
 
 Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
-id_coingecko;ticker;programme_pretge;debut_programme;base_eligibilite;airdrop_pct_farmers;airdrop_unlock_tge_pct;confiance;sources"""
+id_coingecko;ticker;programme_pretge;debut_programme;base_eligibilite;airdrop_pct_farmers;airdrop_unlock_tge_pct;volume_cumule_pretge_usd;confiance;sources"""
 
 
 def texte_sources(note):
@@ -222,7 +226,21 @@ def ecrire_sessions(liste):
     return (len(tokens) + TAILLE_SESSION - 1) // TAILLE_SESSION
 
 
+def sessions_depuis_candidats():
+    """Régénère les sessions depuis candidats.csv, sans réseau : mêmes lots, même graine."""
+    categories = {l["id_coingecko"]: l.get("categorie_cg", "")
+                  for l in lire_csv(RACINE / "backtest" / "echantillon.csv")}
+    liste = lire_csv(DOSSIER / "candidats.csv")
+    for c in liste:
+        c["categorie"] = categories.get(c["id_coingecko"], "")
+    sessions = ecrire_sessions(liste)
+    print(f"{len(liste)} candidats (candidats.csv) -> {sessions} session(s) farm_NN.txt régénérée(s)")
+
+
 def main():
+    if "--sessions-seules" in sys.argv[1:]:
+        sessions_depuis_candidats()
+        return
     liste = correspondances(candidats())
     index = index_volumes()
     for c in liste:

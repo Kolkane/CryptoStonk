@@ -5,11 +5,15 @@ backtest/farming/notes/*.csv (format des sessions farm_NN.txt) : sans notes, il
 s'arrête sans rien calculer.
 
 Pour chaque token noté programme_pretge=oui : valeur de sortie
-(airdrop_pct_farmers × airdrop_unlock_tge_pct × supply totale × médiane des
-clôtures J+1 à J+7), puis selon base_eligibilite la lecture TVL (rendement
-annualisé) et/ou la lecture volume (bps du volume cumulé). Q1 : médiane du
-rendement TVL contre 5 %/an. Q2 : traction_tge forte contre le reste, backers
-tier1 contre le reste, pour chaque lecture.
+(airdrop_pct_farmers × airdrop_unlock_tge_pct × supply × médiane des clôtures
+J+1 à J+7 ; supply = max_supply CoinGecko, sinon total_supply signalée
+supply_proxy), puis selon base_eligibilite :
+- tvl : rendement annualisé sur la TVL moyenne DefiLlama de la fenêtre ;
+- volume : bps du volume cumulé pré-TGE des notes (ordre de grandeur) ;
+- mixte : les deux lectures, hors Q1/Q2, en ligne de sensibilité ;
+- taches : aucune lecture.
+Q1 : médiane du rendement TVL contre 5 %/an. Q2 : traction_tge forte contre le
+reste, backers tier1 contre le reste, pour chaque lecture.
 
 Usage  : python backtest/farming/calculer.py
 Sortie : backtest/farming/resultats.md
@@ -21,7 +25,7 @@ import sys
 from datetime import date, timedelta
 from pathlib import Path
 
-from preparer import DOSSIER, RACINE, lire_csv, serie_tvl, serie_volume
+from preparer import DOSSIER, RACINE, lire_csv, serie_tvl
 
 sys.path.insert(0, str(RACINE / "backtest"))
 from bilan_passage import charger_notes  # noqa: E402
@@ -31,17 +35,35 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
 
 CHAMPS_FARMING = ("programme_pretge", "debut_programme", "base_eligibilite",
-                  "airdrop_pct_farmers", "airdrop_unlock_tge_pct", "confiance")
+                  "airdrop_pct_farmers", "airdrop_unlock_tge_pct",
+                  "volume_cumule_pretge_usd", "confiance")
 COUVERTURE_MIN = 0.9
 JOURS_SORTIE = range(1, 8)
 JOURS_SORTIE_MIN = 5
 SEUIL_Q1 = 5.0  # %/an
+SUFFIXES = {"k": 1e3, "m": 1e6, "md": 1e9, "mds": 1e9, "b": 1e9, "bn": 1e9, "t": 1e12}
 
 
 def nombre(texte):
     brut = re.sub(r"[%\s]", "", str(texte or "")).replace(",", ".")
     try:
         return float(brut)
+    except ValueError:
+        return None
+
+
+def montant(texte):
+    """Montant en dollars ; tolère $, espaces, séparateurs et suffixes k/M/Md/B/T."""
+    brut = re.sub(r"[\s$_  ]", "", str(texte or "")).lower()
+    m = re.fullmatch(r"([\d.,]+)(k|m|mds|md|bn|b|t)?", brut)
+    if not m:
+        return None
+    chiffres, suffixe = m.groups()
+    if chiffres.count(",") == 1 and "." not in chiffres and len(chiffres.split(",")[1]) != 3:
+        chiffres = chiffres.replace(",", ".")
+    chiffres = chiffres.replace(",", "")
+    try:
+        return float(chiffres) * SUFFIXES.get(suffixe or "", 1)
     except ValueError:
         return None
 
@@ -64,31 +86,51 @@ def charger_notes_farming():
 
 
 def valeur_sortie(identifiant, date_tge, note):
-    """(valeur en $, détail) ou (None, raison)."""
+    """(valeur en $, détail, supply_proxy) ; valeur None si non mesurable."""
     pct, unlock = nombre(note.get("airdrop_pct_farmers")), nombre(note.get("airdrop_unlock_tge_pct"))
     if pct is None or unlock is None:
-        return None, "airdrop_pct_farmers ou airdrop_unlock_tge_pct manquant"
-    fiche = appel_cg(f"/coins/{identifiant}", {"localization": "false", "tickers": "false",
-                                                "market_data": "true", "community_data": "false",
-                                                "developer_data": "false"})
-    supply = (fiche.get("market_data") or {}).get("total_supply")
+        return None, "airdrop_pct_farmers ou airdrop_unlock_tge_pct manquant", False
+    marche = (appel_cg(f"/coins/{identifiant}", {"localization": "false", "tickers": "false",
+                                                  "market_data": "true", "community_data": "false",
+                                                  "developer_data": "false"})
+              .get("market_data") or {})
+    supply, proxy = marche.get("max_supply"), False
     if not supply:
-        return None, "total_supply CoinGecko absente"
+        supply, proxy = marche.get("total_supply"), True
+    if not supply:
+        return None, "ni max_supply ni total_supply CoinGecko", False
     serie = serie_journaliere(identifiant)
     tge = date.fromisoformat(date_tge)
     clotures = [serie[j] for j in ((tge + timedelta(days=n)).isoformat() for n in JOURS_SORTIE)
                 if j in serie]
     if len(clotures) < JOURS_SORTIE_MIN:
-        return None, f"{len(clotures)} clôture(s) sur J+1..J+7"
+        return None, f"{len(clotures)} clôture(s) sur J+1..J+7", proxy
     prix = statistics.median(clotures)
-    return pct / 100 * unlock / 100 * supply * prix, f"supply {supply:,.0f}, prix médian {prix:.4g} $"
+    return pct / 100 * unlock / 100 * supply * prix, f"prix médian {prix:.4g} $", proxy
 
 
-def fenetre(serie, debut, date_tge):
-    """Points de la série dans [debut, TGE[ et taux de couverture des jours."""
-    points = [(j, v) for j, v in serie if debut <= j < date_tge]
+def lecture_tvl(candidat, debut, date_tge, valeur):
+    """(rendement %/an ou None, texte)."""
+    if not candidat["slug_defillama"]:
+        return None, "absent de DefiLlama"
+    points = [(j, v) for j, v in serie_tvl(candidat["genre_defillama"], candidat["slug_defillama"])
+              if debut <= j < date_tge]
     jours = (date.fromisoformat(date_tge) - date.fromisoformat(debut)).days
-    return points, (len(points) / jours if jours > 0 else 0), jours
+    taux = len(points) / jours if jours > 0 else 0
+    tvl_moy = statistics.mean(v for _, v in points) if points else 0
+    if taux < COUVERTURE_MIN or tvl_moy <= 0:
+        return None, f"couverture {taux:.0%} : non mesurable"
+    rendement = valeur / (tvl_moy * jours / 365.25) * 100
+    return rendement, f"{rendement:.1f} %/an (TVL moy. {tvl_moy:,.0f} $, {jours} j)"
+
+
+def lecture_volume(note, valeur):
+    """(bps ou None, texte) — ordre de grandeur, volume des notes."""
+    volume = montant(note.get("volume_cumule_pretge_usd"))
+    if not volume or volume <= 0:
+        return None, "volume_cumule_pretge_usd absent"
+    bps = valeur / volume * 10_000
+    return bps, f"~{bps:.1f} bps (volume {volume:,.0f} $)"
 
 
 def cellule(n_med, unite):
@@ -117,7 +159,9 @@ def main():
                  for l in lire_csv(RACINE / "backtest" / "performances.csv")}
     notes_backtest = charger_notes()
 
-    lignes, lecture_tvl, lecture_volume = [], {}, {}
+    lignes = []
+    principales = {"tvl": {}, "volume": {}}
+    sensibilite = {"tvl": {}, "volume": {}}
     for identifiant, note in sorted(notes.items()):
         c = candidats.get(identifiant)
         if not c or str(note.get("programme_pretge") or "").strip().lower() != "oui":
@@ -127,63 +171,56 @@ def main():
         debut = str(note.get("debut_programme") or "").strip()
         if debut and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", debut):
             debut = ""  # format invalide : traité comme manquant
-        valeur, detail = valeur_sortie(identifiant, date_tge, note)
+        valeur, detail, proxy = valeur_sortie(identifiant, date_tge, note)
         ligne = {"ticker": c["ticker"], "base": base or "?", "valeur": valeur, "detail": detail,
-                 "tvl": "—", "volume": "—"}
+                 "supply": "supply_proxy" if proxy else "max_supply", "tvl": "—", "volume": "—"}
+        cible = sensibilite if base == "mixte" else principales
 
-        if valeur is not None and debut and base in ("tvl", "mixte"):
-            if not c["slug_defillama"]:
-                ligne["tvl"] = "absent de DefiLlama"
-            else:
-                points, taux, jours = fenetre(serie_tvl(c["genre_defillama"], c["slug_defillama"]),
-                                              debut, date_tge)
-                tvl_moy = statistics.mean(v for _, v in points) if points else 0
-                if taux < COUVERTURE_MIN or tvl_moy <= 0:
-                    ligne["tvl"] = f"couverture {taux:.0%} : non mesurable"
-                else:
-                    rendement = valeur / (tvl_moy * jours / 365.25) * 100
-                    lecture_tvl[identifiant] = rendement
-                    ligne["tvl"] = f"{rendement:.1f} %/an (TVL moy. {tvl_moy:,.0f} $, {jours} j)"
-        if valeur is not None and debut and base in ("volume", "mixte"):
-            if not c["volume_sources"]:
-                ligne["volume"] = c["couverture_volume"] or "aucune série"
-            else:
-                points, taux, jours = fenetre(serie_volume(c["volume_sources"].split("|")),
-                                              debut, date_tge)
-                cumul = sum(v for _, v in points)
-                if taux < COUVERTURE_MIN or cumul <= 0:
-                    ligne["volume"] = f"couverture {taux:.0%} : non mesurable"
-                else:
-                    bps = valeur / cumul * 10_000
-                    lecture_volume[identifiant] = bps
-                    ligne["volume"] = f"{bps:.1f} bps (volume {cumul:,.0f} $, {jours} j)"
-        if valeur is not None and not debut:
+        if valeur is not None and not debut and base in ("tvl", "volume", "mixte"):
             ligne["tvl"] = ligne["volume"] = "debut_programme manquant"
+        elif valeur is not None:
+            if base in ("tvl", "mixte"):
+                rendement, ligne["tvl"] = lecture_tvl(c, debut, date_tge, valeur)
+                if rendement is not None:
+                    cible["tvl"][identifiant] = rendement
+            if base in ("volume", "mixte"):
+                bps, ligne["volume"] = lecture_volume(note, valeur)
+                if bps is not None:
+                    cible["volume"][identifiant] = bps
         lignes.append(ligne)
         print(f"  {c['ticker']:<8} {base or '?':<7} TVL : {ligne['tvl']} | volume : {ligne['volume']}")
 
     L = ["# Backtest farming — résultats", "",
          f"_Calculé le {date.today().isoformat()} selon `protocole.md` (figé avant mesure)._", "",
-         "| Token | Base | Valeur de sortie | Lecture TVL | Lecture volume |", "|---|---|---|---|---|"]
+         "| Token | Base | Valeur de sortie | Supply | Lecture TVL | Lecture volume (ordre de grandeur) |",
+         "|---|---|---|---|---|---|"]
     for l in lignes:
-        valeur = f"{l['valeur']:,.0f} $" if l["valeur"] is not None else f"non mesurable ({l['detail']})"
-        L.append(f"| {l['ticker']} | {l['base']} | {valeur} | {l['tvl']} | {l['volume']} |")
+        valeur = (f"{l['valeur']:,.0f} $ ({l['detail']})" if l["valeur"] is not None
+                  else f"non mesurable ({l['detail']})")
+        L.append(f"| {l['ticker']} | {l['base']} | {valeur} | {l['supply']} | {l['tvl']} "
+                 f"| {l['volume']} |")
 
-    L += ["", "## Q1 — rendement annualisé TVL contre 5 %/an", ""]
-    if lecture_tvl:
-        mediane = statistics.median(lecture_tvl.values())
-        L.append(f"Médiane : **{mediane:.1f} %/an** (n={len(lecture_tvl)}), "
+    L += ["", "## Q1 — rendement annualisé TVL contre 5 %/an (base tvl)", ""]
+    if principales["tvl"]:
+        mediane = statistics.median(principales["tvl"].values())
+        L.append(f"Médiane : **{mediane:.1f} %/an** (n={len(principales['tvl'])}), "
                  f"{'au-dessus' if mediane > SEUIL_Q1 else 'en dessous'} de {SEUIL_Q1:.0f} %/an.")
     else:
         L.append("Aucune lecture TVL mesurable.")
 
-    L += ["", "## Q2 — traction forte et backers tier1 contre le reste", "",
+    L += ["", "## Q2 — traction forte et backers tier1 contre le reste (bases tvl et volume)", "",
           "| Lecture | Découpage | Favorable (n, médiane) | Reste (n, médiane) |", "|---|---|---|---|"]
-    for nom, valeurs, unite in (("TVL", lecture_tvl, "%/an"), ("volume", lecture_volume, "bps")):
+    for nom, unite in (("tvl", "%/an"), ("volume", "bps")):
         for champ, favorable in (("traction_tge", "forte"), ("backers", "tier1")):
-            g = mediane_groupes(valeurs, notes_backtest, champ, favorable)
+            g = mediane_groupes(principales[nom], notes_backtest, champ, favorable)
             L.append(f"| {nom} | {champ} = {favorable} | {cellule(g['favorable'], unite)} "
                      f"| {cellule(g['reste'], unite)} |")
+
+    L += ["", "## Sensibilité — base mixte (hors Q1 et Q2)", ""]
+    for nom, unite in (("tvl", "%/an"), ("volume", "bps")):
+        valeurs = list(sensibilite[nom].values())
+        L.append(f"- Lecture {nom} : " + (f"n={len(valeurs)}, médiane {statistics.median(valeurs):.1f} {unite}"
+                                          if valeurs else "aucune lecture mesurable"))
 
     fichier = DOSSIER / "resultats.md"
     fichier.write_text("\n".join(L) + "\n", encoding="utf-8")
