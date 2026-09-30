@@ -12,7 +12,7 @@ RE;re;rwa;2026-06-18;coingecko;2026-09-27;-30.9;-30.3;-35.5;-45.0;;;partiel
 UP;unitas;rendement;2026-03-14;coingecko;2026-09-27;149.0;149.6;390.2;446.4;433.4;382.7;ok
 FT;flying-tulip;perps;2026-02-23;coingecko;2026-09-27;-3.3;-10.6;-10.9;-24.3;-1.1;-17.7;ok
 FOLKS;folks;lending;2025-11-06;coingecko;2026-09-27;271.2;332.0;-47.6;-28.0;-53.6;-39.7;ok
-B;baseline;dex;2026-05-08;coingecko;2026-09-27;-29.2;-6.9;-24.0;-5.8;;;partiel
+B;baseline;dex;2024-04-01;override:notation session_08 (approx., source secondaire Yellow : B = migration probable de YES, token Baseline sur Blast depuis 2024);2026-09-30;;;;;;;non_mesurable
 MMT;momentum-3;dex;2025-11-04;coingecko;2026-09-27;-26.4;-16.1;-53.8;-36.1;-61.9;-48.5;ok
 APR;apriori;lsd_restaking;2025-10-23;coingecko;2026-09-27;-29.1;-10.3;-67.4;-60.4;-47.5;-25.5;ok
 ASSET;asset;rwa;2026-04-30;coingecko;2026-09-27;149.2;157.0;282.2;353.4;;;partiel
@@ -52,7 +52,6 @@ OBS;obsidian-2;dex;2025-10-19;coingecko;2026-09-27;-55.4;-48.1;-36.5;-28.7;-52.9
 RAILS;rails;perps;2026-02-04;coingecko;2026-09-27;31.7;40.6;-54.8;-57.2;-70.3;-64.6;ok
 NEST;nest-3;lending;2026-06-20;coingecko;2026-09-27;-2.4;-4.1;-61.8;-68.2;;;partiel
 ELON;echelon-token;lending;2026-02-02;coingecko;2026-09-27;-64.6;-60.1;-75.1;-75.6;-78.1;-73.2;ok
-AVKAT;autocompounding-voting-kat;lsd_restaking;2026-03-28;coingecko;2026-09-27;38.1;16.4;-34.0;-26.6;-29.5;-44.6;ok
 R2;r2protocol;rendement;2026-03-30;coingecko;2026-09-27;-91.9;-93.0;-96.0;-95.6;-79.3;-83.8;ok
 ZSWAP;zygoswap;dex;2025-12-31;coingecko;2026-09-27;1636.2;1712.8;2014.8;2702.1;456.2;726.1;ok
 NEMESIS;nemesis-2;perps;2025-10-31;coingecko;2026-09-27;-80.2;-76.4;-65.9;-58.5;-93.5;-90.8;ok
@@ -91,7 +90,6 @@ CRACKROCK;crackrock;perps;2026-04-29;coingecko;2026-09-22;-98.9;-98.8;;;;;partie
 TROVE;trove;perps;2026-01-20;coingecko;2026-06-03;-94.2;-91.9;;;;;partiel
 RNGR;ranger;perps;2026-01-10;coingecko;2026-09-05;-31.8;-12.2;-61.6;-51.2;-39.1;-11.3;ok
 BYNOMO;bynomo;options;2026-03-26;coingecko;2026-09-25;-90.8;-91.5;-97.9;-97.6;-96.9;-97.4;ok
-DAKS;draggable-aktionariat-ag;rwa;2026-04-15;coingecko;2026-09-23;11.3;2.0;-18.0;-2.2;;;partiel
 OOOO;oooo;bridges;2025-12-30;coingecko;2026-06-10;-93.8;-94.0;-99.8;-99.8;;;partiel
 SMILEE;smilee;lsd_restaking;2025-12-01;coingecko;2026-09-25;-32.5;-31.0;-31.9;-8.2;-62.7;-54.2;ok
 STEAK;steak-3;lsd_restaking;2026-06-15;coingecko;2026-09-13;-95.0;-94.9;-94.2;-95.0;;;partiel

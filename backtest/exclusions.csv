@@ -14,3 +14,5 @@ pleasing-gold;or tokenisé 1 oz LBMA, émetteur Pleasing International : instrum
 nuva-nvprime;nvAsset, token de vault NUVA sur crédit privé HELOC Figure : instrument, famille YLDS/AID : hors périmètre (notation session_05)
 nest-blackopal-liquidstone-ii-vault;part de vault Nest/Plume sur le fonds de crédit privé LiquidStone II de BlackOpal : instrument, famille nvPRIME/YLDS/AID : hors périmètre (notation session_06)
 streamex-gldy;security token Reg D 506(c) adossé à l'or, émis par Streamex Corp (Nasdaq STEX) : instrument, famille EMRL.D/VEREM/PGOLD : hors périmètre (notation session_07)
+draggable-aktionariat-ag;actions tokenisées de la SA suisse Aktionariat AG, titres DLT : instrument, famille xStocks : hors périmètre (notation session_08)
+autocompounding-voting-kat;vault token ERC-4626 enveloppant vKAT, dérivé de staking de KAT déjà présent : instrument, famille SAID/SPOL/APRMON : hors périmètre (notation session_08)
