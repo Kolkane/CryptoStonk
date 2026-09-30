@@ -14,6 +14,13 @@ par critère, split à la médiane du score).
 viennent d'un passage stratifié, AUCUNE lecture en taux de réussite absolu —
 seul l'écart entre groupes compte.
 
+Contrôles de robustesse, affichés ensemble :
+- haute confiance : sans les notes confiance=basse (split médian global) ;
+- hors plancher : sans les profils fantômes (produit_live=non ET
+  traction_tge=nulle ET backers=aucun), contrastes par critère et composite
+  recalculés sur le reste, split à la médiane du sous-ensemble. Mesure si la
+  grille discrimine au-dessus du fond du panier, pas seulement contre lui.
+
 Usage : python backtest/analyser_notation.py
 Lit   : backtest/notes/*.csv + backtest/performances.csv
 """
@@ -68,6 +75,14 @@ def classer(note, critere):
     valeur = str(note.get(critere) or "").strip().lower()
     favorables, defavorables = CRITERES[critere]
     return 1 if valeur in favorables else -1 if valeur in defavorables else 0
+
+
+def est_fantome(note):
+    """Profil plancher : ni produit, ni traction, ni backers au TGE."""
+    def valeur(champ):
+        return str(note.get(champ) or "").strip().lower()
+    return (valeur("produit_live") == "non" and valeur("traction_tge") == "nulle"
+            and valeur("backers") == "aucun")
 
 
 def contraste(paires):
@@ -171,11 +186,34 @@ def main():
     print("  répartition des scores : "
           + ", ".join(f"{s:+d}×{n}" for s, n in sorted(repartition.items())))
 
+    print("\n=== Contrôles de robustesse ===")
+
+    print("\n[haute confiance]", end=" ")
     if basses:
         hauts = [(1 if scores[i] > mediane_score else -1 if scores[i] < mediane_score else 0, j90[i])
                  for i, n in joints if str(n.get("confiance") or "").strip().lower() != "basse"]
-        print(f"\nContrôle sans les {basses} note(s) confiance=basse :")
+        print(f"sans les {basses} note(s) confiance=basse (split médian global) :")
         afficher("composite", contraste(hauts))
+    else:
+        print("aucune note confiance=basse, contrôle sans objet")
+
+    hors_plancher = [(i, n) for i, n in joints if not est_fantome(n)]
+    print(f"\n[hors plancher] sans les {len(joints) - len(hors_plancher)} profil(s) fantôme(s) "
+          f"(produit_live=non ET traction_tge=nulle ET backers=aucun) — "
+          f"n restant {len(hors_plancher)} :")
+    if len(hors_plancher) < 4:
+        print("  trop peu de notes restantes pour contraster")
+        return
+    for critere in criteres:
+        paires = [(classer(note, critere), j90[i]) for i, note in hors_plancher]
+        afficher(critere, contraste(paires))
+    scores_hp = {i: scores[i] for i, _ in hors_plancher}
+    mediane_hp = statistics.median(scores_hp.values())
+    paires_hp = [(1 if s > mediane_hp else -1 if s < mediane_hp else 0, j90[i])
+                 for i, s in scores_hp.items()]
+    print(f"  composite recalculé (split à la médiane du sous-ensemble = {mediane_hp:+.1f}, "
+          f"ex æquo écartés) :")
+    afficher("composite", contraste(paires_hp))
 
 
 if __name__ == "__main__":
