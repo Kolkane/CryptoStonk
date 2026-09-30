@@ -15,8 +15,12 @@ supply_proxy), puis selon base_eligibilite :
 Q1 : médiane du rendement TVL contre 5 %/an. Q2 : traction_tge forte contre le
 reste, backers tier1 contre le reste, pour chaque lecture.
 
+Seuils : Q1 non concluante sous 8 lectures TVL principales ; Q2 calculée seulement
+si chaque groupe compte au moins 3 lectures.
+
 Usage  : python backtest/farming/calculer.py
-Sortie : backtest/farming/resultats.md
+         python backtest/farming/calculer.py --couverture   # comptes seulement, aucune valeur
+Sortie : backtest/farming/resultats.md (--couverture : console seulement)
 """
 
 import re
@@ -41,6 +45,8 @@ COUVERTURE_MIN = 0.9
 JOURS_SORTIE = range(1, 8)
 JOURS_SORTIE_MIN = 5
 SEUIL_Q1 = 5.0  # %/an
+Q1_N_MIN = 8
+Q2_N_MIN = 3
 SUFFIXES = {"k": 1e3, "m": 1e6, "md": 1e9, "mds": 1e9, "b": 1e9, "bn": 1e9, "t": 1e12}
 
 
@@ -147,14 +153,81 @@ def mediane_groupes(valeurs, notes_backtest, champ, favorable):
     return {k: (len(v), statistics.median(v) if v else None) for k, v in groupes.items()}
 
 
+def couverture(notes):
+    """Comptes d'éligibilité, sans réseau ni valeur calculée."""
+    candidats = {c["id_coingecko"]: c for c in lire_csv(DOSSIER / "candidats.csv")}
+    comptes = {"tvl": 0, "volume": 0, "mixte_tvl": 0, "mixte_volume": 0, "mixte": 0}
+    motifs, bloques = {}, []
+    for identifiant, note in sorted(notes.items()):
+        c = candidats.get(identifiant, {})
+        base = str(note.get("base_eligibilite") or "").strip().lower()
+        if str(note.get("programme_pretge") or "").strip().lower() != "oui":
+            manques = ["programme non"]
+        elif base == "taches":
+            manques = ["base taches"]
+        elif base not in ("tvl", "volume", "mixte"):
+            manques = ["base_eligibilite"]
+        else:
+            communs = []
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(note.get("debut_programme") or "").strip()):
+                communs.append("debut_programme")
+            if nombre(note.get("airdrop_pct_farmers")) is None:
+                communs.append("airdrop_pct_farmers")
+            if nombre(note.get("airdrop_unlock_tge_pct")) is None:
+                communs.append("airdrop_unlock_tge_pct")
+            manque_tvl = communs + ([] if c.get("slug_defillama") else ["absent de DefiLlama"])
+            manque_vol = communs + ([] if montant(note.get("volume_cumule_pretge_usd")) else ["volume"])
+            ok_tvl, ok_vol = not manque_tvl, not manque_vol
+            if base == "tvl" and ok_tvl:
+                comptes["tvl"] += 1
+                continue
+            if base == "volume" and ok_vol:
+                comptes["volume"] += 1
+                continue
+            if base == "mixte" and (ok_tvl or ok_vol):
+                comptes["mixte"] += 1
+                comptes["mixte_tvl"] += ok_tvl
+                comptes["mixte_volume"] += ok_vol
+                continue
+            manques = (manque_tvl if base == "tvl" else manque_vol if base == "volume"
+                       else sorted(set(manque_tvl) | set(manque_vol)))
+        bloques.append((c.get("ticker") or identifiant, base or "?", manques))
+        for m in manques:
+            motifs[m] = motifs.get(m, 0) + 1
+
+    print(f"Couverture — {len(notes)} ligne(s) notée(s), aucune valeur calculée")
+    print(f"  éligibles lecture TVL principale    : {comptes['tvl']}  (seuil Q1 : {Q1_N_MIN})")
+    print(f"  éligibles lecture volume principale : {comptes['volume']}")
+    print(f"  éligibles sensibilité mixte         : {comptes['mixte']} "
+          f"(TVL {comptes['mixte_tvl']}, volume {comptes['mixte_volume']})")
+    print(f"  bloquées                            : {len(bloques)}")
+    for motif, n in sorted(motifs.items(), key=lambda x: -x[1]):
+        print(f"    {motif:<24} {n}")
+    for ticker, base, manques in bloques:
+        print(f"    - {ticker:<8} base {base:<7} : {', '.join(manques)}")
+    print("  (la couverture DefiLlama de la fenêtre, 90 % des jours, n'est vérifiée qu'au calcul)")
+
+
 def main():
     notes = charger_notes_farming()
+    if "--couverture" in sys.argv[1:]:
+        if not notes:
+            print("Aucune note farming : rien à compter.")
+            return
+        couverture(notes)
+        return
     if not notes:
         print("Aucune note farming dans backtest/farming/notes/ : rien à calculer "
               "(protocole figé, sessions dans backtest/farming/sessions/).")
         return
 
     candidats = {c["id_coingecko"]: c for c in lire_csv(DOSSIER / "candidats.csv")}
+    non_notes = set(candidats) - set(notes)
+    if non_notes:
+        print(f"Calcul bloqué : {len(candidats) - len(non_notes)}/{len(candidats)} candidats notés. "
+              f"Le protocole interdit tout rendement avant la fin des sessions ; "
+              f"utilisez --couverture.")
+        sys.exit(1)
     dates_tge = {l["id_coingecko"]: l["date_tge"]
                  for l in lire_csv(RACINE / "backtest" / "performances.csv")}
     notes_backtest = charger_notes()
@@ -201,18 +274,23 @@ def main():
                  f"| {l['volume']} |")
 
     L += ["", "## Q1 — rendement annualisé TVL contre 5 %/an (base tvl)", ""]
-    if principales["tvl"]:
-        mediane = statistics.median(principales["tvl"].values())
-        L.append(f"Médiane : **{mediane:.1f} %/an** (n={len(principales['tvl'])}), "
-                 f"{'au-dessus' if mediane > SEUIL_Q1 else 'en dessous'} de {SEUIL_Q1:.0f} %/an.")
+    n_tvl = len(principales["tvl"])
+    if n_tvl < Q1_N_MIN:
+        L.append(f"**Non concluante** : {n_tvl} lecture(s) TVL principale(s), seuil {Q1_N_MIN}.")
     else:
-        L.append("Aucune lecture TVL mesurable.")
+        mediane = statistics.median(principales["tvl"].values())
+        L.append(f"Médiane : **{mediane:.1f} %/an** (n={n_tvl}), "
+                 f"{'au-dessus' if mediane > SEUIL_Q1 else 'en dessous'} de {SEUIL_Q1:.0f} %/an.")
 
     L += ["", "## Q2 — traction forte et backers tier1 contre le reste (bases tvl et volume)", "",
           "| Lecture | Découpage | Favorable (n, médiane) | Reste (n, médiane) |", "|---|---|---|---|"]
     for nom, unite in (("tvl", "%/an"), ("volume", "bps")):
         for champ, favorable in (("traction_tge", "forte"), ("backers", "tier1")):
             g = mediane_groupes(principales[nom], notes_backtest, champ, favorable)
+            if min(g["favorable"][0], g["reste"][0]) < Q2_N_MIN:
+                L.append(f"| {nom} | {champ} = {favorable} | n={g['favorable'][0]} "
+                         f"| n={g['reste'][0]} — non calculée (moins de {Q2_N_MIN} par groupe) |")
+                continue
             L.append(f"| {nom} | {champ} = {favorable} | {cellule(g['favorable'], unite)} "
                      f"| {cellule(g['reste'], unite)} |")
 

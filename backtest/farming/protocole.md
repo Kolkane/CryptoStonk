@@ -26,6 +26,8 @@ La part vestée n'est pas comptée : c'est la valeur réalisable par un farmer q
 
 Q1 et Q2 portent sur les bases `tvl` et `volume` seulement. La base `mixte` est rapportée à part, en ligne de sensibilité TVL et volume. Aucun autre découpage.
 
+Seuils de conclusion (ajoutés le 2026-09-30, avant tout calcul) : si moins de 8 lectures TVL principales au total, Q1 est déclarée non concluante ; Q2 n'est calculée que si chaque groupe compte au moins 3 lectures. Aucun rendement n'est calculé avant la fin des sessions (farm_03) : d'ici là, seulement des comptes de couverture (`calculer.py --couverture`).
+
 ## Précisions d'implémentation (figées avec le protocole)
 
 - **Date du TGE** : `date_tge` de `../performances.csv`, overrides compris.
