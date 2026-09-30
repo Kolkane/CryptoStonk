@@ -6,7 +6,7 @@ _Close le 2026-09-30. Échantillon : TGE d'octobre 2025 à juin 2026 sur nos ver
 
 ## Quatre verdicts
 
-Portée : cette phase a testé une grille générique appliquée au TGE (produit, traction, float, capture de valeur, backers). Elle n'a pas testé la thèse centrale du projet, l'adéquation entre un problème remonté par le marché et la solution qui s'y positionne (taille du problème, part captée, rétention hors incitations). Cette thèse est non testée, pas réfutée.
+Portée : cette phase a testé une grille générique appliquée au TGE (produit, traction, float, capture de valeur, backers), puis la rétention de TVL après le TGE comme proxy d'adéquation (verdict 4, sans signal). Elle n'a pas testé le cœur de la thèse : la découverte des problèmes remontés par le marché, et la confrontation entre la taille d'un problème et la part qu'une solution en capte. Ce cœur est non testé, pas réfuté.
 
 **1. La grille d'audit écarte les quasi-zéros, elle ne désigne pas les gagnants.** ([bilan](backtest/bilan_passage_complet.md))
 99 tokens notés, 87 mesurés à J+90. En niveau : médiane −59,9 % contre BTC à J+90, 18 % seulement battent BTC. Le score composite sépare les tokens de +15,5 points sur l'ensemble, mais de +1,5 point une fois les profils fantômes retirés (−1,7 à J+180). Le profil fantôme (ni produit, ni traction, ni backers) compte 44 % de quasi-zéros (−90 % ou pire) contre 8 % au-dessus, et regroupe 69 % des quasi-zéros.
