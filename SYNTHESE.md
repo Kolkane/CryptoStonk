@@ -2,7 +2,9 @@
 
 _Close le 2026-09-30. Échantillon : TGE d'octobre 2025 à juin 2026 sur nos verticales, performances mesurées contre BTC._
 
-## Trois verdicts
+**Phase backtest close : plus de nouveau test sur cet échantillon (risque de faux positif par tests répétés).**
+
+## Quatre verdicts
 
 Portée : cette phase a testé une grille générique appliquée au TGE (produit, traction, float, capture de valeur, backers). Elle n'a pas testé la thèse centrale du projet, l'adéquation entre un problème remonté par le marché et la solution qui s'y positionne (taille du problème, part captée, rétention hors incitations). Cette thèse est non testée, pas réfutée.
 
@@ -15,6 +17,11 @@ Entre J+90 et J+180, la médiane hors plancher est de −19,0 % contre BTC (45 t
 **3. Le rendement du farming n'est pas mesurable sur données publiques.** ([bilan](backtest/farming/bilan_farming.md))
 Sur 24 programmes pré-TGE, 5 seulement publient ensemble la date de début, la part des farmers et le déblocage. Il en sort 2 lectures TVL pour un seuil de 8 : la question reste ouverte, ni validée ni rejetée.
 
+**4. La rétention de TVL après le TGE ne distingue pas les tokens.** ([protocole et résultats](backtest/retention/))
+Sur 23 tokens mesurables de J+30 à J+180, les tokens à forte rétention (TVL de J+23 à J+30 rapportée à celle de J-30 à J-1) font −37,5 % contre BTC, ceux à faible rétention −33,6 % : écart de −3,9 points. Selon la règle figée avant calcul (protocole commit `acc6845`, résultats commit `44dc2d0`), pas de signal.
+
+**Lecture d'ensemble** : dans cette fenêtre, aucun proxy de qualité testé (grille, entrée différée, farming, rétention) ne distingue les tokens au-dessus des fantômes ; le signal le plus net est le float bas, un signal d'offre.
+
 ## Usage validé de la grille v1
 
 - **À utiliser comme filtre** : exclure un candidat si `produit_live=non` ET `traction_tge=nulle` ET `backers=aucun`. C'est la seule partie validée par le backtest (`python audit/scoring.py --controle-backtest`).
@@ -26,12 +33,10 @@ Sur 24 programmes pré-TGE, 5 seulement publient ensemble la date de début, la 
 - **Biais de publication.** Les programmes mesurables sont ceux qui publient leurs chiffres, c'est-à-dire surtout les gros dossiers (Lighter, Meteora, Kinetiq, Turtle, Genius). Un rendement calculé sur eux décrirait les meilleurs cas, pas le farming typique : même avec plus de lectures, l'échantillon resterait biaisé vers le haut.
 - **Une seule fenêtre de marché, baissière pour les lancements.** Tous les écarts et verdicts sont relatifs à ce régime. Ils ne disent rien d'un cycle où les lancements montent.
 
-## Décision en attente : forward cadré, pause ou test de rétention
+## Décision en attente : forward cadré ou pause
 
 **Forward cadré** : suivre en temps réel les prochains lancements avec le filtre v1, sous un protocole écrit avant de commencer (population, critères, durée, nombre minimal de cas, règle de décision). Il supprime deux limites du backtest : les notes sont prises au moment des faits, sans reconstitution, et les données de farming sont relevées par nous (date d'entrée, capital engagé, allocation reçue) au lieu de dépendre de ce que les projets publient. Il coûte une notation régulière et des mois avant le premier verdict.
 
 **Pause** : garder la routine quotidienne (thermomètre, veille, croisement) et le filtre v1 pour l'hygiène des dossiers, sans nouvelle mesure. Reprendre quand le régime change (signal du thermomètre) ou quand une nouvelle question justifie l'effort.
 
-**Test de rétention** : mesurer la TVL qui reste après le TGE, une fois les incitations terminées, comme proxy de l'adéquation entre le problème et la solution. Il s'appuie sur les données déjà réunies dans le dépôt (échantillon, notes, correspondances DefiLlama) et touche directement la thèse centrale. Protocole à figer avant tout calcul.
-
-Dans tous les cas, aucun résultat de cette phase ne justifie aujourd'hui une position.
+Dans les deux cas, aucun résultat de cette phase ne justifie aujourd'hui une position.
