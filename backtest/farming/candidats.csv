@@ -1,0 +1,31 @@
+﻿id_coingecko;ticker;nom;verticale;date_tge;mots;genre_defillama;slug_defillama;nom_defillama;methode;perps;tvl_premier_jour;tvl_jours_pre_tge;couverture_tvl;volume_sources;volume_premier_jour;volume_jours_pre_tge;couverture_volume
+bitway;BTW;Bitway;rendement;2026-03-03;points;protocole;bitway-earn;Bitway Earn;gecko_id;non;2026-03-12;0;non;;;0;aucune série gratuite
+lighter;LIT;Lighter;perps;2025-12-30;airdrop points saisons;parent;lighter;Lighter;gecko_id;oui;2023-03-02;1034;oui;;;0;payant (perps, HTTP 402) — série spot gratuite écartée
+edgex;EDGE;edgeX;dex;2026-03-31;genesis season;parent;edgex;edgeX;gecko_id;oui;2024-08-07;601;oui;;;0;payant (perps, HTTP 402) — série spot gratuite écartée
+meteora;MET;Meteora;dex;2025-10-23;airdrop;parent;meteora;Meteora;gecko_id;non;2021-07-06;1570;oui;dexs/meteora-damm-v1|dexs/meteora-dlmm|dexs/meteora-damm-v2|dexs/meteora-dynamic-bonding-curve;2024-05-05;503;oui
+genius-3;GENIUS;Genius;perps;2026-04-13;airdrops points;parent;genius-terminal;genius-terminal;manuelle;oui;2026-09-23;0;non;;;0;payant (perps, HTTP 402) — série spot gratuite écartée
+kinetiq;KNTQ;Kinetiq;lsd_restaking;2025-11-27;airdrop kpoints;parent;kinetiq;Kinetiq;gecko_id;non;2025-07-17;133;oui;;;0;aucune série gratuite
+o1-exchange;O;o1.exchange;dex;2026-06-17;airdrop points;parent;o1-exchange;o1.exchange;gecko_id;non;;0;non;dexs/o1.exchange-trading-terminal;2025-10-11;249;oui
+cap-4;CAP;Cap;lending;2026-06-26;farming points;protocole;cap;cap;gecko_id;non;2025-08-14;313;oui;;;0;aucune série gratuite
+unitas;UP;Unitas;rendement;2026-03-14;airdrop farming points;parent;unitas;Unitas;gecko_id;non;2025-06-20;267;oui;;;0;aucune série gratuite
+momentum-3;MMT;Momentum;dex;2025-11-04;airdrops bricks points;protocole;momentum;Momentum;gecko_id;non;2025-04-07;211;oui;dexs/momentum;2025-03-10;239;oui
+apriori;APR;Capricorn;lsd_restaking;2025-10-23;airdrop;protocole;apriori;aPriori;gecko_id;non;2026-05-13;0;non;;;0;aucune série gratuite
+paradex;DIME;Paradex;dex;2026-03-05;airdrop farming genesis xp;parent;paradex;Paradex;gecko_id;oui;2023-10-18;869;oui;;;0;payant (perps, HTTP 402) — série spot gratuite écartée
+katana-network-token;KAT;Katana;rendement;2026-03-18;airdrop;chaine;Katana;Katana;gecko_id;non;2025-05-22;300;oui;;;0;aucune série gratuite
+roll-2;ROLL;ROLL;dex;2026-01-16;airdrop genesis points;protocole;rollx;rollx;manuelle;oui;2025-03-31;291;oui;;;0;payant (perps, HTTP 402)
+sharex-2;SHARE;ShareX;rwa;2026-05-08;season;;;;manuelle : absent;non;;0;non;;;0;aucune série gratuite
+collect-on-fanable;COLLECT;Collect on Fanable;rwa;2025-12-29;farming points;;;;manuelle : absent;non;;0;non;;;0;aucune série gratuite
+turtle-4;TURTLE;Turtle;rendement;2025-10-22;points;protocole;turtle-club;Turtle Club;gecko_id;non;2025-05-06;169;oui;;;0;aucune série gratuite
+hyperlend;HPL;HyperLend;lending;2026-03-03;genesis;parent;hyperlend;HyperLend;gecko_id;non;2025-03-22;346;oui;;;0;aucune série gratuite
+cygnus-2;CGN;Cygnus;lsd_restaking;2025-10-23;airdrop farming;;;;manuelle : absent;non;;0;non;;;0;aucune série gratuite
+vault-2;V;Vault;lsd_restaking;2025-11-25;farming;parent;the-vault;The Vault;gecko_id;non;2024-06-11;532;oui;;;0;aucune série gratuite
+vooi;VOOI;VOOI;perps;2025-12-18;airdrop season;protocole;vooi;Vooi;gecko_id;oui;;0;non;aggregator-derivatives/vooi;2024-05-22;575;oui
+hyperswap;SWAP;HyperSwap;dex;2025-10-21;airdrop;parent;hyperswap;HyperSwap;gecko_id;non;2025-02-24;239;oui;dexs/hyperswap-v2|dexs/hyperswap-v3;2025-03-16;219;oui
+mezo;MEZO;MEZO;lending;2026-04-01;points;chaine;Mezo;Mezo;gecko_id;non;2025-10-01;182;oui;;;0;aucune série gratuite
+echelon-token;ELON;Echelon Token;lending;2026-02-02;saison;protocole;echelon-market;Echelon Market;gecko_id;non;2024-03-25;669;oui;;;0;aucune série gratuite
+r2protocol;R2;R2 Protocol;rendement;2026-03-30;points;;;;manuelle : absent;non;;0;non;;;0;aucune série gratuite
+a-t-m-by-basevol;ATM;A.T.M. by BaseVol;options;2025-10-23;genesis;protocole;basevol;BaseVol;gecko_id;non;2026-02-03;0;non;;;0;aucune série gratuite
+victory-2;VICTORY;VICTORY;dex;2026-04-18;farming;protocole;suidex;suidex;manuelle;non;2026-04-20;0;non;;;0;aucune série gratuite
+ranger;RNGR;Ranger;perps;2026-01-10;farming;protocole;ranger-finance-perps;ranger-finance-perps;manuelle;oui;;0;non;;;0;payant (perps, HTTP 402)
+oooo;OOOO;oooo;bridges;2025-12-30;points;;;;manuelle : absent;non;;0;non;;;0;aucune série gratuite
+teafi-token;TEA;TeaFi Token;dex;2025-11-03;airdrop farming;protocole;tea-fi;tea-fi;manuelle;non;2025-03-07;241;oui;dexs/tea-fi;2025-01-13;137;oui

@@ -1,0 +1,11 @@
+id_coingecko;genre;slug;note
+roll-2;protocole;rollx;vérifié à la main : RollX (Derivatives, Base)
+ranger;protocole;ranger-finance-perps;vérifié à la main : Ranger Finance Perps
+victory-2;protocole;suidex;vérifié à la main : SuiDex, dont VICTORY est le token
+genius-3;parent;genius-terminal;vérifié à la main : parent Genius Terminal
+teafi-token;protocole;tea-fi;vérifié à la main : Tea-Fi
+cygnus-2;aucun;;CygnusDAO (lending Polygon/Arbitrum 2023) n'est pas Cygnus (CGN) : absent de DefiLlama
+collect-on-fanable;aucun;;Fanable absent de DefiLlama
+sharex-2;aucun;;ShareX absent de DefiLlama
+r2protocol;aucun;;R2 Protocol absent de DefiLlama (R25 est un autre projet)
+oooo;aucun;;OOOO absent de DefiLlama

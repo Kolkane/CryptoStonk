@@ -1,0 +1,36 @@
+Tu documentes le programme de farming (points, saisons, airdrop) de tokens crypto
+AVANT leur TGE, pour un backtest. Règle absolue (anti-rétrospective) : ne cherche JAMAIS
+le prix, la performance, le market cap ni le destin du token après le TGE ; si tu tombes
+dessus, ignore-les. Uniquement des faits sur le programme et sur la distribution au TGE,
+tirés de sources d'époque (annonces du projet, docs de tokenomics, articles de TGE).
+
+Champs à renseigner :
+- programme_pretge : oui | non — un programme a-t-il récompensé les utilisateurs avant le
+  TGE par une allocation de tokens (points, saisons, farming, airdrop d'usage) ?
+- debut_programme : date AAAA-MM-JJ du lancement du programme (saison 1, ouverture des
+  points) ; vide si inconnu.
+- base_eligibilite : tvl | volume | mixte | taches — ce qui rapportait les points :
+  dépôts/liquidité (tvl), trading (volume), les deux de façon significative (mixte),
+  quêtes/social/testnet sans capital (taches).
+- airdrop_pct_farmers : % du supply TOTAL alloué aux participants du programme pré-TGE
+  (hors équipe, investisseurs, trésorerie, réserves pour de futures saisons).
+- airdrop_unlock_tge_pct : % de cette allocation débloqué au TGE (100 si tout est liquide).
+- confiance : haute | basse — basse si une valeur est estimée ou si les sources divergent.
+- sources : références d'époque. N'utilise JAMAIS de point-virgule dans ce champ
+  (virgules uniquement) : le fichier est séparé par des points-virgules.
+
+Réponds UNIQUEMENT en CSV point-virgule, en-tête compris, une ligne par token :
+id_coingecko;ticker;programme_pretge;debut_programme;base_eligibilite;airdrop_pct_farmers;airdrop_unlock_tge_pct;confiance;sources
+
+Tokens à documenter (id_coingecko | ticker | nom | TGE | catégorie) :
+
+vooi | VOOI | VOOI | TGE 2025-12-18 | perps (decentralized-perpetuals)
+cygnus-2 | CGN | Cygnus | TGE 2025-10-23 | lsd_restaking (restaking)
+victory-2 | VICTORY | VICTORY | TGE 2026-04-18 | dex (decentralized-exchange)
+teafi-token | TEA | TeaFi Token | TGE 2025-11-03 | dex (decentralized-exchange)
+o1-exchange | O | o1.exchange | TGE 2026-06-17 | dex (decentralized-exchange)
+lighter | LIT | Lighter | TGE 2025-12-30 | perps (decentralized-perpetuals)
+roll-2 | ROLL | ROLL | TGE 2026-01-16 | dex (decentralized-exchange)
+hyperswap | SWAP | HyperSwap | TGE 2025-10-21 | dex (decentralized-exchange)
+vault-2 | V | Vault | TGE 2025-11-25 | lsd_restaking (liquid-staking)
+unitas | UP | Unitas | TGE 2026-03-14 | rendement (yield-farming)

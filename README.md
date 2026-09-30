@@ -13,7 +13,7 @@ Sur chaque cycle, les plus grosses performances viennent de projets qui résolve
 | 1. Thermomètre de cycle | Niveau d'euphorie du marché (rang App Store de Coinbase, funding, stablecoins, Google Trends) → dimensionner le risque | `cycle/` |
 | 2. Détection de problèmes | Plaintes récurrentes par verticale, collecte forums automatique + captures X manuelles, clustering hebdo via Claude.ai (API en option) → carte vivante des problèmes | `problemes/` |
 | 3. Mapping des solutions | Veille des nouveaux protocoles (DefiLlama en v0), croisée avec la carte des problèmes (croisement local v0 + affinage hebdo Claude.ai) | `veille/` |
-| 4. Audit et timing | Checklist structurée + scoring par candidat : produit, traction, tokenomics, valorisation, distribution, catalyseurs | `audit/` |
+| 4. Audit et timing | Checklist structurée + scoring v1 : filtre d'exclusion validé sur backtest, indices float/traction non validés comme classeur | `audit/` |
 
 Les sorties générées (JSON, CSV, dashboard) vont dans `data/`, hors dépôt. L'inbox des plaintes et la carte des problèmes sont versionnées : c'est la mémoire de travail commune.
 
@@ -78,10 +78,16 @@ La verticale et la date sont optionnelles. Les fichiers préfixés `_` sont igno
 
 ## Couche 4 : auditer un candidat
 
-1. Copier `audit/candidats/_gabarit.yaml` → `audit/candidats/<slug>.yaml` et le remplir (checklist détaillée : [audit/gabarit_audit.md](audit/gabarit_audit.md)).
+1. Copier `audit/candidats/_gabarit.yaml` → `audit/candidats/<slug>.yaml` et le remplir (checklist détaillée : [audit/gabarit_audit.md](audit/gabarit_audit.md)). Les champs `produit_live`, `traction_tge`, `backers` et `float_initial_pct` reprennent le vocabulaire des notes du backtest.
 2. `python audit/scoring.py audit/candidats/<slug>.yaml`
 
-Le scoring v0 est une grille de lecture, pas une vérité : il doit être backtesté sur les ~50 derniers lancements avant d'avoir voix au chapitre. Le meilleur point d'entrée est souvent avant le token (farming de points) — le champ `points_farming` du gabarit est là pour ça.
+Scoring v1 (la v0 pondérée reste dans l'historique git) :
+
+- **Étape 1, filtre d'exclusion — validé sur backtest (87 TGE d'octobre 2025 à juin 2026).** Exclu si `produit_live=non` ET `traction_tge=nulle` ET `backers=aucun`. Dans le backtest, ce profil compte 44 % de quasi-zéros (−90 % ou pire vs BTC à J+90) contre 8 % au-dessus, et regroupe 69 % des quasi-zéros.
+- **Étape 2, indices — non validés comme classeur.** Float initial ≥ 50 % : malus ; 20-50 % : malus léger ; en dessous : neutre. Traction forte ou moyenne : bonus. Capture de valeur et backers : affichés, poids nul. Au-dessus du plancher, la grille ne sépare pas les gagnants (composite +1,5 pt) : les indices orientent la lecture, ils ne trient pas.
+- Acheter à J+90 plutôt qu'au TGE ne rattrape pas la baisse dans ce régime : médiane hors plancher −19,0 % vs BTC entre J+90 et J+180.
+
+Détails : [backtest/bilan_passage_complet.md](backtest/bilan_passage_complet.md) et [backtest/entree_differee.md](backtest/entree_differee.md). `python audit/scoring.py --controle-backtest` vérifie que le filtre exclut exactement les 25 profils plancher du bilan. L'hypothèse restante est l'entrée avant le token (farming de points) : protocole figé dans [backtest/farming/protocole.md](backtest/farming/protocole.md).
 
 ## Backtest (couche 4 uniquement)
 
