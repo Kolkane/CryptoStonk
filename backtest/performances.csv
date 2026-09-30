@@ -5,7 +5,6 @@ EDGE;edgex;dex;2026-03-31;coingecko;2026-09-27;122.3;95.6;-47.9;-41.6;15.5;-8.8;
 ZAMA;zama;bridges;2026-02-02;coingecko;2026-09-27;-40.0;-32.5;-21.0;-22.8;52.3;86.5;ok
 MET;meteora;dex;2025-10-23;coingecko;2026-09-27;-53.5;-41.2;-62.9;-54.9;-78.6;-69.6;ok
 GENIUS;genius-3;perps;2026-04-13;coingecko;2026-09-27;18.5;4.1;-27.8;-20.0;;;partiel
-NOPAL;nest-blackopal-liquidstone-ii-vault;rwa;2025-12-23;coingecko;2026-09-27;0.9;-0.2;2.9;34.0;4.6;44.0;ok
 KNTQ;kinetiq;lsd_restaking;2025-11-27;coingecko;2026-09-27;-63.5;-62.1;-25.3;5.5;18.5;38.9;ok
 O;o1-exchange;dex;2026-06-17;coingecko;2026-09-27;1.6;4.5;6.2;-10.8;;;partiel
 CAP;cap-4;lending;2026-06-26;coingecko;2026-09-27;-14.8;-20.9;116.8;53.5;;;partiel
@@ -25,7 +24,7 @@ SLX;solstice;rendement;2026-05-25;coingecko;2026-09-27;-23.0;-5.4;-77.2;-77.2;;;
 BASED;based-one;perps;2026-03-30;coingecko;2026-09-27;12.5;-2.8;-39.4;-33.3;-43.8;-55.9;ok
 KAT;katana-network-token;rendement;2026-03-18;coingecko;2026-09-27;-51.3;-52.0;-67.2;-63.4;-74.6;-75.5;ok
 WET;humidifi;dex;2025-12-09;coingecko;2026-09-27;46.4;45.3;-13.7;18.5;-54.4;-32.1;ok
-SODA;sodax;dex;2025-12-01;coingecko;2026-09-27;-35.6;-34.1;-30.5;-6.3;;;partiel
+SODA;sodax;dex;2017-10-01;override:notation session_06 (approx. : SODA = migration 1:1 de ICX, ICON 2017, vers Sonic — pas un lancement);2026-09-30;;;;;;;non_mesurable
 INX;infinex-2;perps;2026-01-30;coingecko;2026-09-27;-54.9;-43.1;-60.9;-56.4;-73.1;-64.4;ok
 GLDY;streamex-gldy;rwa;2026-03-18;coingecko;2026-09-27;-4.3;-5.7;-13.8;-3.8;-13.2;-16.4;ok
 ROLL;roll-2;dex;2026-01-16;coingecko;2026-09-27;15.6;58.3;-18.0;4.8;-32.8;-1.1;ok

@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **103** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **66**.
+- Tokens ciblés : **102** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **65**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 98 | 0 | 0 | 0 | 5 |
-| J+90 | 94 | 0 | 0 | 4 | 5 |
-| J+180 | 67 | 25 | 2 | 4 | 5 |
+| J+30 | 96 | 0 | 0 | 0 | 6 |
+| J+90 | 92 | 0 | 0 | 4 | 6 |
+| J+180 | 66 | 25 | 2 | 3 | 6 |
 
 Tokens incomplets et diagnostic :
 
@@ -27,7 +27,7 @@ Tokens incomplets et diagnostic :
 | ASSET | rwa | 2026-04-30 | 2026-09-27 | J+180 : pas encore écoulée |
 | ZEST | lending | 2026-05-19 | 2026-09-27 | J+180 : pas encore écoulée |
 | SLX | rendement | 2026-05-25 | 2026-09-27 | J+180 : pas encore écoulée |
-| SODA | dex | 2025-12-01 | 2026-09-27 | J+180 : trou de données |
+| SODA | dex | 2017-10-01 | 2026-09-30 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | SHARE | rwa | 2026-05-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | KAIO | rwa | 2026-05-06 | 2026-09-27 | J+180 : pas encore écoulée |
 | LV | perps | 2025-12-18 | 2026-09-28 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
@@ -70,14 +70,14 @@ Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 902 318 $ |
-| Piku Finance | PIKU | rendement | 18 948 857 $ |
+| Sierra Protocol | SIERRA | rendement | 44 902 325 $ |
+| Piku Finance | PIKU | rendement | 18 948 806 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
 | Ledgity Yield | LDY | rendement | 2 461 629 $ |
 | Omnipair | OMFG | lending | 656 551 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 613 241 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 605 318 $ |
 | DIEM Relay | DIEM | lsd_restaking | 575 269 $ |
-| Everything | EV | lending | 373 308 $ |
+| Everything | EV | lending | 373 269 $ |
 | Pepu Bridge | PEPU | bridges | 277 821 $ |
 | Ripe Protocol | RIPE | lending | 163 297 $ |
 | Alvara | ALVA | rendement | 13 352 $ |
@@ -92,19 +92,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 94 | -99.8 % | -57.0 % | +2702.1 % | 18 % |
-| Avec morts imputés -100 % | 94 | -99.8 % | -57.0 % | +2702.1 % | 18 % |
+| Survivants (mesuré) | 92 | -99.8 % | -57.5 % | +2702.1 % | 17 % |
+| Avec morts imputés -100 % | 92 | -99.8 % | -57.5 % | +2702.1 % | 17 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -35.0 %, 24 % positifs (98 mesurés).
-Complément J+180 : médiane -64.4 %, 15 % positifs (67 mesurés) ; avec 3 mort(s) imputé(s) : médiane -66.6 %, 14 % positifs (70).
+Complément J+30 : médiane -36.2 %, 25 % positifs (96 mesurés).
+Complément J+180 : médiane -64.5 %, 14 % positifs (66 mesurés) ; avec 3 mort(s) imputé(s) : médiane -68.6 %, 13 % positifs (69).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (94 sur 103).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (92 sur 102).
 - Garder les 6 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.
