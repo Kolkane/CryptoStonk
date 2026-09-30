@@ -16,7 +16,7 @@ B;baseline;dex;2026-05-08;coingecko;2026-09-27;-29.2;-6.9;-24.0;-5.8;;;partiel
 MMT;momentum-3;dex;2025-11-04;coingecko;2026-09-27;-26.4;-16.1;-53.8;-36.1;-61.9;-48.5;ok
 APR;apriori;lsd_restaking;2025-10-23;coingecko;2026-09-27;-29.1;-10.3;-67.4;-60.4;-47.5;-25.5;ok
 ASSET;asset;rwa;2026-04-30;coingecko;2026-09-27;149.2;157.0;282.2;353.4;;;partiel
-MANTRA;mantra;rwa;2026-03-03;coingecko;2026-09-27;-23.4;-22.4;-41.3;-45.1;-70.5;-74.1;ok
+MANTRA;mantra;rwa;2020-08-01;override:notation session_07 (approx. : MANTRA = redénomination 1:4 de OM, token de 2020, le 03/03/2026 — pas un lancement);2026-09-30;;;;;;;non_mesurable
 DIME;paradex;dex;2026-03-05;coingecko;2026-09-27;-46.0;-41.2;-60.3;-56.7;-70.6;-72.8;ok
 ZEST;zest-protocol;lending;2026-05-19;coingecko;2026-09-27;290.9;366.8;115.8;164.2;;;partiel
 TX;tx;rwa;2026-03-06;coingecko;2026-09-27;-57.0;-54.6;-82.9;-81.1;-91.9;-92.5;ok
@@ -26,7 +26,6 @@ KAT;katana-network-token;rendement;2026-03-18;coingecko;2026-09-27;-51.3;-52.0;-
 WET;humidifi;dex;2025-12-09;coingecko;2026-09-27;46.4;45.3;-13.7;18.5;-54.4;-32.1;ok
 SODA;sodax;dex;2017-10-01;override:notation session_06 (approx. : SODA = migration 1:1 de ICX, ICON 2017, vers Sonic — pas un lancement);2026-09-30;;;;;;;non_mesurable
 INX;infinex-2;perps;2026-01-30;coingecko;2026-09-27;-54.9;-43.1;-60.9;-56.4;-73.1;-64.4;ok
-GLDY;streamex-gldy;rwa;2026-03-18;coingecko;2026-09-27;-4.3;-5.7;-13.8;-3.8;-13.2;-16.4;ok
 ROLL;roll-2;dex;2026-01-16;coingecko;2026-09-27;15.6;58.3;-18.0;4.8;-32.8;-1.1;ok
 SHARE;sharex-2;rwa;2026-05-08;coingecko;2026-09-27;-67.9;-57.8;-56.1;-45.6;;;partiel
 KAIO;kaio;rwa;2026-05-06;coingecko;2026-09-27;-78.3;-72.5;-89.0;-85.9;;;partiel

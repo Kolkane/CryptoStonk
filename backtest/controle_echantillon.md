@@ -6,14 +6,14 @@ Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de p
 
 ## 1. Complétude des fenêtres
 
-- Tokens ciblés : **102** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
-- Données complètes J+30/J+90/J+180 : **65**.
+- Tokens ciblés : **101** (TGE de 2025-10-03 à 2026-06-26, fenêtre effective 2025-10-02 -> 2026-06-30).
+- Données complètes J+30/J+90/J+180 : **63**.
 
 | Fenêtre | ok | pas encore écoulée | série arrêtée | trou de données | non mesurable |
 |---|---|---|---|---|---|
-| J+30 | 96 | 0 | 0 | 0 | 6 |
-| J+90 | 92 | 0 | 0 | 4 | 6 |
-| J+180 | 66 | 25 | 2 | 3 | 6 |
+| J+30 | 94 | 0 | 0 | 0 | 7 |
+| J+90 | 90 | 0 | 0 | 4 | 7 |
+| J+180 | 64 | 25 | 2 | 3 | 7 |
 
 Tokens incomplets et diagnostic :
 
@@ -25,6 +25,7 @@ Tokens incomplets et diagnostic :
 | RE | rwa | 2026-06-18 | 2026-09-27 | J+180 : pas encore écoulée |
 | B | dex | 2026-05-08 | 2026-09-27 | J+180 : pas encore écoulée |
 | ASSET | rwa | 2026-04-30 | 2026-09-27 | J+180 : pas encore écoulée |
+| MANTRA | rwa | 2020-08-01 | 2026-09-30 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
 | ZEST | lending | 2026-05-19 | 2026-09-27 | J+180 : pas encore écoulée |
 | SLX | rendement | 2026-05-25 | 2026-09-27 | J+180 : pas encore écoulée |
 | SODA | dex | 2017-10-01 | 2026-09-30 | J+30 : non mesurable (TGE réel avant l'historique CG); J+90 : non mesurable (TGE réel avant l'historique CG); J+180 : non mesurable (TGE réel avant l'historique CG) |
@@ -92,19 +93,19 @@ Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE 
 
 | Série | n | min | médiane | max | % > 0 |
 |---|---|---|---|---|---|
-| Survivants (mesuré) | 92 | -99.8 % | -57.5 % | +2702.1 % | 17 % |
-| Avec morts imputés -100 % | 92 | -99.8 % | -57.5 % | +2702.1 % | 17 % |
+| Survivants (mesuré) | 90 | -99.8 % | -58.1 % | +2702.1 % | 18 % |
+| Avec morts imputés -100 % | 90 | -99.8 % | -58.1 % | +2702.1 % | 18 % |
 
 Imputations à J+90 : (aucun ajout : les morts de l'échantillon ont vécu jusqu'à leur J+90 — leur -100 % mesuré y figure déjà le cas échéant)
 
-Complément J+30 : médiane -36.2 %, 25 % positifs (96 mesurés).
-Complément J+180 : médiane -64.5 %, 14 % positifs (66 mesurés) ; avec 3 mort(s) imputé(s) : médiane -68.6 %, 13 % positifs (69).
+Complément J+30 : médiane -38.9 %, 26 % positifs (94 mesurés).
+Complément J+180 : médiane -64.5 %, 14 % positifs (64 mesurés) ; avec 3 mort(s) imputé(s) : médiane -68.6 %, 13 % positifs (67).
 
 Médiane négative vs BTC : cohérent avec un marché de lancements difficile ; le biais du survivant rend la réalité encore un peu pire que ces chiffres.
 
 ## Verdict avant notation
 
-- Noter en priorité les tokens avec J+90 disponible ou imputé (92 sur 102).
+- Noter en priorité les tokens avec J+90 disponible ou imputé (90 sur 101).
 - Garder les 6 morts et leurs -100 % dans toutes les moyennes : les retirer regonflerait le biais.
 - L'échantillon ne couvre qu'une partie de l'univers réel : toute conclusion du backtest est un ordre de grandeur, pas une preuve.
 - Relancer ce contrôle après extension de l'échantillon ou nouvelle mesure.
