@@ -5,6 +5,7 @@ Précisions d'implémentation : forward/precisions.md (commit b04c936).
 Addendum 01, origines des problèmes : forward/addendum_01.md (commit 1b0e29e).
 Addendum 02, gagnants regroupés par parent : forward/addendum_02.md (commit b9f6b82).
 Addendum 03, gagnants élargis à tout DefiLlama : forward/addendum_03.md (commit 45e1cb3).
+Addendum 04, chaînes en liste c (slug chain:Nom) : forward/addendum_04.md (commit 58f7f2c).
 Ces fichiers sont vérifiés par empreinte avant toute opération.
 
 Une fiche est figée à son enregistrement : son empreinte SHA-256 entre dans
@@ -50,6 +51,8 @@ ADDENDUM_02_COMMIT = "b9f6b82bb64206d0fb393ed82babf34b044f6982"
 ADDENDUM_02_SHA256 = "890537d90d0fe67fcc17d51f1bcdbc4ba84edd93791f5d729b7322da9a7cbd4e"
 ADDENDUM_03_COMMIT = "45e1cb31695890c0746e23a3e16c46b52c259c84"
 ADDENDUM_03_SHA256 = "ea51ab57eebb67c8c57d33cdc49593efaf850ee7c76dd4bc9eac7afa8382bf94"
+ADDENDUM_04_COMMIT = "58f7f2c2479354e1ac433f158180cf96ae991cf1"
+ADDENDUM_04_SHA256 = "0ccfd7842808afadbf04e9a6df408c3479d1dff7bd91193835cb500eba0454f8"
 ORIGINES = ("collecte", "derivation")
 REGISTRE = DOSSIER / "registre.csv"
 JOURNAL = DOSSIER / "journal.csv"
@@ -57,6 +60,8 @@ SORTIES = DOSSIER / "sorties.csv"
 TRACES = DOSSIER / "rituels"
 MOTIF_FICHIER = re.compile(r"fiche_(\d{4}-\d{2}-\d{2})_(\d{2})\.md")
 MOTIF_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+# slug DefiLlama d'un protocole, ou chain:Nom pour une chaîne (addendum 04)
+MOTIF_SLUG_GAGNANT = re.compile(r"chain:\S.*|[a-z0-9][a-z0-9._-]*")
 
 
 def empreinte(chemin):
@@ -91,7 +96,8 @@ def verifier_protocole():
                                      ("precisions.md", PRECISIONS_SHA256, PRECISIONS_COMMIT),
                                      ("addendum_01.md", ADDENDUM_01_SHA256, ADDENDUM_01_COMMIT),
                                      ("addendum_02.md", ADDENDUM_02_SHA256, ADDENDUM_02_COMMIT),
-                                     ("addendum_03.md", ADDENDUM_03_SHA256, ADDENDUM_03_COMMIT)):
+                                     ("addendum_03.md", ADDENDUM_03_SHA256, ADDENDUM_03_COMMIT),
+                                     ("addendum_04.md", ADDENDUM_04_SHA256, ADDENDUM_04_COMMIT)):
         if empreinte(DOSSIER / fichier) != attendu:
             sys.exit(f"REFUS : forward/{fichier} a changé depuis son commit {commit[:7]}. "
                      f"Il est figé.")
@@ -196,6 +202,10 @@ def valider(fiche, chemin, ids_enregistres, aujourd_hui):
         for champ in ("gagnant_reference", "gagnant_slug_defillama"):
             if not texte(p.get(champ)):
                 erreurs.append(f"probleme.{champ} requis pour une origine derivation")
+        slug_gagnant = texte(p.get("gagnant_slug_defillama"))
+        if slug_gagnant and not MOTIF_SLUG_GAGNANT.fullmatch(slug_gagnant):
+            erreurs.append("probleme.gagnant_slug_defillama : slug DefiLlama en minuscules, "
+                           "ou chain:Nom pour une chaîne (addendum 04)")
     sources = [s for s in (p.get("sources") or []) if isinstance(s, dict)]
     valides = [s for s in sources if MOTIF_DATE.fullmatch(texte(s.get("date"))) and texte(s.get("url"))]
     if len({texte(s["url"]) for s in valides}) < 3:
