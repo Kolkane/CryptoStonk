@@ -1,0 +1,5 @@
+ADDENDUM 01, figé avant la première fiche.
+- Deux origines de problème sont admises : collecte (forums, inbox X) et dérivation d'un gagnant.
+- Dérivation d'un gagnant : les gagnants sont choisis par règle, les 3 protocoles aux frais les plus élevés sur 30 jours dans chaque verticale du projet (DefiLlama), relevés le jour du rituel. Les limites de chaque gagnant sont examinées sur 5 axes : conception (transparence, custody, latence, collatéral, actifs), accès (chaîne, géographie, KYC, taille minimale), coût (frais, funding), risques (centralisation, oracle, validateurs), plaintes de ses utilisateurs. L'hypothèse chiffre la taille du problème comme une part de la métrique du gagnant.
+- Une hypothèse ne devient une fiche que si le problème est confirmé par au moins 3 sources datées et distinctes, comme toute fiche. Sinon elle reste au backlog (forward/backlog_hypotheses.md), sans effet sur le verdict.
+- La comparaison des deux origines est descriptive, hors verdict : aucune décision ne se prend sur elle.
