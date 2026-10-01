@@ -13,7 +13,7 @@ Usage : python forward/rituel.py                  # rituel complet + trace commi
         python forward/rituel.py --gagnants       # gagnants par verticale (addendum 01)
             3 protocoles aux frais les plus élevés sur 30 jours par verticale (DefiLlama),
             dans forward/gagnants/AAAA-MM-JJ.md ; les déclinaisons d'un même protocole
-            (V2, V3, perps…) sont regroupées sous leur parent DefiLlama.
+            (V2, V3, perps…) sont regroupées sous leur parent DefiLlama (addendum 02).
         python forward/rituel.py --journaliser [--semaine N]
             journalise la semaine courante (après commit de sa trace) ou la précédente ;
             les semaines plus anciennes sans entrée sont notées « manquee ».

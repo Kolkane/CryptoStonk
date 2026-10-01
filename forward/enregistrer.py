@@ -3,6 +3,7 @@
 Protocole : forward/protocole.md (PROTOCOLE FORWARD v1, commit 3456162).
 Précisions d'implémentation : forward/precisions.md (commit b04c936).
 Addendum 01, origines des problèmes : forward/addendum_01.md (commit 1b0e29e).
+Addendum 02, gagnants regroupés par parent : forward/addendum_02.md (commit b9f6b82).
 Ces fichiers sont vérifiés par empreinte avant toute opération.
 
 Une fiche est figée à son enregistrement : son empreinte SHA-256 entre dans
@@ -44,6 +45,8 @@ PRECISIONS_COMMIT = "b04c93678aca559d8ee56280cbbd1537ad0ff0eb"
 PRECISIONS_SHA256 = "8202e896009689e941cc68abf8dbfcac6a278246d69a5677cf05867baec7738c"
 ADDENDUM_01_COMMIT = "1b0e29eda9b6306a76ee7c7253931c175803b798"
 ADDENDUM_01_SHA256 = "2140212f389c2b8db922d9dab328ea5979a124139cc189eb598c4d7ea9b96888"
+ADDENDUM_02_COMMIT = "b9f6b82bb64206d0fb393ed82babf34b044f6982"
+ADDENDUM_02_SHA256 = "890537d90d0fe67fcc17d51f1bcdbc4ba84edd93791f5d729b7322da9a7cbd4e"
 ORIGINES = ("collecte", "derivation")
 REGISTRE = DOSSIER / "registre.csv"
 JOURNAL = DOSSIER / "journal.csv"
@@ -83,7 +86,8 @@ def verifier_protocole():
     """Protocole, précisions et addendums doivent être intacts depuis leur commit."""
     for fichier, attendu, commit in (("protocole.md", PROTOCOLE_SHA256, PROTOCOLE_COMMIT),
                                      ("precisions.md", PRECISIONS_SHA256, PRECISIONS_COMMIT),
-                                     ("addendum_01.md", ADDENDUM_01_SHA256, ADDENDUM_01_COMMIT)):
+                                     ("addendum_01.md", ADDENDUM_01_SHA256, ADDENDUM_01_COMMIT),
+                                     ("addendum_02.md", ADDENDUM_02_SHA256, ADDENDUM_02_COMMIT)):
         if empreinte(DOSSIER / fichier) != attendu:
             sys.exit(f"REFUS : forward/{fichier} a changé depuis son commit {commit[:7]}. "
                      f"Il est figé.")
@@ -304,7 +308,7 @@ def main():
     if arguments[:1] == ["--verifier"]:
         verifier_protocole()
         verifier_registre()
-        print(f"Protocole, précisions et addendum intacts, {len(lire_csv(REGISTRE))} fiche(s) au registre, "
+        print(f"Protocole, précisions et addendums intacts, {len(lire_csv(REGISTRE))} fiche(s) au registre, "
               f"toutes intactes.")
     elif arguments[:1] == ["--sortie"] and len(arguments) == 3:
         enregistrer_sortie(arguments[1], arguments[2])

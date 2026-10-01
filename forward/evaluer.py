@@ -154,7 +154,7 @@ def main():
     fiches = fiches_actives()
     print(f"Forward v1 — {aujourd_hui}, semaine {semaine_de(aujourd_hui)} (test : semaines 1 à "
           f"{SEMAINES}, du {DEBUT} au {bornes_semaine(SEMAINES)[1]})")
-    print(f"  Protocole, précisions, addendum et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
+    print(f"  Protocole, précisions, addendums et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
           f"{len(manquees)}/{SEMAINES_MANQUEES_MAX} tolérées")
     if len(manquees) >= SEMAINES_MANQUEES_MAX:
         print(f"TEST INVALIDE : semaines manquées {manquees} (règle : 3 sur 12).")
