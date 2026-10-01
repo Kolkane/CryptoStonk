@@ -14,15 +14,18 @@ coté à J0) contre BTC à J+90 (principale) et J+180 (secondaire). Au moins 10
 positions évaluables ; signal si la médiane est positive. Lectures 90 puis 180
 jours après la dernière position.
 
-Précisions d'implémentation :
+Précisions d'implémentation : forward/precisions.md (commit b04c936), vérifiées
+par empreinte comme le protocole :
 - métrique DefiLlama : TVL du jour (±3 jours) ; volume DEX et frais en moyenne
-  des 7 jours finissant au jour mesuré (au moins 5 jours présents) ;
+  des 7 jours finissant à J0 et à J+90 (au moins 5 jours présents) ;
 - prix : clôture CoinGecko de J0 (dernier prix du jour UTC), pas le prix indicatif
   de la fiche ;
 - sortie sur invalidation (forward/sorties.csv) : la position passe en cash à la
-  clôture du jour de sortie ; sa perf vs BTC à l'horizon compare ce prix de sortie
-  au BTC de l'horizon ;
+  clôture CoinGecko du jour de sortie ; sa perf se compare au BTC sur tout l'horizon ;
 - token sans cotation depuis 14 jours à la date mesurée : -100 % ;
+- semaine manquée : semaine terminée sans trace de rituel commitée pendant la
+  semaine (forward/rituels/semaine_NN.log), même journalisée après coup ;
+- Q1 positif et Q2 non concluant : même décision que Q1 positif et Q2 négatif ;
 - une fiche remplacée par une correction sort des calculs, la correction compte
   avec sa propre date comme J0.
 
@@ -36,8 +39,8 @@ from datetime import date, datetime, timedelta, timezone
 
 import requests
 
-from enregistrer import (DEBUT, DOSSIER, JOURNAL, RACINE, REGISTRE, SEMAINES, SORTIES, bornes_semaine,
-                         est_position_q2, lire_csv, lire_fiche, semaine_de, texte,
+from enregistrer import (DEBUT, DOSSIER, RACINE, REGISTRE, SEMAINES, SORTIES, bornes_semaine,
+                         est_position_q2, lire_csv, lire_fiche, semaine_de, semaines_manquees, texte,
                          verifier_protocole, verifier_registre)
 
 sys.path.insert(0, str(RACINE / "backtest"))
@@ -108,14 +111,6 @@ def fiches_actives():
             and 1 <= semaine_de(f["_j0"]) <= SEMAINES]
 
 
-def semaines_manquees(aujourd_hui):
-    """Semaines manquées : notées « manquee », ou sans entrée et sorties du délai de grâce."""
-    entrees = {int(l["semaine"]): l["statut"] for l in lire_csv(JOURNAL)}
-    limite = min(semaine_de(aujourd_hui) - 2, SEMAINES)
-    return [n for n in range(1, SEMAINES + 1)
-            if entrees.get(n) == "manquee" or (n <= limite and n not in entrees)]
-
-
 def croissance_q1(fiche):
     m = fiche.get("metrique") or {}
     nature, slug = texte(m.get("nature")), texte(m.get("slug_defillama"))
@@ -156,7 +151,7 @@ def main():
     fiches = fiches_actives()
     print(f"Forward v1 — {aujourd_hui}, semaine {semaine_de(aujourd_hui)} (test : semaines 1 à "
           f"{SEMAINES}, du {DEBUT} au {bornes_semaine(SEMAINES)[1]})")
-    print(f"  Protocole et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
+    print(f"  Protocole, précisions et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
           f"{len(manquees)}/{SEMAINES_MANQUEES_MAX} tolérées")
     if len(manquees) >= SEMAINES_MANQUEES_MAX:
         print(f"TEST INVALIDE : semaines manquées {manquees} (règle : 3 sur 12).")
@@ -230,12 +225,11 @@ def main():
     elif q2.get(90) == "signal":
         print("\nDécision : Q1 et Q2 positifs -> l'outil peut servir à se positionner ; "
               "la question du capital réel est ouverte.")
-    elif q2.get(90) == "pas de signal":
-        print("\nDécision : Q1 positif, Q2 négatif -> l'analyse fonctionne mais ne se monétise pas par "
-              "le token ; le radar reste comme outil d'analyse.")
     else:
-        print("\nDécision : Q1 positif, Q2 non concluant ou sans position -> cas non prévu par le "
-              "protocole, à trancher explicitement.")
+        cas = "négatif" if q2.get(90) == "pas de signal" else "non concluant (ou sans position)"
+        print(f"\nDécision : Q1 positif, Q2 {cas} -> l'analyse fonctionne mais ne se monétise pas par "
+              "le token ; le radar reste comme outil d'analyse. Prolonger Q2 exige un nouveau protocole "
+              "figé avant toute nouvelle position.")
 
 
 if __name__ == "__main__":

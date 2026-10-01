@@ -1,6 +1,8 @@
 """Forward cadré — enregistrement des fiches dans le registre de hash.
 
 Protocole : forward/protocole.md (PROTOCOLE FORWARD v1, commit 3456162).
+Précisions d'implémentation : forward/precisions.md (commit b04c936).
+Les deux fichiers sont vérifiés par empreinte avant toute opération.
 
 Une fiche est figée à son enregistrement : son empreinte SHA-256 entre dans
 forward/registre.csv. Avant tout enregistrement, le script vérifie le protocole
@@ -10,16 +12,18 @@ dans les semaines 1 à 12. Une correction passe par une nouvelle fiche dont le
 champ « remplace » donne l'id de l'ancienne.
 
 Les sorties de positions papier (condition d'invalidation atteinte) s'enregistrent
-aussi ici, datées du jour même, dans forward/sorties.csv.
+aussi ici, datées du jour même, dans forward/sorties.csv, qui cite la condition
+d'invalidation de la fiche à côté du constat.
 
 Usage : python forward/enregistrer.py forward/fiches/fiche_AAAA-MM-JJ_NN.md
-        python forward/enregistrer.py --sortie <id_fiche> "<motif>"
+        python forward/enregistrer.py --sortie <id_fiche> "<constat>"
         python forward/enregistrer.py --verifier
 """
 
 import csv
 import hashlib
 import re
+import subprocess
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -35,9 +39,12 @@ DEBUT = date(2026, 10, 1)
 SEMAINES = 12
 PROTOCOLE_COMMIT = "34561621ec52d6a41468697a717d865953fc20c1"
 PROTOCOLE_SHA256 = "8372f2e817661e66d21dc4383f5bf85541f3c14a86004850c17337b5e2ff16eb"
+PRECISIONS_COMMIT = "b04c93678aca559d8ee56280cbbd1537ad0ff0eb"
+PRECISIONS_SHA256 = "8202e896009689e941cc68abf8dbfcac6a278246d69a5677cf05867baec7738c"
 REGISTRE = DOSSIER / "registre.csv"
 JOURNAL = DOSSIER / "journal.csv"
 SORTIES = DOSSIER / "sorties.csv"
+TRACES = DOSSIER / "rituels"
 MOTIF_FICHIER = re.compile(r"fiche_(\d{4}-\d{2}-\d{2})_(\d{2})\.md")
 MOTIF_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
@@ -69,9 +76,39 @@ def bornes_semaine(n):
 
 
 def verifier_protocole():
-    if empreinte(DOSSIER / "protocole.md") != PROTOCOLE_SHA256:
-        sys.exit("REFUS : forward/protocole.md a changé depuis son commit "
-                 f"{PROTOCOLE_COMMIT[:7]}. Le protocole est figé.")
+    """Protocole et précisions d'implémentation doivent être intacts depuis leur commit."""
+    for fichier, attendu, commit in (("protocole.md", PROTOCOLE_SHA256, PROTOCOLE_COMMIT),
+                                     ("precisions.md", PRECISIONS_SHA256, PRECISIONS_COMMIT)):
+        if empreinte(DOSSIER / fichier) != attendu:
+            sys.exit(f"REFUS : forward/{fichier} a changé depuis son commit {commit[:7]}. "
+                     f"Il est figé.")
+
+
+def trace(n):
+    return TRACES / f"semaine_{n:02d}.log"
+
+
+def dates_commit(chemin):
+    """Dates de commit (AAAA-MM-JJ) d'un fichier ; [] si git est indisponible."""
+    try:
+        sortie = subprocess.run(["git", "log", "--format=%cs", "--", str(chemin)], cwd=RACINE,
+                                capture_output=True, text=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        print("  attention : git indisponible, traces de rituel non vérifiables")
+        return []
+    return [ligne.strip() for ligne in sortie.splitlines() if ligne.strip()]
+
+
+def trace_commitee(n):
+    """Vrai si la trace du rituel de la semaine n a été commitée pendant cette semaine."""
+    debut, fin = bornes_semaine(n)
+    return any(debut.isoformat() <= d <= fin.isoformat() for d in dates_commit(trace(n)))
+
+
+def semaines_manquees(aujourd_hui):
+    """Semaines terminées sans trace de rituel commitée pendant la semaine (journal ou non)."""
+    terminees = [n for n in range(1, SEMAINES + 1) if bornes_semaine(n)[1] < aujourd_hui]
+    return [n for n in terminees if not trace_commitee(n)]
 
 
 def verifier_registre():
@@ -237,14 +274,17 @@ def enregistrer_sortie(identifiant, motif):
     ligne = next((l for l in lire_csv(REGISTRE) if l["id"] == identifiant), None)
     if not ligne:
         sys.exit(f"REFUS : {identifiant} n'est pas au registre.")
-    if not est_position_q2(lire_fiche(DOSSIER / ligne["fichier"])):
+    fiche = lire_fiche(DOSSIER / ligne["fichier"])
+    if not est_position_q2(fiche):
         sys.exit(f"REFUS : {identifiant} n'est pas une position papier.")
     if any(l["id_fiche"] == identifiant for l in lire_csv(SORTIES)):
         sys.exit(f"REFUS : {identifiant} est déjà sortie.")
     if not texte(motif):
-        sys.exit("REFUS : motif d'invalidation requis.")
-    ajouter_ligne(SORTIES, [identifiant, date.today().isoformat(), texte(motif)])
-    print(f"Sortie enregistrée : {identifiant}, clôture du {date.today().isoformat()}.")
+        sys.exit("REFUS : constat requis (ce qui a déclenché la condition d'invalidation).")
+    condition = " ".join(texte(fiche.get("condition_invalidation")).split())
+    ajouter_ligne(SORTIES, [identifiant, date.today().isoformat(), condition, texte(motif)])
+    print(f"Sortie enregistrée : {identifiant}, clôture CoinGecko du {date.today().isoformat()}.\n"
+          f"  condition de la fiche : {condition}")
 
 
 def main():
@@ -252,7 +292,7 @@ def main():
     if arguments[:1] == ["--verifier"]:
         verifier_protocole()
         verifier_registre()
-        print(f"Protocole intact, {len(lire_csv(REGISTRE))} fiche(s) au registre, toutes intactes.")
+        print(f"Protocole et précisions intacts, {len(lire_csv(REGISTRE))} fiche(s) au registre, toutes intactes.")
     elif arguments[:1] == ["--sortie"] and len(arguments) == 3:
         enregistrer_sortie(arguments[1], arguments[2])
     elif len(arguments) == 1 and not arguments[0].startswith("--"):
