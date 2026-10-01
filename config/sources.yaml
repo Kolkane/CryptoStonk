@@ -1,16 +1,19 @@
 # Couche 2 — sources surveillées.
 
-# Vos 30 comptes X de référence, par verticale.
-# Les entrées ci-dessous sont des EXEMPLES à remplacer par votre liste.
-# La collecte X est manuelle en v0 : coller les plaintes repérées dans
+# 30 comptes X de référence, par verticale — à remplir (forward cadré).
+# Critères : comptes qui décrivent des frictions réelles — builders, chercheurs DeFi,
+# analystes risque, power users. Pas d'influenceurs ni de comptes d'annonces.
+# Au moins 3 comptes par verticale, 30 au total.
+# La collecte X reste manuelle : coller les plaintes repérées dans
 # problemes/inbox/AAAA-MM-JJ.md (format : voir README).
 comptes_x:
-  general: [cobie, CryptoHayes, Rewkang]
   perps: []
-  options: []
-  rwa: []
-  bridges: []
+  dex: []
+  lending: []
   lsd_restaking: []
+  bridges: []
+  rwa: []
+  rendement: []
 
 # Forums de gouvernance (Discourse) — collectés automatiquement
 # par problemes/collecte_forums.py via leur API JSON publique.

@@ -40,3 +40,7 @@ Sur 23 tokens mesurables de J+30 à J+180, les tokens à forte rétention (TVL d
 **Pause** : garder la routine quotidienne (thermomètre, veille, croisement) et le filtre v1 pour l'hygiène des dossiers, sans nouvelle mesure. Reprendre quand le régime change (signal du thermomètre) ou quand une nouvelle question justifie l'effort.
 
 Dans les deux cas, aucun résultat de cette phase ne justifie aujourd'hui une position.
+
+## Forward cadré en cours
+
+Décision prise le 2026-10-01 : forward cadré. Protocole [forward/protocole.md](forward/protocole.md), figé au commit `3456162` avant toute fiche ; 12 semaines de rituel (jusqu'au 2026-12-23), lecture Q1 au plus tôt le 2027-03-23, Q2 90 puis 180 jours après la dernière position.

@@ -4,6 +4,15 @@
 
 Moteur de détection précoce de cryptos à fort potentiel. Outil interne pour notre propre capital : il structure la décision et réduit le hasard, il ne supprime pas le risque. Rien ici n'est une boule de cristal ni un conseil d'investissement — chaque position reste un pari dimensionné en conséquence.
 
+## Forward cadré en cours
+
+Depuis le 2026-10-01, pour 12 semaines : test de la thèse centrale (problèmes remontés par le marché, solutions qui s'y positionnent, adéquation) sous un protocole figé avant toute fiche — [forward/protocole.md](forward/protocole.md), commit `3456162`. Lecture Q1 au plus tôt le 2027-03-23 ; Q2 90 puis 180 jours après la dernière position.
+
+- Rituel hebdo : `python forward/rituel.py` (collecte des forums, prompt de clustering, checklist), puis fiches à partir de [forward/gabarit_fiche.md](forward/gabarit_fiche.md).
+- `python forward/enregistrer.py forward/fiches/fiche_AAAA-MM-JJ_NN.md`, le jour même : la fiche entre au registre de hash et devient figée.
+- `python forward/rituel.py --journaliser` chaque fin de semaine, même sans fiche (3 semaines manquées invalident le test).
+- `python forward/evaluer.py` : comptes seulement jusqu'aux dates de lecture, puis seuils et décision du protocole.
+
 ## Le pari
 
 Sur chaque cycle, les plus grosses performances viennent de projets qui résolvent un problème concret laissé ouvert par les leaders du moment (Aster reprenant Hyperliquid en cachant les ordres pour empêcher la chasse aux stops, DRV ouvrant les options onchain aux institutionnels). Ces problèmes s'expriment publiquement — X, Reddit, Discord, forums de gouvernance — bien avant que la solution ne soit valorisée par le marché. On cherche donc le problème d'abord, la solution ensuite.
@@ -112,6 +121,7 @@ Résoudre un problème ne suffit pas : beaucoup de projets utiles vont à zéro.
 ## Feuille de route
 
 - **Fait** : backtest couche 4 (passage complet, bilan, entrée différée négative) et recalibrage en scoring v1.
+- **En cours** : forward cadré, 12 semaines depuis le 2026-10-01 ([protocole](forward/protocole.md)).
 - **Clos** : backtest farming, non concluant sur données publiques (2 lectures TVL mesurables pour un seuil de 8) : [backtest/farming/bilan_farming.md](backtest/farming/bilan_farming.md).
 - **Ensuite** : levées VC (RootData), calendrier des TGE, backtest du croisement (l'heuristique v0 n'est pas validée).
 - Les seuils du thermomètre sont des heuristiques v0, à recalibrer sur données historiques.
