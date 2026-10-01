@@ -32,6 +32,7 @@ Sur 23 tokens mesurables de J+30 à J+180, les tokens à forte rétention (TVL d
 - **Les points ne sont pas un contrat.** Sur 30 programmes, trois ont changé de nature avant le TGE : Cap a payé en stablecoin puis réduit la récompense de 65 %, Ranger a converti les points en simple droit d'achat, Katana a gardé les tokens farmés non transférables sans publier les montants.
 - **Biais de publication.** Les programmes mesurables sont ceux qui publient leurs chiffres, c'est-à-dire surtout les gros dossiers (Lighter, Meteora, Kinetiq, Turtle, Genius). Un rendement calculé sur eux décrirait les meilleurs cas, pas le farming typique : même avec plus de lectures, l'échantillon resterait biaisé vers le haut.
 - **Une seule fenêtre de marché, baissière pour les lancements.** Tous les écarts et verdicts sont relatifs à ce régime. Ils ne disent rien d'un cycle où les lancements montent.
+- Couverture de l'univers DefiLlama corrigée à 16 % (et non 22 %) après correction du mapping des verticales le 2026-10-01 : le biais du survivant était sous-estimé. Aucun verdict ne change, les conclusions valent pour les tokens listés sur CoinGecko.
 
 ## Décision en attente : forward cadré ou pause
 

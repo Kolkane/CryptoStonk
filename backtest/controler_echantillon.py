@@ -18,6 +18,10 @@ Trois questions :
    Presque tout positif = signal de biais, pas de marché facile.
 
 Usage  : python backtest/controler_echantillon.py [--debut 2025-10-02] [--fin 2026-06-30]
+         [--date-reference AAAA-MM-JJ]
+         --date-reference : date à laquelle les fenêtres et les morts sont jugés (défaut :
+         aujourd'hui) ; à fixer à la date des mesures pour régénérer le rapport sans
+         que le temps écoulé ne reclasse des fenêtres non re-mesurées.
 Sortie : backtest/controle_echantillon.md
 """
 
@@ -150,6 +154,7 @@ def main():
     analyseur = argparse.ArgumentParser(description=__doc__)
     analyseur.add_argument("--debut", default="2025-10-02", help="début de fenêtre effective")
     analyseur.add_argument("--fin", default="2026-06-30")
+    analyseur.add_argument("--date-reference", help="AAAA-MM-JJ, défaut : aujourd'hui")
     options = analyseur.parse_args()
 
     fichier_perfs = RACINE / "backtest" / "performances.csv"
@@ -158,8 +163,9 @@ def main():
         return
     echantillon = lire_csv(RACINE / "backtest" / "echantillon.csv")
     perfs = lire_csv(fichier_perfs)
-    aujourd_hui = date.today().isoformat()
-    seuil_mort = (date.today() - timedelta(days=JOURS_SANS_COTATION_MORT)).isoformat()
+    reference = date.fromisoformat(options.date_reference) if options.date_reference else date.today()
+    aujourd_hui = reference.isoformat()
+    seuil_mort = (reference - timedelta(days=JOURS_SANS_COTATION_MORT)).isoformat()
 
     # morts : plus aucune cotation depuis JOURS_SANS_COTATION_MORT jours
     morts = {l["id_coingecko"] for l in perfs
@@ -213,8 +219,9 @@ def main():
     # rapport
     lignes = [
         "# Contrôle qualité de l'échantillon — backtest v0", "",
-        f"_Généré le {aujourd_hui} par backtest/controler_echantillon.py — à relancer "
-        f"après toute extension de l'échantillon._", "",
+        f"_Généré le {date.today().isoformat()} par backtest/controler_echantillon.py"
+        + (f", date de référence des fenêtres {aujourd_hui}" if aujourd_hui != date.today().isoformat() else "")
+        + " — à relancer après toute extension de l'échantillon._", "",
         "Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de "
         "plaintes à J-90), donc ce backtest valide uniquement la grille d'audit couche 4, "
         "pas la détection de problèmes.", "",

@@ -1,6 +1,6 @@
 # Contrôle qualité de l'échantillon — backtest v0
 
-_Généré le 2026-09-30 par backtest/controler_echantillon.py — à relancer après toute extension de l'échantillon._
+_Généré le 2026-10-01 par backtest/controler_echantillon.py, date de référence des fenêtres 2026-09-30 — à relancer après toute extension de l'échantillon._
 
 Rappel du cadrage : la couche 2 n'est pas reconstructible (pas d'historique de plaintes à J-90), donc ce backtest valide uniquement la grille d'audit couche 4, pas la détection de problèmes.
 
@@ -63,28 +63,28 @@ CoinGecko déliste ou cesse de suivre les tokens morts : ils ne peuvent pas entr
 
 - Morts identifiés **dans** l'échantillon (aucune cotation depuis 14 j) : **6** — IZKY, OOOO, RNGR, STEAK, TEA, TROVE. Leurs fenêtres postérieures à la mort sont **imputées à -100 %**, pas exclues ; leurs fenêtres vécues gardent la mesure.
 
-- Univers estimé (DefiLlama /protocols) : **36** lancements de token sur la fenêtre, nos verticales — après exclusion de 46 fiches dont le token préexiste à la fenêtre (nouveaux produits de protocoles établis, pas des TGE), de 2 instruments, et dédoublonnage par symbole.
-- Retrouvés dans l'échantillon : **8** (couverture 22 %). Absents : **28**, dont **17** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
+- Univers estimé (DefiLlama /protocols) : **50** lancements de token sur la fenêtre, nos verticales — après exclusion de 80 fiches dont le token préexiste à la fenêtre (nouveaux produits de protocoles établis, pas des TGE), de 2 instruments, et dédoublonnage par symbole.
+- Retrouvés dans l'échantillon : **8** (couverture 16 %). Absents : **42**, dont **25** avec TVL < 10 k$ aujourd'hui (morts/abandonnés probables : la masse invisible du biais).
 
 Principaux absents (TVL actuelle) :
 
 | Protocole | Symbole | Verticale | TVL |
 |---|---|---|---|
-| Sierra Protocol | SIERRA | rendement | 44 902 325 $ |
-| Piku Finance | PIKU | rendement | 18 948 806 $ |
+| Sierra Protocol | SIERRA | rendement | 44 029 678 $ |
+| Piku Finance | PIKU | rendement | 19 243 104 $ |
 | Stobox | STBU | rwa | 13 952 059 $ |
-| Ledgity Yield | LDY | rendement | 2 463 732 $ |
-| Omnipair | OMFG | lending | 656 551 $ |
-| Pondo Protocol | PNDO | lsd_restaking | 605 318 $ |
-| DIEM Relay | DIEM | lsd_restaking | 575 269 $ |
-| Everything | EV | lending | 373 269 $ |
-| Pepu Bridge | PEPU | bridges | 277 715 $ |
-| Ripe Protocol | RIPE | lending | 163 297 $ |
-| Alvara | ALVA | rendement | 13 417 $ |
-| Juris Protocol | JURIS | lending | 6 443 $ |
-| PrimeFi | PRFI | lending | 3 225 $ |
-| Defimarketplus | DMTP | rendement | 1 388 $ |
-| Edel | EDEL | lending | 864 $ |
+| Ledgity Yield | LDY | rendement | 2 455 901 $ |
+| Pondo Protocol | PNDO | lsd_restaking | 689 605 $ |
+| Omnipair | OMFG | lending | 673 575 $ |
+| DIEM Relay | DIEM | lsd_restaking | 608 581 $ |
+| ZealousSwap | ZEAL | dex | 454 067 $ |
+| Everything | EV | lending | 373 023 $ |
+| Pepu Bridge | PEPU | bridges | 265 774 $ |
+| Ripe Protocol | RIPE | lending | 164 140 $ |
+| Terraport | TERRA | dex | 83 660 $ |
+| Alpaca Dex | PACA | dex | 31 691 $ |
+| Forest V1 | FOREST | dex | 21 985 $ |
+| Murphy | MURF | dex | 18 803 $ |
 
 Limites de l'estimation : listedAt DefiLlama = date d'ajout au site, pas le TGE ; rapprochement par symbole/nom approximatif ; DefiLlama a son propre biais de survie (plus faible : les fiches mortes restent) ; /emissions (vraies dates de TGE) est passée en offre payante.
 
