@@ -10,10 +10,10 @@ invalide. Le script ne pousse pas : git push reste à faire.
 
 Usage : python forward/rituel.py                  # rituel complet + trace commitée
         python forward/rituel.py --checklist      # checklist seule, sans trace
-        python forward/rituel.py --gagnants       # gagnants par verticale (addendum 01)
-            3 protocoles aux frais les plus élevés sur 30 jours par verticale (DefiLlama),
-            dans forward/gagnants/AAAA-MM-JJ.md ; les déclinaisons d'un même protocole
-            (V2, V3, perps…) sont regroupées sous leur parent DefiLlama (addendum 02).
+        python forward/rituel.py --gagnants       # gagnants (addendums 01 à 03)
+            dans forward/gagnants/AAAA-MM-JJ.md, frais sur 30 jours (DefiLlama) : 3 premiers par
+            verticale du projet, 20 premiers toutes catégories (liste a), 3 premiers de chaque
+            catégorie dont le leader dépasse 1 M$ (liste b) ; déclinaisons regroupées par parent.
         python forward/rituel.py --journaliser [--semaine N]
             journalise la semaine courante (après commit de sa trace) ou la précédente ;
             les semaines plus anciennes sans entrée sont notées « manquee ».
@@ -66,8 +66,32 @@ def compact_usd(montant):
     return f"{montant:.0f} $"
 
 
+def regrouper(protocoles, parents, cle):
+    """Frais 30 j regroupés par parent DefiLlama (addendum 02), sous la clé cle(p) ; None = ignoré."""
+    groupes = {}
+    for p in protocoles:
+        rubrique = cle(p)
+        frais = p.get("total30d") or 0
+        if rubrique is None or frais <= 0:
+            continue
+        parent = p.get("parentProtocol")
+        nom, slug = ((parents.get(parent, parent), parent.split("#", 1)[1]) if parent
+                     else (p.get("displayName") or p["name"], p["slug"]))
+        groupe = groupes.setdefault((rubrique, slug), {"nom": nom, "slug": slug, "frais": 0,
+                                                       "declinaisons": [], "categories": set()})
+        groupe["frais"] += frais
+        groupe["declinaisons"].append(p.get("displayName") or p["name"])
+        groupe["categories"].add(p.get("category") or "?")
+    return groupes
+
+
+def tete(groupes, rubrique, n):
+    return sorted((g for (r, _), g in groupes.items() if r == rubrique), key=lambda g: -g["frais"])[:n]
+
+
 def gagnants():
-    """Les 3 protocoles aux frais les plus élevés sur 30 jours dans chaque verticale du projet."""
+    """Gagnants par frais sur 30 jours : verticales du projet (addendum 01), puis tout le périmètre
+    DefiLlama (addendum 03) ; déclinaisons regroupées par parent (addendum 02)."""
     verifier_protocole()
     aujourd_hui = date.today()
     if not 1 <= semaine_de(aujourd_hui) <= SEMAINES:
@@ -82,47 +106,62 @@ def gagnants():
             f"{LLAMA}/lite/protocols2", headers=ENTETES, timeout=120).json().get("parentProtocols") or []}
     except (requests.RequestException, ValueError, KeyError) as erreur:
         sys.exit(f"DefiLlama indisponible ({erreur}) : relancer plus tard dans la journée.")
+    # l'overview liste aussi des chaînes (protocolType « chain ») : les addendums parlent de protocoles
+    protocoles = [p for p in protocoles if p.get("protocolType") != "chain"]
 
-    regroupes = {}
-    for p in protocoles:
-        verticale = vers_verticale.get((p.get("category") or "").lower())
-        frais = p.get("total30d") or 0
-        if not verticale or frais <= 0:
-            continue
-        parent = p.get("parentProtocol")
-        nom, slug = ((parents.get(parent, parent), parent.split("#", 1)[1]) if parent
-                     else (p.get("displayName") or p["name"], p["slug"]))
-        groupe = regroupes.setdefault((verticale, slug), {"nom": nom, "slug": slug, "frais": 0,
-                                                         "declinaisons": []})
-        groupe["frais"] += frais
-        groupe["declinaisons"].append(p.get("displayName") or p["name"])
+    par_verticale = regrouper(protocoles, parents,
+                              lambda p: vers_verticale.get((p.get("category") or "").lower()))
+    tous = regrouper(protocoles, parents, lambda p: "tous")
+    par_categorie = regrouper(protocoles, parents, lambda p: p.get("category") or "?")
 
-    L = [f"# Gagnants par verticale — {aujourd_hui.isoformat()}", "",
-         f"_Relevés le jour du rituel (semaine {semaine_de(aujourd_hui)}), DefiLlama. Règle de l'addendum 01 : "
-         f"les {GAGNANTS_PAR_VERTICALE} protocoles aux frais les plus élevés sur 30 jours dans chaque "
-         f"verticale du projet. Frais d'un protocole = somme de ses déclinaisons DefiLlama classées dans "
-         f"la verticale ; catégories par verticale : config/verticals.yaml._", "",
+    L = [f"# Gagnants — {aujourd_hui.isoformat()}", "",
+         f"_Relevés le jour du rituel (semaine {semaine_de(aujourd_hui)}), DefiLlama, frais sur 30 jours. "
+         f"Addendum 01 : {GAGNANTS_PAR_VERTICALE} premiers par verticale du projet (catégories : "
+         f"config/verticals.yaml). Addendum 03 : 20 premiers toutes catégories (liste a), 3 premiers de "
+         f"chaque catégorie DefiLlama dont le leader dépasse 1 M$ (liste b). Addendum 02 : déclinaisons "
+         f"d'un même protocole regroupées sous leur parent DefiLlama. Les chaînes (protocolType « chain ») "
+         f"sont exclues : les addendums visent des protocoles._", "",
          "Axes d'examen des limites : conception (transparence, custody, latence, collatéral, actifs), "
          "accès (chaîne, géographie, KYC, taille minimale), coût (frais, funding), risques (centralisation, "
          "oracle, validateurs), plaintes de ses utilisateurs. Hypothèses non confirmées : "
-         "forward/backlog_hypotheses.md.", ""]
+         "forward/backlog_hypotheses.md.", "",
+         "# Verticales du projet (addendum 01)", ""]
     for verticale in verticales:
-        tete = sorted((g for (v, _), g in regroupes.items() if v == verticale),
-                      key=lambda g: -g["frais"])[:GAGNANTS_PAR_VERTICALE]
         L += [f"## {verticale}", ""]
-        if not tete:
+        premiers = tete(par_verticale, verticale, GAGNANTS_PAR_VERTICALE)
+        if not premiers:
             L += ["Aucun protocole avec des frais sur 30 jours dans cette verticale.", ""]
             continue
         L += ["| Rang | Protocole | Slug DefiLlama | Frais 30 j | Déclinaisons |", "|---|---|---|---|---|"]
-        for rang, g in enumerate(tete, 1):
+        for rang, g in enumerate(premiers, 1):
             L.append(f"| {rang} | {g['nom']} | {g['slug']} | {compact_usd(g['frais'])} "
                      f"| {', '.join(sorted(g['declinaisons']))} |")
         L.append("")
+
+    L += ["# Liste a — 20 premiers, toutes catégories (addendum 03)", "",
+          "| Rang | Protocole | Slug DefiLlama | Catégories DefiLlama | Frais 30 j | Déclinaisons |",
+          "|---|---|---|---|---|---|"]
+    for rang, g in enumerate(tete(tous, "tous", 20), 1):
+        L.append(f"| {rang} | {g['nom']} | {g['slug']} | {', '.join(sorted(g['categories']))} "
+                 f"| {compact_usd(g['frais'])} | {', '.join(sorted(g['declinaisons']))} |")
+
+    categories = sorted({r for r, _ in par_categorie},
+                        key=lambda c: -tete(par_categorie, c, 1)[0]["frais"])
+    retenues = [c for c in categories if tete(par_categorie, c, 1)[0]["frais"] > 1e6]
+    L += ["", f"# Liste b — 3 premiers par catégorie DefiLlama, leader au-dessus de 1 M$ (addendum 03)", "",
+          f"{len(retenues)} catégorie(s) retenue(s) sur {len(categories)}, classées par frais du leader.", "",
+          "| Catégorie DefiLlama | Rang | Protocole | Slug DefiLlama | Frais 30 j |", "|---|---|---|---|---|"]
+    for categorie in retenues:
+        for rang, g in enumerate(tete(par_categorie, categorie, 3), 1):
+            L.append(f"| {categorie} | {rang} | {g['nom']} | {g['slug']} | {compact_usd(g['frais'])} |")
+    L.append("")
+
     dossier = RACINE / "forward" / "gagnants"
     dossier.mkdir(parents=True, exist_ok=True)
     fichier = dossier / f"{aujourd_hui.isoformat()}.md"
     fichier.write_text("\n".join(L), encoding="utf-8")
-    print(f"Écrit : {fichier.relative_to(RACINE).as_posix()} (à commiter avec le rituel)")
+    print(f"Écrit : {fichier.relative_to(RACINE).as_posix()} (à commiter avec le rituel) — "
+          f"liste a : 20 protocoles, liste b : {len(retenues)} catégories")
 
 
 def journaliser(n):
