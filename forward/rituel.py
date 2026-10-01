@@ -172,6 +172,7 @@ def checklist():
   5. Retenir 1 ou 2 problèmes ; une fiche par solution concurrente quand il y en a plusieurs
   6. Copier forward/gabarit_fiche.md vers forward/fiches/fiche_<date du jour>_NN.md et la remplir
      (origine, 3 sources datées et distinctes, métrique DefiLlama avec sa valeur J0, invalidation)
+     en suivant forward/guide_fiches.md (choix de la métrique, 3 questions avant une conviction haute)
   7. Le jour même : python forward/enregistrer.py forward/fiches/fiche_<date>_NN.md
   8. Condition d'invalidation atteinte : python forward/enregistrer.py --sortie <id> "<constat>"
   9. En fin de semaine, même sans fiche : python forward/rituel.py --journaliser, puis git push""")
