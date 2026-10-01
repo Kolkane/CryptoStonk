@@ -29,6 +29,9 @@ par empreinte comme le protocole :
 - une fiche remplacée par une correction sort des calculs, la correction compte
   avec sa propre date comme J0.
 
+Addendum 01 (commit 1b0e29e) : à la lecture de Q1, le même contraste est affiché par
+origine du problème (collecte, derivation), étiqueté descriptif, hors verdict.
+
 Usage : python forward/evaluer.py
 """
 
@@ -39,7 +42,7 @@ from datetime import date, datetime, timedelta, timezone
 
 import requests
 
-from enregistrer import (DEBUT, DOSSIER, RACINE, REGISTRE, SEMAINES, SORTIES, bornes_semaine,
+from enregistrer import (DEBUT, DOSSIER, ORIGINES, RACINE, REGISTRE, SEMAINES, SORTIES, bornes_semaine,
                          est_position_q2, lire_csv, lire_fiche, semaine_de, semaines_manquees, texte,
                          verifier_protocole, verifier_registre)
 
@@ -151,7 +154,7 @@ def main():
     fiches = fiches_actives()
     print(f"Forward v1 — {aujourd_hui}, semaine {semaine_de(aujourd_hui)} (test : semaines 1 à "
           f"{SEMAINES}, du {DEBUT} au {bornes_semaine(SEMAINES)[1]})")
-    print(f"  Protocole, précisions et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
+    print(f"  Protocole, précisions, addendum et registre intacts ; {len(fiches)} fiche(s) active(s) ; semaines manquées : "
           f"{len(manquees)}/{SEMAINES_MANQUEES_MAX} tolérées")
     if len(manquees) >= SEMAINES_MANQUEES_MAX:
         print(f"TEST INVALIDE : semaines manquées {manquees} (règle : 3 sur 12).")
@@ -174,7 +177,9 @@ def main():
               f"faible {echues['faible']})")
         q1 = None
     else:
-        valeurs = {g: [c for c in (croissance_q1(f) for f in l) if c is not None]
+        croissances = {texte(f.get("id")): croissance_q1(f) for l in groupes.values() for f in l}
+        valeurs = {g: [croissances[texte(f.get("id"))] for f in l
+                       if croissances[texte(f.get("id"))] is not None]
                    for g, l in groupes.items()}
         n_forte, n_faible = len(valeurs["forte"]), len(valeurs["faible"])
         if min(n_forte, n_faible) < Q1_N_MIN:
@@ -186,6 +191,21 @@ def main():
             q1 = "signal" if ecart >= Q1_ECART else "pas de signal"
             print(f"  forte {m_forte:+.1f} % (n={n_forte}), faible {m_faible:+.1f} % (n={n_faible}), "
                   f"écart {ecart:+.1f} pts -> {q1.upper()}")
+        print("  Par origine (addendum 01) — descriptif, hors verdict :")
+        for origine in ORIGINES:
+            cotes = {}
+            for g, l in groupes.items():
+                cotes[g] = [croissances[texte(f.get("id"))] for f in l
+                            if texte((f.get("probleme") or {}).get("origine")) == origine
+                            and croissances[texte(f.get("id"))] is not None]
+            medianes = {g: (statistics.median(v) if v else None) for g, v in cotes.items()}
+            ecart_origine = (f"{medianes['forte'] - medianes['faible']:+.1f} pts"
+                             if None not in medianes.values() else "—")
+            print(f"    {origine:<10} forte "
+                  + (f"{medianes['forte']:+.1f} %" if medianes["forte"] is not None else "—")
+                  + f" (n={len(cotes['forte'])}), faible "
+                  + (f"{medianes['faible']:+.1f} %" if medianes["faible"] is not None else "—")
+                  + f" (n={len(cotes['faible'])}), écart {ecart_origine}")
 
     # Q2
     positions = [f for f in fiches if est_position_q2(f)]

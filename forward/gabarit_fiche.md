@@ -10,6 +10,9 @@ remplace:                    # id de la fiche corrigée, sinon vide
 
 probleme:
   id:                        # P-NN, commun aux fiches des solutions concurrentes d'un même problème
+  origine:                   # collecte (forums, inbox X) | derivation (limite d'un gagnant, addendum 01)
+  gagnant_reference:         # si derivation : protocole gagnant (forward/gagnants/AAAA-MM-JJ.md)
+  gagnant_slug_defillama:    # si derivation : son slug DefiLlama
   enonce:                    # une phrase
   sources:                   # au moins 3, datées et distinctes
     - {date: , url: , qui: }
@@ -26,6 +29,7 @@ solution:
   stade:                     # pre_token | token_cote
   date_lancement:            # AAAA-MM-JJ
   id_coingecko:              # obligatoire si token_cote
+  distribution:              # accès aux utilisateurs en une ligne : écosystème, exchange, partenariats
 
 metrique:                    # une seule, gratuite sur DefiLlama ; tout vide = fiche hors Q1
   nature:                    # tvl | volume_dex | frais

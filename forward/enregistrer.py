@@ -2,7 +2,8 @@
 
 Protocole : forward/protocole.md (PROTOCOLE FORWARD v1, commit 3456162).
 Précisions d'implémentation : forward/precisions.md (commit b04c936).
-Les deux fichiers sont vérifiés par empreinte avant toute opération.
+Addendum 01, origines des problèmes : forward/addendum_01.md (commit 1b0e29e).
+Ces fichiers sont vérifiés par empreinte avant toute opération.
 
 Une fiche est figée à son enregistrement : son empreinte SHA-256 entre dans
 forward/registre.csv. Avant tout enregistrement, le script vérifie le protocole
@@ -41,6 +42,9 @@ PROTOCOLE_COMMIT = "34561621ec52d6a41468697a717d865953fc20c1"
 PROTOCOLE_SHA256 = "8372f2e817661e66d21dc4383f5bf85541f3c14a86004850c17337b5e2ff16eb"
 PRECISIONS_COMMIT = "b04c93678aca559d8ee56280cbbd1537ad0ff0eb"
 PRECISIONS_SHA256 = "8202e896009689e941cc68abf8dbfcac6a278246d69a5677cf05867baec7738c"
+ADDENDUM_01_COMMIT = "1b0e29eda9b6306a76ee7c7253931c175803b798"
+ADDENDUM_01_SHA256 = "2140212f389c2b8db922d9dab328ea5979a124139cc189eb598c4d7ea9b96888"
+ORIGINES = ("collecte", "derivation")
 REGISTRE = DOSSIER / "registre.csv"
 JOURNAL = DOSSIER / "journal.csv"
 SORTIES = DOSSIER / "sorties.csv"
@@ -76,9 +80,10 @@ def bornes_semaine(n):
 
 
 def verifier_protocole():
-    """Protocole et précisions d'implémentation doivent être intacts depuis leur commit."""
+    """Protocole, précisions et addendums doivent être intacts depuis leur commit."""
     for fichier, attendu, commit in (("protocole.md", PROTOCOLE_SHA256, PROTOCOLE_COMMIT),
-                                     ("precisions.md", PRECISIONS_SHA256, PRECISIONS_COMMIT)):
+                                     ("precisions.md", PRECISIONS_SHA256, PRECISIONS_COMMIT),
+                                     ("addendum_01.md", ADDENDUM_01_SHA256, ADDENDUM_01_COMMIT)):
         if empreinte(DOSSIER / fichier) != attendu:
             sys.exit(f"REFUS : forward/{fichier} a changé depuis son commit {commit[:7]}. "
                      f"Il est figé.")
@@ -176,6 +181,13 @@ def valider(fiche, chemin, ids_enregistres, aujourd_hui):
     for champ in ("id", "enonce", "qui_le_subit", "methode_estimation"):
         if not texte(p.get(champ)):
             erreurs.append(f"probleme.{champ} vide")
+    origine = texte(p.get("origine"))
+    if origine not in ORIGINES:
+        erreurs.append("probleme.origine : collecte ou derivation (addendum 01)")
+    elif origine == "derivation":
+        for champ in ("gagnant_reference", "gagnant_slug_defillama"):
+            if not texte(p.get(champ)):
+                erreurs.append(f"probleme.{champ} requis pour une origine derivation")
     sources = [s for s in (p.get("sources") or []) if isinstance(s, dict)]
     valides = [s for s in sources if MOTIF_DATE.fullmatch(texte(s.get("date"))) and texte(s.get("url"))]
     if len({texte(s["url"]) for s in valides}) < 3:
@@ -292,7 +304,8 @@ def main():
     if arguments[:1] == ["--verifier"]:
         verifier_protocole()
         verifier_registre()
-        print(f"Protocole et précisions intacts, {len(lire_csv(REGISTRE))} fiche(s) au registre, toutes intactes.")
+        print(f"Protocole, précisions et addendum intacts, {len(lire_csv(REGISTRE))} fiche(s) au registre, "
+              f"toutes intactes.")
     elif arguments[:1] == ["--sortie"] and len(arguments) == 3:
         enregistrer_sortie(arguments[1], arguments[2])
     elif len(arguments) == 1 and not arguments[0].startswith("--"):

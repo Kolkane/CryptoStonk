@@ -10,6 +10,10 @@ invalide. Le script ne pousse pas : git push reste à faire.
 
 Usage : python forward/rituel.py                  # rituel complet + trace commitée
         python forward/rituel.py --checklist      # checklist seule, sans trace
+        python forward/rituel.py --gagnants       # gagnants par verticale (addendum 01)
+            3 protocoles aux frais les plus élevés sur 30 jours par verticale (DefiLlama),
+            dans forward/gagnants/AAAA-MM-JJ.md ; les déclinaisons d'un même protocole
+            (V2, V3, perps…) sont regroupées sous leur parent DefiLlama.
         python forward/rituel.py --journaliser [--semaine N]
             journalise la semaine courante (après commit de sa trace) ou la précédente ;
             les semaines plus anciennes sans entrée sont notées « manquee ».
@@ -19,11 +23,17 @@ import subprocess
 import sys
 from datetime import date, datetime, timezone
 
+import requests
+import yaml
+
 from enregistrer import (JOURNAL, RACINE, REGISTRE, SEMAINES, TRACES, ajouter_ligne, bornes_semaine,
                          lire_csv, semaine_de, semaines_manquees, trace, trace_commitee,
                          verifier_protocole, verifier_registre)
 
 OBJECTIF_FICHES = 2
+LLAMA = "https://api.llama.fi"
+ENTETES = {"User-Agent": "CryptoStonk/0.1 (outil interne)"}
+GAGNANTS_PAR_VERTICALE = 3
 
 
 def fiches_de_la_semaine(n):
@@ -47,6 +57,72 @@ def ecrire_trace(n, codes):
     except (OSError, subprocess.CalledProcessError) as erreur:
         print(f"ATTENTION : commit de la trace impossible ({erreur}). Commitez {relatif} "
               f"cette semaine : seule la date de commit fait foi.")
+
+
+def compact_usd(montant):
+    for seuil, suffixe in ((1e9, " Md$"), (1e6, " M$"), (1e3, " k$")):
+        if montant >= seuil:
+            return f"{montant / seuil:.1f}".replace(".", ",") + suffixe
+    return f"{montant:.0f} $"
+
+
+def gagnants():
+    """Les 3 protocoles aux frais les plus élevés sur 30 jours dans chaque verticale du projet."""
+    verifier_protocole()
+    aujourd_hui = date.today()
+    if not 1 <= semaine_de(aujourd_hui) <= SEMAINES:
+        sys.exit(f"Hors des semaines du test (semaine {semaine_de(aujourd_hui)}).")
+    verticales = yaml.safe_load((RACINE / "config" / "verticals.yaml").read_text(encoding="utf-8"))
+    vers_verticale = {c.lower(): v for v, categories in verticales.items() for c in categories}
+    try:
+        protocoles = requests.get(f"{LLAMA}/overview/fees", headers=ENTETES, timeout=120, params={
+            "excludeTotalDataChart": "true", "excludeTotalDataChartBreakdown": "true",
+            "dataType": "dailyFees"}).json()["protocols"]
+        parents = {p["id"]: p["name"] for p in requests.get(
+            f"{LLAMA}/lite/protocols2", headers=ENTETES, timeout=120).json().get("parentProtocols") or []}
+    except (requests.RequestException, ValueError, KeyError) as erreur:
+        sys.exit(f"DefiLlama indisponible ({erreur}) : relancer plus tard dans la journée.")
+
+    regroupes = {}
+    for p in protocoles:
+        verticale = vers_verticale.get((p.get("category") or "").lower())
+        frais = p.get("total30d") or 0
+        if not verticale or frais <= 0:
+            continue
+        parent = p.get("parentProtocol")
+        nom, slug = ((parents.get(parent, parent), parent.split("#", 1)[1]) if parent
+                     else (p.get("displayName") or p["name"], p["slug"]))
+        groupe = regroupes.setdefault((verticale, slug), {"nom": nom, "slug": slug, "frais": 0,
+                                                         "declinaisons": []})
+        groupe["frais"] += frais
+        groupe["declinaisons"].append(p.get("displayName") or p["name"])
+
+    L = [f"# Gagnants par verticale — {aujourd_hui.isoformat()}", "",
+         f"_Relevés le jour du rituel (semaine {semaine_de(aujourd_hui)}), DefiLlama. Règle de l'addendum 01 : "
+         f"les {GAGNANTS_PAR_VERTICALE} protocoles aux frais les plus élevés sur 30 jours dans chaque "
+         f"verticale du projet. Frais d'un protocole = somme de ses déclinaisons DefiLlama classées dans "
+         f"la verticale ; catégories par verticale : config/verticals.yaml._", "",
+         "Axes d'examen des limites : conception (transparence, custody, latence, collatéral, actifs), "
+         "accès (chaîne, géographie, KYC, taille minimale), coût (frais, funding), risques (centralisation, "
+         "oracle, validateurs), plaintes de ses utilisateurs. Hypothèses non confirmées : "
+         "forward/backlog_hypotheses.md.", ""]
+    for verticale in verticales:
+        tete = sorted((g for (v, _), g in regroupes.items() if v == verticale),
+                      key=lambda g: -g["frais"])[:GAGNANTS_PAR_VERTICALE]
+        L += [f"## {verticale}", ""]
+        if not tete:
+            L += ["Aucun protocole avec des frais sur 30 jours dans cette verticale.", ""]
+            continue
+        L += ["| Rang | Protocole | Slug DefiLlama | Frais 30 j | Déclinaisons |", "|---|---|---|---|---|"]
+        for rang, g in enumerate(tete, 1):
+            L.append(f"| {rang} | {g['nom']} | {g['slug']} | {compact_usd(g['frais'])} "
+                     f"| {', '.join(sorted(g['declinaisons']))} |")
+        L.append("")
+    dossier = RACINE / "forward" / "gagnants"
+    dossier.mkdir(parents=True, exist_ok=True)
+    fichier = dossier / f"{aujourd_hui.isoformat()}.md"
+    fichier.write_text("\n".join(L), encoding="utf-8")
+    print(f"Écrit : {fichier.relative_to(RACINE).as_posix()} (à commiter avec le rituel)")
 
 
 def journaliser(n):
@@ -89,18 +165,23 @@ def checklist():
           f"(test invalide à 3)")
     print("""
   1. Coller problemes/prompt_clustering.txt dans Claude.ai, la réponse dans problemes/carte_problemes.md
-  2. Optionnel : python veille/nouveaux_projets.py puis python veille/croisement.py (solutions candidates)
-  3. Vérifier si une solution pré-token suivie a lancé son token (suivi descriptif manuel, hors verdict)
-  4. Retenir 1 ou 2 problèmes ; une fiche par solution concurrente quand il y en a plusieurs
-  5. Copier forward/gabarit_fiche.md vers forward/fiches/fiche_<date du jour>_NN.md et la remplir
-     (3 sources datées et distinctes, métrique DefiLlama avec sa valeur J0, condition d'invalidation)
-  6. Le jour même : python forward/enregistrer.py forward/fiches/fiche_<date>_NN.md
-  7. Condition d'invalidation atteinte : python forward/enregistrer.py --sortie <id> "<constat>"
-  8. En fin de semaine, même sans fiche : python forward/rituel.py --journaliser, puis git push""")
+  2. Dérivation (addendum 01) : python forward/rituel.py --gagnants, examiner les limites des gagnants
+     sur les 5 axes ; hypothèse non confirmée par 3 sources -> forward/backlog_hypotheses.md
+  3. Optionnel : python veille/nouveaux_projets.py puis python veille/croisement.py (solutions candidates)
+  4. Vérifier si une solution pré-token suivie a lancé son token (suivi descriptif manuel, hors verdict)
+  5. Retenir 1 ou 2 problèmes ; une fiche par solution concurrente quand il y en a plusieurs
+  6. Copier forward/gabarit_fiche.md vers forward/fiches/fiche_<date du jour>_NN.md et la remplir
+     (origine, 3 sources datées et distinctes, métrique DefiLlama avec sa valeur J0, invalidation)
+  7. Le jour même : python forward/enregistrer.py forward/fiches/fiche_<date>_NN.md
+  8. Condition d'invalidation atteinte : python forward/enregistrer.py --sortie <id> "<constat>"
+  9. En fin de semaine, même sans fiche : python forward/rituel.py --journaliser, puis git push""")
 
 
 def main():
     arguments = sys.argv[1:]
+    if arguments[:1] == ["--gagnants"]:
+        gagnants()
+        return
     if arguments[:1] == ["--journaliser"]:
         n = semaine_de(date.today())
         if arguments[1:2] == ["--semaine"] and len(arguments) == 3:
